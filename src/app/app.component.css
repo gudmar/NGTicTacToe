@@ -1,0 +1,59 @@
+.application-wrapper{
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+.center{
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+}
+.board{
+    --cell-size: 5rem;
+    --board-width: 3;
+    --board-height: 3;
+}
+.rows{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.board{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+}
+.cell{
+    position: relative;
+    border: solid medium black;
+    width: var(--cell-size);
+    height: var(--cell-size);
+    transition: 0.2s;
+    cursor: pointer;
+}
+.first-row {
+    border-top: none;
+}
+.last-row {
+    border-bottom: none;
+}
+.first-column {
+    border-left: none;
+}
+.last-column {
+    border-right: none;
+}
+.cell:hover{
+    background-color: rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+}
+.cell:active{
+    background-color: rgba(0, 255, 0, 0.2);
+    transition: 0.3s;
+}
+.cell-ocupied{
+    background-color: rgba(255, 0, 0, 0.2);
+    transition: 0.3s;
+}

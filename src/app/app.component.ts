@@ -7,4 +7,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'TicTacToe';
+  rowIds = [1, 2, 3];
+  colIds = [1, 2, 3];
 }
