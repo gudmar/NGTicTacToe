@@ -57,29 +57,27 @@ class BoardHandlerService{
 
   createSingleCellDescriptor(index:number):CellDescriptor{
     let that = this;
+    let thisCellIndex = index;
     return {
       figure: '',
       id: index + 1,
       row: Math.floor(index / that.nrOfColumns) + 1, // 1 to size
       column: index % that.nrOfRows + 1,
       onclick: function(){
+        if (that.board[index].figure != '') return null;
         that.setFigureToCell(index);
         that.toggleNextFigure()
+        return null;
       }
     }
   }
 
   getFigureAtRowColumn(rowNr:number, colNr:number):string{
-    console.log(this.board[this.getIndex(rowNr, colNr)].figure)
-    console.log(this.board)
-    console.log(this.getIndex(rowNr, colNr))
-    console.log(rowNr, colNr)
     return this.board[this.getIndex(rowNr, colNr)].figure
   }
 
   fireOnclickHandlerAtRowColumn(rowNr:number, colNr:number){
     this.board[this.getIndex(rowNr, colNr)].onclick();
-    console.log(this.nextFigure)
   }
 
   getIndex(rowNr:number, colNr:number):number{
