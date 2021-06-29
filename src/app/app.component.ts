@@ -28,29 +28,35 @@ function createArrayOfEmements<T>(arraySize: number, elementCreator: (index: num
 })
 export class AppComponent {
   title = 'TicTacToe';
-  nrOfRows = 3;
-  nrOfColumns = 3;
-  rowIds = [1, 2, 3];
-  colIds = [1, 2, 3];
+  boardSize = 5;
+  nrOfRows = this.boardSize;  // for simplisity and pleability let board be a square
+  nrOfColumns = this.boardSize;
+  nrOfFiguresInRowToWinn = 3;
+  rowIds = [1, 2, 3, 4, 5];
+  colIds = [1, 2, 3, 4, 5];
 
   constructor(public boardHandler: BoardHandlerService){
     this.boardHandler = boardHandler;
-    this.boardHandler.parametrize(this.nrOfRows, this.nrOfColumns);
+    this.boardHandler.parametrize(this.nrOfRows, this.nrOfColumns, this.nrOfFiguresInRowToWinn);
   }
 }
 
 @Injectable({providedIn: 'root'})
 class BoardHandlerService{
-  nrOfRows: number = 0;
-  nrOfColumns: number = 0;
+  boardSize: number = 0;
+  nrOfRows: number = this.boardSize;
+  nrOfColumns: number = this.boardSize;
+  nrOfFiguresNeededToWinn: number = 3;
   board: CellDescriptor[] = [];
   nextFigure: Figure = '';
   constructor(){
   }
 
-  parametrize(nrOfRows:number, nrOfColumns: number){
+  parametrize(nrOfRows:number, nrOfColumns: number, nrOfFiguresInRowToWinn: number){
     this.nrOfRows = nrOfRows;
     this.nrOfColumns = nrOfColumns;
+    this.boardSize = nrOfColumns;
+    this.nrOfFiguresNeededToWinn = nrOfFiguresInRowToWinn;
     this.board = createArrayOfEmements<CellDescriptor>(this.nrOfColumns * this.nrOfRows, this.createSingleCellDescriptor.bind(this));
     this.nextFigure = 'Circle';
   }
@@ -66,13 +72,23 @@ class BoardHandlerService{
       onclick: function(){
         if (that.board[index].figure != '') return null;
         that.setFigureToCell(index);
-        that.toggleNextFigure()
+        that.toggleNextFigure();
+        that.showWinner();
         return null;
       }
     }
   }
 
+  showWinner(){
+    console.log('Checking if Circle winns')
+    console.log(this.checkIfFigureWinns('Circle'));
+    console.log('Checking if Cross wins')
+    console.log(this.checkIfFigureWinns('Cross'))
+  }
+
   getFigureAtRowColumn(rowNr:number, colNr:number):string{
+
+    // console.log(`${rowNr} ${colNr}`)
     return this.board[this.getIndex(rowNr, colNr)].figure
   }
 
@@ -90,5 +106,125 @@ class BoardHandlerService{
 
   toggleNextFigure(){
     this.nextFigure = this.nextFigure == 'Circle' || this.nextFigure == '' ? 'Cross' : 'Circle';
+  }
+
+
+
+  checkIfFigureWinns(figure: 'Circle' | 'Cross'){
+    type CellCords = number[];
+    let winnerCanditateCordMemory:CellCords[] = [];
+    let that = this;
+
+    let checkArrayForWinner = function(arrayOfCellCords:CellCords[]){
+      let nrOfFiguresInRowSoFar = 0;
+      let winnerFound = false;
+      let saveCords = function(xCord:number, yCord:number){
+        winnerCanditateCordMemory.push([xCord, yCord])
+      }
+      let clearCordsMemory = function(){winnerCanditateCordMemory = []}
+
+      arrayOfCellCords.forEach((element:CellCords, index:number) => {
+        let xCord = element[0];
+        let yCord = element[1];
+        let currentFigure = that.getFigureAtRowColumn(xCord, yCord);
+        if (currentFigure == figure) {nrOfFiguresInRowSoFar++; saveCords(xCord, yCord)}
+        else {nrOfFiguresInRowSoFar = 0; clearCordsMemory()};
+        if (nrOfFiguresInRowSoFar == that.nrOfFiguresNeededToWinn) winnerFound = true;
+      })
+      return winnerFound;
+    }
+
+    let checkRowForWinner = function(rowNr:number){
+      let cords = [];
+      for(let i = 0; i < that.nrOfColumns; i++){
+        cords.push([rowNr, i + 1])
+      }
+      return checkArrayForWinner(cords)
+    }
+
+    let checkColumnsForWinner = function(colNr:number){
+      let cords = [];
+      for(let i = 0; i < that.nrOfRows; i++){
+        cords.push([i + 1, colNr])
+      }
+      return checkArrayForWinner(cords)
+    }
+
+    let doesCordBelongToBoard = function(cord: CellCords) {
+      let xCord = <number>cord[0];
+      let yCord = <number>cord[1];
+      if (xCord < 1) return false;
+      if (xCord > that.boardSize) return false;
+      if (yCord < 1) return false;
+      if (yCord > that.boardSize) return false;
+      return true;
+    }
+
+    let checkLeftTopDiagonalForWinner = function(diagonalStartColumn: number){
+      // Left Top diagonal starts in left top board corner
+      let cords = [];
+      for(let i = 0; i <= that.boardSize; i++){
+        let xCord = i + diagonalStartColumn;
+        let yCord = i + 1;
+        if (doesCordBelongToBoard([xCord, yCord])) {
+          cords.push([xCord, yCord]);
+        }
+      }
+      return checkArrayForWinner(cords)
+    }
+
+    let checkLeftBottomDiagonalForWinner = function(diagonalStartColumn: number){
+      // Left Bottom diagonal starts in left bottom board corner
+      let cords = [];
+      for(let i = 0; i <= that.boardSize; i++){
+        let xCord = diagonalStartColumn - i;
+        let yCord = i + 1;
+        if (doesCordBelongToBoard([xCord, yCord])) {
+          cords.push([xCord, yCord]);
+        }
+      }
+      return checkArrayForWinner(cords)
+    }
+
+    let checkAllRowsForWinner = function(){
+      for (let row = 1; row <= that.nrOfRows; row++){
+        if (checkRowForWinner(row) == true) return row;
+      }
+      return -1;
+    }
+
+    let checkAllColsForWinner = function(){
+      for (let col = 1; col <= that.nrOfColumns; col++){
+        if (checkColumnsForWinner(col) == true) return col;
+      }
+      return -1
+    }
+
+    let checkAllLeftTopDiagonalsForWinner = function() {
+      let firstDiagonalOffset = -that.boardSize + 2;
+      let lastDiagonalOffset = that.boardSize;
+      for (let diagonalNr = firstDiagonalOffset; diagonalNr <= lastDiagonalOffset; diagonalNr++){
+        let isWinnerFound = checkLeftTopDiagonalForWinner(diagonalNr);
+        if (isWinnerFound) return true
+      }
+      return false;
+    }
+
+    let checkAllLeftBottomDiagonalsForWinner = function() {
+      let firstDiagonalOffset = 1;
+      let lastDiagonalOffset = that.boardSize * 2 - 1; // number of all diagonals in square;
+      for (let diagonalNr = firstDiagonalOffset; diagonalNr <= lastDiagonalOffset; diagonalNr++){
+        let isWinnerFound = checkLeftBottomDiagonalForWinner(diagonalNr);
+        if (isWinnerFound) return true
+      }
+      return false;
+    }
+    
+    if (checkAllColsForWinner() != -1) return winnerCanditateCordMemory;
+    if (checkAllRowsForWinner() != -1) return winnerCanditateCordMemory;
+    if (checkAllLeftBottomDiagonalsForWinner()) return winnerCanditateCordMemory;
+    if (checkAllLeftTopDiagonalsForWinner()) return winnerCanditateCordMemory;
+    return []
+
   }
 }
