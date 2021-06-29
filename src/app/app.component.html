@@ -8,8 +8,8 @@
             (click) = "boardHandler.fireOnclickHandlerAtRowColumn(row, col)"
             *ngFor = "let col of colIds" id="{{row}} {{col}}">
             <ng-container [ngSwitch]="boardHandler.getFigureAtRowColumn(row, col)">
-                <ng-container *ngSwitchCase="circle"><ng-container *ngTemplateOutlet="circle"></ng-container></ng-container>
-                <ng-container *ngSwitchCase="cross"><ng-container *ngTemplateOutlet="cross"></ng-container></ng-container>
+                <ng-container *ngSwitchCase="'Circle'"><ng-container *ngTemplateOutlet="circle"></ng-container></ng-container>
+                <ng-container *ngSwitchCase="'Cross'"><ng-container *ngTemplateOutlet="cross"></ng-container></ng-container>
                 <ng-container *ngSwitchDefault><ng-container *ngTemplateOutlet="none"></ng-container></ng-container>
             </ng-container>
             <!-- <div *ngIf="boardHandler.getFigureAtRowColumn(row, col)=='circle'; then circle else cross"></div> -->
@@ -19,14 +19,14 @@
 </div>
 
 <ng-template #cross>
-    <div class="wrapper">
+    <div class="wrapper center">
         <div class="right-cross"></div>
         <div class="left-cross"></div>
     </div>
 </ng-template>
 <ng-template #circle>
-    <div class="wrapper">
+    <div class="wrapper center">
         <div class="circle"></div>
     </div>
 </ng-template>
-<ng-template #none></ng-template>
+<ng-template #none>N</ng-template>
