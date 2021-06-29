@@ -71,6 +71,9 @@ class BoardHandlerService{
 
   getFigureAtRowColumn(rowNr:number, colNr:number):string{
     console.log(this.board[this.getIndex(rowNr, colNr)].figure)
+    console.log(this.board)
+    console.log(this.getIndex(rowNr, colNr))
+    console.log(rowNr, colNr)
     return this.board[this.getIndex(rowNr, colNr)].figure
   }
 
@@ -80,7 +83,7 @@ class BoardHandlerService{
   }
 
   getIndex(rowNr:number, colNr:number):number{
-    return (rowNr - 1) * this.nrOfColumns + (this.nrOfColumns - 1)
+    return (rowNr - 1) * this.nrOfColumns + (colNr - 1)
   }
 
   setFigureToCell(cellNr: number){

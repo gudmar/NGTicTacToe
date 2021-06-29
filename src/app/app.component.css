@@ -57,3 +57,33 @@
     background-color: rgba(255, 0, 0, 0.2);
     transition: 0.3s;
 }
+
+.wrapper{
+    position: relative;
+    width: var(--cell-size);
+    height: var(--cell-size);
+}
+
+.circle{
+    border-radius: 50%;
+    border: solid black thick;
+    background-color: transparent;
+    position: relative;
+    width: calc( var(--cell-size) - calc(0.25 * var(--cell-size)) );
+    height: calc( var(--cell-size) - calc(0.25 * var(--cell-size)) );
+}
+
+.right-cross{
+    position: absolute;
+    height: calc( var(--cell-size) - calc(0.25 * var(--cell-size)) );
+    width: 0px;
+    transform: rotateZ(45deg);
+    border: solid medium black;
+}
+.left-cross{
+    position: absolute;
+    height: calc( var(--cell-size) - calc(0.25 * var(--cell-size)) );
+    width: 0px;
+    transform: rotateZ(-45deg);
+    border: solid medium black;
+}
