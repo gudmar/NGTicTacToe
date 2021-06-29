@@ -5,8 +5,28 @@
             {{row==rowIds.length?'last-row':''}} 
             {{col==1?'first-column':''}} 
             {{col==colIds.length?'last-column':''}}"
+            (click) = "boardHandler.fireOnclickHandlerAtRowColumn(row, col)"
             *ngFor = "let col of colIds" id="{{row}} {{col}}">
+            <ng-container [ngSwitch]="boardHandler.getFigureAtRowColumn(row, col)">
+                <ng-container *ngSwitchCase="'Circle'"><ng-container *ngTemplateOutlet="circle"></ng-container></ng-container>
+                <ng-container *ngSwitchCase="'Cross'"><ng-container *ngTemplateOutlet="cross"></ng-container></ng-container>
+                <ng-container *ngSwitchDefault><ng-container *ngTemplateOutlet="none"></ng-container></ng-container>
+            </ng-container>
+            <!-- <div *ngIf="boardHandler.getFigureAtRowColumn(row, col)=='circle'; then circle else cross"></div> -->
       </div>
     </div>
   </div>
 </div>
+
+<ng-template #cross>
+    <div class="wrapper center">
+        <div class="right-cross"></div>
+        <div class="left-cross"></div>
+    </div>
+</ng-template>
+<ng-template #circle>
+    <div class="wrapper center">
+        <div class="circle"></div>
+    </div>
+</ng-template>
+<ng-template #none>N</ng-template>
