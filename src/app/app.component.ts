@@ -1,4 +1,5 @@
 import { Component, Injectable, TemplateRef } from '@angular/core';
+import { bindCallback } from 'rxjs';
 
 
 type Figure = 'Circle' | 'Cross' | '';
@@ -15,7 +16,7 @@ interface CellDescriptor{
 function createArrayOfEmements<T>(arraySize: number, elementCreator: (index: number)=>T){
   let output = [];
   for (let i = 0; i< arraySize; i++){
-    let newElement = elementCreator(i);
+    let newElement:T = elementCreator(i);
     output.push(newElement)
   }
   return output;
@@ -55,7 +56,9 @@ class BoardHandlerService{
   nrOfFiguresNeededToWinn: number = 3;
   board: CellDescriptor[] = [];
   nextFigure: Figure = '';
+  winnerChecker: SameFiguresInRowSearcher;
   constructor(){
+    this.winnerChecker  = new SameFiguresInRowSearcher(this);
   }
 
   parametrize(boardSize: number, nrOfFiguresInRowToWinn: number){
@@ -87,9 +90,11 @@ class BoardHandlerService{
 
   showWinner(){
     console.log('Checking if Circle winns')
-    console.log(this.checkIfFigureWinns('Circle'));
+    // console.log(this.checkIfFigureWinns('Circle'));
+    console.log(this.winnerChecker.getWinnerCords("Circle"))
     console.log('Checking if Cross wins')
-    console.log(this.checkIfFigureWinns('Cross'))
+    // console.log(this.checkIfFigureWinns('Cross'))
+    console.log(this.winnerChecker.getWinnerCords('Cross'))
   }
 
   getFigureAtRowColumn(rowNr:number, colNr:number):string{
@@ -238,4 +243,156 @@ class BoardHandlerService{
     return []
 
   }
+}
+
+module FigureTypes {
+  export type CellCords = number[];
+  export type FigureNotEmpty = 'Circle' | 'Cross';
+}
+
+
+class SameFiguresInRowSearcher {
+  context:BoardHandlerService
+
+  constructor(context:BoardHandlerService){
+    this.context = context;
+  }
+
+  getWinnerCords(figure:FigureTypes.FigureNotEmpty){
+    return this.getCordinanceOfNFiguresInRow(figure, this.context.nrOfFiguresNeededToWinn)
+  }
+
+  getCordinanceOfNFiguresInRow(figure:FigureTypes.FigureNotEmpty, nrOfFiguresToFind: number,){
+    let winnerInAllColumns = this.checkAllColsForWinner(figure, nrOfFiguresToFind);
+    let winnerInAllRows = this.checkAllRowsForWinner(figure, nrOfFiguresToFind);
+    let winnerInAllLeftTopDiagonals = this.checkAllLeftTopDiagonalsForWinner(figure, nrOfFiguresToFind);
+    let winnerInAllLeftBottomDiagonals = this.checkAllLeftBottomDiagonalsForWinner(figure, nrOfFiguresToFind)
+    if (winnerInAllRows.length > 0) return winnerInAllRows;
+    if (winnerInAllColumns.length > 0) return winnerInAllColumns;
+    if (winnerInAllLeftBottomDiagonals.length > 0) return winnerInAllLeftTopDiagonals;
+    if (winnerInAllLeftTopDiagonals) return winnerInAllLeftBottomDiagonals;
+    return []
+  }
+
+  checkAllRowsForWinner(figure: FigureTypes.FigureNotEmpty, nrOfFiguresToFind: number,){
+    for (let row = 1; row <= this.context.nrOfRows; row++){
+      let winnerList = this.getWinnerOutOfSingleRow(figure, nrOfFiguresToFind, row)
+      if (winnerList.length >= this.context.nrOfFiguresNeededToWinn) return winnerList;
+    }
+    return [];
+  }
+
+
+  checkAllColsForWinner(figure: FigureTypes.FigureNotEmpty, nrOfFiguresToFind: number,){
+      for (let col = 1; col <= this.context.nrOfColumns; col++){
+        let winnerList = this.getWinnerOutOfSingleColumn(figure, nrOfFiguresToFind, col);
+        if (winnerList.length >= this.context.nrOfFiguresNeededToWinn) return winnerList;
+      }
+      return [];
+    }
+
+
+  checkAllLeftTopDiagonalsForWinner(figure: FigureTypes.FigureNotEmpty, nrOfFiguresToFind: number,) {
+    let firstDiagonalOffset = - this.context.boardSize + 2;
+    let lastDiagonalOffset = this.context.boardSize;
+    for (let diagonalNr = firstDiagonalOffset; diagonalNr <= lastDiagonalOffset; diagonalNr++){
+      let winnerCords = this.checkLeftTopDiagonalForWinner(figure, nrOfFiguresToFind, diagonalNr);
+      if (winnerCords.length > 0) return winnerCords
+    }
+    return [];
+  }
+
+  checkAllLeftBottomDiagonalsForWinner(figure: FigureTypes.FigureNotEmpty,  nrOfFiguresToFind: number) {
+    let firstDiagonalOffset = 1;
+    let lastDiagonalOffset = this.context.boardSize * 2 - 1; // number of all diagonals in square;
+    for (let diagonalNr = firstDiagonalOffset; diagonalNr <= lastDiagonalOffset; diagonalNr++){
+      let winnerCords = this.checkLeftTopDiagonalForWinner(figure, nrOfFiguresToFind, diagonalNr);
+      if (winnerCords.length > 0) return winnerCords;
+    }
+    return [];
+  }
+
+  getWinnerOutOfSingleRow(figure:FigureTypes.FigureNotEmpty, nrOfFiguresToFind: number, rowNr:number){
+    let cords = [];
+    for(let i = 0; i < this.context.nrOfColumns; i++){
+      cords.push([rowNr, i + 1])
+    }
+    return this.findNrOfFeaguresOneByOne(figure, nrOfFiguresToFind, cords)
+  }
+
+  getWinnerOutOfSingleColumn(figure:FigureTypes.FigureNotEmpty, nrOfFiguresToFind: number, colNr:number){
+    let cords = [];
+    for(let i = 0; i < this.context.nrOfRows; i++){
+      cords.push([i + 1, colNr])
+    }
+    return this.findNrOfFeaguresOneByOne(figure, nrOfFiguresToFind, cords)
+  }
+
+
+  checkLeftTopDiagonalForWinner(figure:FigureTypes.FigureNotEmpty, nrOfFiguresToFind: number, diagonalStartColumn: number){
+    // Left Top diagonal starts in left top board corner
+    let cords = [];
+    for(let i = 0; i <= this.context.boardSize; i++){
+      let xCord = i + diagonalStartColumn;
+      let yCord = i + 1;
+      if (this.doesCordBelongToBoard([xCord, yCord])) {
+        cords.push([xCord, yCord]);
+      }
+    }
+    return this.findNrOfFeaguresOneByOne(figure, nrOfFiguresToFind , cords)
+  }
+
+  checkLeftBottomDiagonalForWinner(figure:FigureTypes.FigureNotEmpty, nrOfFiguresToFind: number, diagonalStartColumn: number){
+    // Left Bottom diagonal starts in left bottom board corner
+    let cords = [];
+    for(let i = 0; i <= this.context.boardSize; i++){
+      let xCord = diagonalStartColumn - i;
+      let yCord = i + 1;
+      if (this.doesCordBelongToBoard([xCord, yCord])) {
+        cords.push([xCord, yCord]);
+      }
+    }
+    return this.findNrOfFeaguresOneByOne(figure, nrOfFiguresToFind, cords)
+  }
+
+
+checkArrayForWinner(figure:FigureTypes.FigureNotEmpty, arrayOfCellCords:FigureTypes.CellCords[]){
+  return this.findNrOfFeaguresOneByOne(figure, this.context.nrOfFiguresNeededToWinn, arrayOfCellCords).length > 0 ? true : false
+}
+
+findNrOfFeaguresOneByOne(figure: FigureTypes.FigureNotEmpty, nrOfFiguresToFind: number, arrayOfCellCords:FigureTypes.CellCords[]){
+    let nrOfFiguresInRowSoFar = 0;
+    let winnerFound = false;
+    let winnerCanditateCordMemory: FigureTypes.CellCords[] = [];
+
+    let saveCords = function(xCord:number, yCord:number){
+      winnerCanditateCordMemory.push([xCord, yCord])
+    }
+    let clearCordsMemory = function(){winnerCanditateCordMemory = []}
+
+    let checkSingleCord = function(this:any, element:FigureTypes.CellCords, index:number){
+      let xCord = element[0];
+      let yCord = element[1];
+      let currentFigure = this.context.getFigureAtRowColumn(xCord, yCord);
+      if (currentFigure == figure) {nrOfFiguresInRowSoFar++; saveCords(xCord, yCord); }
+      else {
+        if (!winnerFound) {nrOfFiguresInRowSoFar = 0; clearCordsMemory();}
+      };
+      if (nrOfFiguresInRowSoFar == nrOfFiguresToFind) winnerFound = true;
+    }.bind(this)
+
+    arrayOfCellCords.forEach(checkSingleCord);
+    return winnerFound ? winnerCanditateCordMemory : [];
+  }
+
+  doesCordBelongToBoard(cord: FigureTypes.CellCords) {
+    let xCord = <number>cord[0];
+    let yCord = <number>cord[1];
+    if (xCord < 1) return false;
+    if (xCord > this.context.boardSize) return false;
+    if (yCord < 1) return false;
+    if (yCord > this.context.boardSize) return false;
+    return true;
+  }
+
 }
