@@ -32,12 +32,18 @@ export class AppComponent {
   nrOfRows = this.boardSize;  // for simplisity and pleability let board be a square
   nrOfColumns = this.boardSize;
   nrOfFiguresInRowToWinn = 3;
-  rowIds = [1, 2, 3, 4, 5];
-  colIds = [1, 2, 3, 4, 5];
+  rowIds = this.createArrayOfNElements(this.boardSize);
+  colIds = this.createArrayOfNElements(this.boardSize);
 
   constructor(public boardHandler: BoardHandlerService){
     this.boardHandler = boardHandler;
-    this.boardHandler.parametrize(this.nrOfRows, this.nrOfColumns, this.nrOfFiguresInRowToWinn);
+    this.boardHandler.parametrize(this.boardSize, this.nrOfFiguresInRowToWinn);
+  }
+
+  createArrayOfNElements(n:number){
+    let output = [];
+    for(let i = 1; i < n + 1; i++){ output.push(i) }
+    return output;
   }
 }
 
@@ -52,10 +58,10 @@ class BoardHandlerService{
   constructor(){
   }
 
-  parametrize(nrOfRows:number, nrOfColumns: number, nrOfFiguresInRowToWinn: number){
-    this.nrOfRows = nrOfRows;
-    this.nrOfColumns = nrOfColumns;
-    this.boardSize = nrOfColumns;
+  parametrize(boardSize: number, nrOfFiguresInRowToWinn: number){
+    this.nrOfRows = boardSize;
+    this.nrOfColumns = boardSize;
+    this.boardSize = boardSize;
     this.nrOfFiguresNeededToWinn = nrOfFiguresInRowToWinn;
     this.board = createArrayOfEmements<CellDescriptor>(this.nrOfColumns * this.nrOfRows, this.createSingleCellDescriptor.bind(this));
     this.nextFigure = 'Circle';
@@ -116,6 +122,10 @@ class BoardHandlerService{
     let that = this;
 
     let checkArrayForWinner = function(arrayOfCellCords:CellCords[]){
+      return findNrOfFeaguresOneByOne(that.nrOfFiguresNeededToWinn, arrayOfCellCords).length > 0 ? true : false
+    }
+
+    let findNrOfFeaguresOneByOne = function(nrOfFiguresToFind: number, arrayOfCellCords:CellCords[]){
       let nrOfFiguresInRowSoFar = 0;
       let winnerFound = false;
       let saveCords = function(xCord:number, yCord:number){
@@ -127,11 +137,13 @@ class BoardHandlerService{
         let xCord = element[0];
         let yCord = element[1];
         let currentFigure = that.getFigureAtRowColumn(xCord, yCord);
-        if (currentFigure == figure) {nrOfFiguresInRowSoFar++; saveCords(xCord, yCord)}
-        else {nrOfFiguresInRowSoFar = 0; clearCordsMemory()};
-        if (nrOfFiguresInRowSoFar == that.nrOfFiguresNeededToWinn) winnerFound = true;
+        if (currentFigure == figure) {nrOfFiguresInRowSoFar++; saveCords(xCord, yCord); }
+        else {
+          if (!winnerFound) {nrOfFiguresInRowSoFar = 0; clearCordsMemory();}
+        };
+        if (nrOfFiguresInRowSoFar == nrOfFiguresToFind) winnerFound = true;
       })
-      return winnerFound;
+      return winnerFound ? winnerCanditateCordMemory : [];
     }
 
     let checkRowForWinner = function(rowNr:number){
@@ -142,7 +154,7 @@ class BoardHandlerService{
       return checkArrayForWinner(cords)
     }
 
-    let checkColumnsForWinner = function(colNr:number){
+    let checkColumnForWinner = function(colNr:number){
       let cords = [];
       for(let i = 0; i < that.nrOfRows; i++){
         cords.push([i + 1, colNr])
@@ -195,7 +207,7 @@ class BoardHandlerService{
 
     let checkAllColsForWinner = function(){
       for (let col = 1; col <= that.nrOfColumns; col++){
-        if (checkColumnsForWinner(col) == true) return col;
+        if (checkColumnForWinner(col) == true) return col;
       }
       return -1
     }
@@ -219,7 +231,6 @@ class BoardHandlerService{
       }
       return false;
     }
-    
     if (checkAllColsForWinner() != -1) return winnerCanditateCordMemory;
     if (checkAllRowsForWinner() != -1) return winnerCanditateCordMemory;
     if (checkAllLeftBottomDiagonalsForWinner()) return winnerCanditateCordMemory;
