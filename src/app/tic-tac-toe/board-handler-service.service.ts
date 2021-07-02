@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CellDescriptor, Figure, CellCords } from './app.types.d'
+import { CellDescriptor, Figure, CellCords } from '../app.types.d'
 import { WinnerSearcherService } from './winner-searcher.service'
 // import { Z_PARTIAL_FLUSH } from 'zlib';
 // import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
@@ -94,19 +94,11 @@ export class BoardHandlerServiceService {
         winningCords = winningCrossCords
       }
 
-
-      console.log('Checking if Circle winns')
-      // console.log(this.checkIfFigureWinns('Circle'));
-      console.log(this.winnerChecker.getWinnerCords("Circle"))
-      console.log('Checking if Cross wins')
-      // console.log(this.checkIfFigureWinns('Cross'))
-      console.log(this.winnerChecker.getWinnerCords('Cross'))
       this.setCellsToWinning(winningCords)
     }
   
     getFigureAtRowColumn(rowNr:number, colNr:number):string{
   
-      // console.log(`${rowNr} ${colNr}`)
       return this.board[this.getIndex(rowNr, colNr)].figure
     }
   

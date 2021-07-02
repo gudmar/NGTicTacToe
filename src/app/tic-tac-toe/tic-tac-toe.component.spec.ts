@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CrossCircleComponent } from './cross-circle.component';
+import { TicTacToeComponent } from './tic-tac-toe.component';
 
-describe('CrossCircleComponent', () => {
-  let component: CrossCircleComponent;
-  let fixture: ComponentFixture<CrossCircleComponent>;
+describe('TicTacToeComponent', () => {
+  let component: TicTacToeComponent;
+  let fixture: ComponentFixture<TicTacToeComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CrossCircleComponent ]
+      declarations: [ TicTacToeComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CrossCircleComponent);
+    fixture = TestBed.createComponent(TicTacToeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
