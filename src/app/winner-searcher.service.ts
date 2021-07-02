@@ -33,7 +33,7 @@ export class WinnerSearcherService {
       return []
     }
   
-    checkAllRowsForWinner(figure: FigureNotEmpty, nrOfFiguresToFind: number,){
+    checkAllRowsForWinner(figure: FigureNotEmpty, nrOfFiguresToFind: number){
       for (let row = 1; row <= this.context.nrOfRows; row++){
         let winnerList = this.getWinnerOutOfSingleRow(figure, nrOfFiguresToFind, row)
         if (winnerList.length >= this.context.nrOfFiguresNeededToWinn) return winnerList;
@@ -42,7 +42,7 @@ export class WinnerSearcherService {
     }
   
   
-    checkAllColsForWinner(figure: FigureNotEmpty, nrOfFiguresToFind: number,){
+    checkAllColsForWinner(figure: FigureNotEmpty, nrOfFiguresToFind: number){
         for (let col = 1; col <= this.context.nrOfColumns; col++){
           let winnerList = this.getWinnerOutOfSingleColumn(figure, nrOfFiguresToFind, col);
           if (winnerList.length >= this.context.nrOfFiguresNeededToWinn) return winnerList;

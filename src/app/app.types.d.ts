@@ -5,6 +5,8 @@ export interface CellDescriptor{
   id: number,
   row: number,
   column: number,
+  isPartOfWinningPlot: boolean,
+  isOccupied: boolean,
   onclick: () => void
 }
 
