@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BoardHandlerServiceService } from './board-handler-service.service'
-import { CellCords, FigureNotEmpty, Figure } from './app.types.d'
+import { CellCords, FigureNotEmpty, Figure } from '../app.types.d'
 
 // module FigureTypes {
 //   export type CellCords = number[];
