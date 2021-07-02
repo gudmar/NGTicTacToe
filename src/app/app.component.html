@@ -1,7 +1,12 @@
 <div class="application-wrapper center">
   <div class="board">
+    <ng-container *ngIf = "boardHandler.winningFigure != ''">
+        <ng-container *ngTemplateOutlet="winnerFound"></ng-container>
+    </ng-container>
     <div class="rows" *ngFor = "let row of rowIds" id='{{row}}'>
-      <div class="cell center {{row==1?'first-row':''}} 
+      <div [attr.data-part-of-winning-plot] = 'boardHandler.checkIfIsPartOfWinningPlot(row, col)' 
+           [attr.data-is-occupied] = 'boardHandler.checkIfCellIsOccupied(row, col)'
+            class="cell center {{row==1?'first-row':''}}
             {{row==rowIds.length?'last-row':''}} 
             {{col==1?'first-column':''}} 
             {{col==colIds.length?'last-column':''}}"
@@ -30,3 +35,12 @@
     </div>
 </ng-template>
 <ng-template #none></ng-template>
+<ng-template #winnerFound>
+    <div class="board-cover center">
+        <span class="center">
+                <span *ngIf = "boardHandler.winningFigure == 'Circle'" class="winner-symbol"> &#9675;</span> 
+                <span *ngIf = "boardHandler.winningFigure == 'Cross'"  class="winner-symbol"> &times;</span>
+                <span class = "winner-caption">wins.</span>
+        </span>    
+    </div>
+</ng-template>

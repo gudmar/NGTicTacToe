@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { CellDescriptor, Figure } from './app.types.d'
+import { CellDescriptor, Figure, CellCords } from './app.types.d'
 import { WinnerSearcherService } from './winner-searcher.service'
+// import { Z_PARTIAL_FLUSH } from 'zlib';
+// import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 function createArrayOfEmements<T>(arraySize: number, elementCreator: (index: number)=>T){
   let output = [];
@@ -22,6 +24,7 @@ export class BoardHandlerServiceService {
     board: CellDescriptor[] = [];
     nextFigure: Figure = '';
     winnerChecker: WinnerSearcherService;
+    winningFigure: Figure = '';
     constructor(){
       this.winnerChecker  = new WinnerSearcherService(this);
     }
@@ -34,6 +37,25 @@ export class BoardHandlerServiceService {
       this.board = createArrayOfEmements<CellDescriptor>(this.nrOfColumns * this.nrOfRows, this.createSingleCellDescriptor.bind(this));
       this.nextFigure = 'Circle';
     }
+
+    setCellsToWinning(setOfCellCords: CellCords[]){
+      let setSingleCollToWinning = function(this: BoardHandlerServiceService, cord: CellCords){
+        let xCord = cord[0];
+        let yCord = cord[1];
+        this.board[this.getIndex(xCord, yCord)].isPartOfWinningPlot = true;
+      }.bind(this)
+      for(let singleCord of setOfCellCords){
+        setSingleCollToWinning(singleCord);
+      }
+    }
+
+    checkIfIsPartOfWinningPlot(row:number, col:number){
+      return this.board[this.getIndex(row, col)].isPartOfWinningPlot
+    }
+
+    checkIfCellIsOccupied(row:number, col: number){
+      return this.board[this.getIndex(row, col)].isOccupied
+    }
   
     createSingleCellDescriptor(index:number):CellDescriptor{
       let that = this;
@@ -43,23 +65,43 @@ export class BoardHandlerServiceService {
         id: index + 1,
         row: Math.floor(index / that.nrOfColumns) + 1, // 1 to size
         column: index % that.nrOfRows + 1,
+        isPartOfWinningPlot: false,
+        isOccupied: false,
         onclick: function(){
           if (that.board[index].figure != '') return null;
           that.setFigureToCell(index);
           that.toggleNextFigure();
+          that.setCellToOccupied(index);
           that.showWinner();
           return null;
         }
       }
     }
+
+    setCellToOccupied(index:number){
+      this.board[index].isOccupied = true;
+    }
   
     showWinner(){
+      let winningCords:CellCords[] = [];
+      let winningCircleCords = this.winnerChecker.getWinnerCords("Circle");
+      let winningCrossCords = this.winnerChecker.getWinnerCords("Cross");
+      if (winningCircleCords.length > 0) {
+        this.winningFigure = "Circle";
+        winningCords = winningCircleCords
+      } else if (winningCrossCords.length > 0){
+        this.winningFigure = "Cross";
+        winningCords = winningCrossCords
+      }
+
+
       console.log('Checking if Circle winns')
       // console.log(this.checkIfFigureWinns('Circle'));
       console.log(this.winnerChecker.getWinnerCords("Circle"))
       console.log('Checking if Cross wins')
       // console.log(this.checkIfFigureWinns('Cross'))
       console.log(this.winnerChecker.getWinnerCords('Cross'))
+      this.setCellsToWinning(winningCords)
     }
   
     getFigureAtRowColumn(rowNr:number, colNr:number):string{
