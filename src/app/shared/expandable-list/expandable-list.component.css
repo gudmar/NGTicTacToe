@@ -1,0 +1,40 @@
+.center-left{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.list-oppener{
+    --blue: #124191;
+    color: var(--blue);
+    background-color: white;
+    font-size: 2rem;
+    position: relative;
+    width: 15rem;
+    height: 3rem;
+    border-radius: 1rem;
+    box-shadow: inset 0px 0px 30px -8px rgba(0,0,0,0.64);
+    font-family: Arial, Helvetica, sans-serif;
+}
+.list-oppener:hover{
+    cursor: pointer;
+}
+.list-oppener>span{
+    font-size: 1.5rem;
+    position: relative;
+    height: 100%;
+}
+.list-of-options{
+    position: absolute;
+    width: 100%;
+    max-height: 20rem;
+    background-color: white;
+    color: var(--blue);
+    top: 2.2rem;
+}
+.option{
+    font-size: 1rem;
+}
+.option:hover{
+    background-color: var(--blue);
+    color: white;
+}

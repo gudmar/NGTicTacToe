@@ -1,1 +1,6 @@
-<p>expandable-list works!</p>
+<div class="list-oppener">
+    <span class="center-left">{{listOfOptions[actualOption]}}</span>
+    <div class="list-of-options" *ngIf="!isListHidden">
+        <div class="option center-left" *ngFor="let option of listOfOptions">{{option}}</div>
+    </div>
+</div>
