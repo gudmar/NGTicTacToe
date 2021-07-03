@@ -38,6 +38,11 @@ export class BoardHandlerServiceService {
       this.nextFigure = 'Circle';
     }
 
+    restartGame(){
+      this.board = createArrayOfEmements<CellDescriptor>(this.nrOfColumns * this.nrOfRows, this.createSingleCellDescriptor.bind(this));
+      this.winningFigure = '';
+    }
+
     setCellsToWinning(setOfCellCords: CellCords[]){
       let setSingleCollToWinning = function(this: BoardHandlerServiceService, cord: CellCords){
         let xCord = cord[0];

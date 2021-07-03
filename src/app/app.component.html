@@ -1,2 +1,5 @@
 
-<tic-tac-toe></tic-tac-toe>
+<div class="application-wrapper center">
+    <app-game-controls (restartEvent) = "restartTicTacToeComponent()"></app-game-controls>
+    <tic-tac-toe [mediator] = "mediator"></tic-tac-toe>
+</div>

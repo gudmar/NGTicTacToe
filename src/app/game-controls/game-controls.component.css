@@ -1,0 +1,36 @@
+.center{
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+}
+.game-controls-wrapper{
+    --blue: #124191;
+    position: relative;
+    width: 30rem;
+    height: 3rem;
+    border-radius: 1.5rem;
+    padding: 0.5rem;
+    background-color: var(--blue);
+    color: white;
+    justify-content: space-evenly;
+    margin-bottom: 3rem;
+    box-shadow: inset 0px 0px 46px -8px rgba(0,0,0,0.64);
+}
+
+.round-button{
+    color: var(--blue);
+    background-color: white;
+    font-size: 2rem;
+    position: relative;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    box-shadow: inset 0px 0px 30px -8px rgba(0,0,0,0.64);
+}
+.round-button:hover{
+    cursor: pointer;
+    transform: rotate(-145deg);
+    transition: 0.3s;
+    transition-timing-function: cubic-bezier(0.9,1.93,.03,.28);
+}

@@ -1,6 +1,7 @@
-import { Component, Injectable, TemplateRef } from '@angular/core';
-import { bindCallback } from 'rxjs';
+import { Component, Injectable, TemplateRef ,Input, Output, HostListener} from '@angular/core';
 import { BoardHandlerServiceService } from './board-handler-service.service'
+import { Receiver } from '../app.types'
+import { MediatorService} from '../shared/mediator.service'
 
 
 @Component({
@@ -16,16 +17,30 @@ export class TicTacToeComponent {
   nrOfFiguresInRowToWinn = 3;
   rowIds = this.createArrayOfNElements(this.boardSize);
   colIds = this.createArrayOfNElements(this.boardSize);
+  @Input() set mediator(mediatorService:MediatorService){
+    mediatorService.subscribe(this.onMessageFromMediator.bind(this))
+  }
+  
 
   constructor(public boardHandler: BoardHandlerServiceService){
     this.boardHandler = boardHandler;
     this.boardHandler.parametrize(this.boardSize, this.nrOfFiguresInRowToWinn);
   }
 
+  restartTicTacToe() {
+    window.alert('Restart signal reveived')
+  }
+
   createArrayOfNElements(n:number){
     let output = [];
     for(let i = 1; i < n + 1; i++){ output.push(i) }
     return output;
+  }
+
+  onMessageFromMediator(message: string){
+    if (message == "resetTicTacToe"){
+      this.boardHandler.restartGame()
+    }
   }
 }
 
