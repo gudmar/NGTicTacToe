@@ -1,6 +1,7 @@
-import { Component, Injectable, TemplateRef } from '@angular/core';
+import { Component, Injectable, TemplateRef} from '@angular/core';
+import {Receiver} from './app.types'
 import { bindCallback } from 'rxjs';
-// import { BoardHandlerServiceService } from './board-handler-service.service'
+import { MediatorService } from './shared/mediator.service'
 
 
 @Component({
@@ -14,10 +15,15 @@ export class AppComponent {
   nrOfRows = this.boardSize;  // for simplisity and pleability let board be a square
   nrOfColumns = this.boardSize;
   nrOfFiguresInRowToWinn = 3;
-
+  mediator = new MediatorService();
+  
   constructor(){
+    
   }
 
+  restartTicTacToeComponent(){
+    this.mediator.sendMessageToAllSubscribers('resetTicTacToe')
+  }
 
 }
 

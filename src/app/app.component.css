@@ -1,0 +1,12 @@
+.application-wrapper{
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    flex-direction: column;
+}
+.center{
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+}

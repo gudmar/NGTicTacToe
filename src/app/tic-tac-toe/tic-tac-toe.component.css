@@ -1,12 +1,6 @@
 *{
     font-family: Arial, Helvetica, sans-serif;
 }
-
-.application-wrapper{
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-}
 .center{
     display: flex;
     align-content: center;

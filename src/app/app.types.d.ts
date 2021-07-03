@@ -15,3 +15,5 @@ export type CellCords = number[];
 
 export type FigureNotEmpty = 'Circle' | 'Cross';
 
+export type Receiver = (signal: string) => void;
+
