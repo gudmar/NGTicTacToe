@@ -1,0 +1,14 @@
+:host{
+    font-size: 1rem;
+    display: block;
+    line-height: 1.4rem;
+    padding: 5px;
+}
+:host:hover{
+    background-color: var(--blue);
+    color: white;
+}
+.is-active-marker{
+    display: inline-block;
+    width: 1.5rem;
+}

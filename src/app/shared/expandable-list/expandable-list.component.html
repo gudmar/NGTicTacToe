@@ -1,6 +1,10 @@
 <div class="list-oppener">
     <span class="center-left">{{listOfOptions[actualOption]}}</span>
     <div class="list-of-options" *ngIf="!isListHidden">
-        <div class="option center-left" *ngFor="let option of listOfOptions">{{option}}</div>
+        <app-single-option *ngFor="let option of listOfOptions; let i = index" 
+            [content] = 'option' 
+            [isActive] = "determineIfIsActive(i)"
+            (optionSetToActive) = "unactivateAllButForThisOption(i)">
+        </app-single-option>
     </div>
 </div>
