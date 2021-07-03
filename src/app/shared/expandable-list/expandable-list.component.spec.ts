@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ExpandableListComponent } from './expandable-list.component';
+import { SingleOptionComponent } from './single-option/single-option.component'
 
 describe('ExpandableListComponent', () => {
   let component: ExpandableListComponent;

@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { TicTacToeComponent } from './tic-tac-toe/tic-tac-toe.component';
 import { GameControlsComponent } from './game-controls/game-controls.component';
 import { ExpandableListComponent } from './shared/expandable-list/expandable-list.component';
+import { SingleOptionComponent } from './shared/expandable-list/single-option/single-option.component';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { ExpandableListComponent } from './shared/expandable-list/expandable-lis
     TicTacToeComponent,
     GameControlsComponent,
     ExpandableListComponent,
+    SingleOptionComponent,
   ],
   imports: [
     BrowserModule,
