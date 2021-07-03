@@ -8,7 +8,7 @@ import { Component, OnInit, Input, Output , EventEmitter} from '@angular/core';
 export class GameControlsComponent implements OnInit {
 
   @Output() restartEvent: EventEmitter<null> = new EventEmitter();
-
+  gameSizes: string[] = ['Board: 3x3 3 in row', 'Board: 5x5 5 in row', 'Board 10x10 5 in row']
   constructor() { 
   }
 
