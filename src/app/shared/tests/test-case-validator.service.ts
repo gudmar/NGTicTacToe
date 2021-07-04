@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Figure, CellCords, CellDescriptor, FigureNotEmpty } from '../../app.types'
+import { TestCase, Figure, CellCords, CellDescriptor, FigureNotEmpty } from '../../app.types'
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +7,6 @@ import { Figure, CellCords, CellDescriptor, FigureNotEmpty } from '../../app.typ
 export class TestCaseValidatorService {
 
   constructor() { }
-
 
   validateTestCase(testCase:TestCase):boolean{
     if (!this.hasObjectKeysFromList(testCase, ['name', 'input', 'expectedOutput'])) return false;

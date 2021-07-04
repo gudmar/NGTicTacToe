@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TestCase, Figure, CellCords, CellDescriptor, FigureNotEmpty } from '../../app.types'
 import { BoardHandlerServiceService } from '../../tic-tac-toe/board-handler-service.service'
+import { TestCaseValidatorService } from './test-case-validator.service'
 
 
 @Injectable({
@@ -8,10 +9,80 @@ import { BoardHandlerServiceService } from '../../tic-tac-toe/board-handler-serv
 })
 export class ArrayToBoardTranslatorService {
 
-  boardHandler: BoardHandlerServiceService;
+  testValidator: TestCaseValidatorService;
 
-  constructor(boardHandler: BoardHandlerServiceService) {
-    this.boardHandler = new BoardHandlerServiceService();
+  constructor(testValidator: TestCaseValidatorService) {
+    this.testValidator = new TestCaseValidatorService();
+  }
+
+  createBoardModelFromArrayOfCellDescriptors(arrayOfCellDescorptors: CellDescriptor[]):number[][]{
+    let convertSingleField = function(element: CellDescriptor){
+      return '' ? 0 : element.figure == 'Circle' ? 1 : 2;
+    }
+    let flattenedModel = arrayOfCellDescorptors.map(convertSingleField);
+    let modelArraySize = Math.sqrt(arrayOfCellDescorptors.length);
+    let output:number[][] = [];
+    let rowArray:number[] = [];
+    let i = 0;
+    for (let element of arrayOfCellDescorptors){
+      rowArray.push(convertSingleField(element));
+      i++;
+      if (arrayOfCellDescorptors.length % i == modelArraySize){
+        output.push(rowArray);
+        rowArray = [];
+      }
+    }
+    return output;
+  }
+
+  createArrayOfCellDescirptors(arrayBoardModel:number[][]):CellDescriptor[]{
+    let output = [];
+    let arraySize = this.getArraySize(arrayBoardModel);
+    let flattenedBoardModel = this.flattenBoardModelArray(arrayBoardModel)
+    let converteSingleElement = function(this: ArrayToBoardTranslatorService, element: number, index:number){
+      let figure = flattenedBoardModel[index] == 0 ? '': flattenedBoardModel[index] == 1?"Circle" : "Cross";
+      return this.getSingleCellDescriptor(this.indexToRow(index, arraySize), this.indexToColumn(index, arraySize), <Figure>figure)
+    }.bind(this)
+    return arrayBoardModel.map(converteSingleElement)
+  }
+
+  indexToRow(index:number, arraySize:number){
+    return Math.floor((index + 1) / arraySize)
+  }
+
+  indexToColumn(index:number, arraySize:number){
+    return (index + 1) % arraySize;
+  }
+
+  flattenBoardModelArray(arrayBoardModel:number[][]){
+    let output:number[] = [];
+    let nrOfRows = this.getArraySize(arrayBoardModel);
+    for (let row of arrayBoardModel){
+      output = [...output, ...row]
+    }
+    return output;
+  }
+
+  getSingleCellDescriptor(rowNr: number, colNr: number, figure: Figure){
+    return {
+      figure: figure,
+      id: rowNr + colNr - 1,
+      row: rowNr,
+      column: colNr,
+      isPartOfWinningPlot: false,
+      isOccupied: figure == 'Circle' || figure == "Cross" ? true : false,
+      onclick: ()=>{}
+    }
+  }
+
+  calculateNrOfElementsInArray(arrayBoardModel: number[][]):number{
+    let size = this.getArraySize(arrayBoardModel);
+    return size * size;
+  }
+
+  getArraySize(arrayBoardModel: number[][]):number{
+    if (!this.testValidator.validateBoardModelArray(arrayBoardModel)) return -1;
+    return this.testValidator.getBoardHeight(arrayBoardModel)
   }
 
 
