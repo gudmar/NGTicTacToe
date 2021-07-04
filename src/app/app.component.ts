@@ -31,8 +31,8 @@ export class AppComponent {
           this.boardSize = 3; 
           this.nrOfFiguresInRowToWinn=3; 
           break;
-      case 'Board: 5x5 5 in row': 
-          this.boardSize = 5; 
+      case 'Board: 7x7 5 in row': 
+          this.boardSize = 7;
           this.nrOfFiguresInRowToWinn=5; 
           break;
       case 'Board 10x10 5 in row': 
