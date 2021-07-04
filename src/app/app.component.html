@@ -1,5 +1,8 @@
 
 <div class="application-wrapper center">
-    <app-game-controls (restartEvent) = "restartTicTacToeComponent()"></app-game-controls>
-    <tic-tac-toe [mediator] = "mediator"></tic-tac-toe>
+    <app-game-controls (restartEvent) = "restartTicTacToeComponent()" (boardSizeChanged)="changeBoardSize($event)"></app-game-controls>
+    <tic-tac-toe [mediator] = "mediator" 
+            [boardSize] = "boardSize" 
+            [nrOfFiguresInRowToWinn] = "nrOfFiguresInRowToWinn">
+        </tic-tac-toe>
 </div>
