@@ -18,12 +18,14 @@ export class TicTacToeComponent {
     this._boardSize = val;
     this.rowIds = this.createArrayOfNElements(this.boardSize);
     this.colIds = this.createArrayOfNElements(this.boardSize);
+    this.boardHandler.restartGame()
   }
   get boardSize() {return this._boardSize}
 
   @Input() set nrOfFiguresInRowToWinn(val:number){
     this.boardHandler.parametrize(this.boardSize, val)
     this._nrOfFiguresInRowToWinn = val;
+    this.boardHandler.restartGame()
   }
 
   get nrOfFiguresInRowToWinn(){
