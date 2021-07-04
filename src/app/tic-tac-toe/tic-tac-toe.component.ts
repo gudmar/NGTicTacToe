@@ -11,12 +11,27 @@ import { MediatorService} from '../shared/mediator.service'
 })
 export class TicTacToeComponent {
   title = 'TicTacToe';
-  boardSize = 5;
-  nrOfRows = this.boardSize;  // for simplisity and pleability let board be a square
-  nrOfColumns = this.boardSize;
-  nrOfFiguresInRowToWinn = 3;
-  rowIds = this.createArrayOfNElements(this.boardSize);
-  colIds = this.createArrayOfNElements(this.boardSize);
+  _boardSize:number = 0;
+  _nrOfFiguresInRowToWinn = 3;
+  @Input() set boardSize(val:number) {
+    this.boardHandler.parametrize(val, this.nrOfFiguresInRowToWinn)
+    this._boardSize = val;
+    this.rowIds = this.createArrayOfNElements(this.boardSize);
+    this.colIds = this.createArrayOfNElements(this.boardSize);
+  }
+  get boardSize() {return this._boardSize}
+
+  @Input() set nrOfFiguresInRowToWinn(val:number){
+    this.boardHandler.parametrize(this.boardSize, val)
+    this._nrOfFiguresInRowToWinn = val;
+  }
+
+  get nrOfFiguresInRowToWinn(){
+    return this._nrOfFiguresInRowToWinn;
+  }
+  rowIds:number[]=[];
+  colIds:number[]=[];
+
   @Input() set mediator(mediatorService:MediatorService){
     mediatorService.subscribe(this.onMessageFromMediator.bind(this))
   }
@@ -24,11 +39,8 @@ export class TicTacToeComponent {
 
   constructor(public boardHandler: BoardHandlerServiceService){
     this.boardHandler = boardHandler;
+    this.boardSize = 3;
     this.boardHandler.parametrize(this.boardSize, this.nrOfFiguresInRowToWinn);
-  }
-
-  restartTicTacToe() {
-    window.alert('Restart signal reveived')
   }
 
   createArrayOfNElements(n:number){

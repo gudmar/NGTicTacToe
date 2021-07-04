@@ -4,7 +4,8 @@
         <app-single-option *ngFor="let option of listOfOptions; let i = index" 
             [content] = 'option' 
             [isActive] = "determineIfIsActive(i)"
-            (optionSetToActive) = "unactivateAllButForThisOption(i)">
+            (optionSetToActive) = "unactivateAllButForThisOption(i)"
+            (optionSetToActive) = "passEventToParent(listOfOptions[actualOption])">
         </app-single-option>
     </div>
 </div>

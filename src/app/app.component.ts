@@ -11,7 +11,7 @@ import { MediatorService } from './shared/mediator.service'
 })
 export class AppComponent {
   title = 'TicTacToe';
-  boardSize = 5;
+  boardSize: number = 3;
   nrOfRows = this.boardSize;  // for simplisity and pleability let board be a square
   nrOfColumns = this.boardSize;
   nrOfFiguresInRowToWinn = 3;
@@ -25,5 +25,24 @@ export class AppComponent {
     this.mediator.sendMessageToAllSubscribers('resetTicTacToe')
   }
 
+  changeBoardSize(data:any){
+    switch(data){
+      case 'Board: 3x3 3 in row': 
+          this.boardSize = 3; 
+          this.nrOfFiguresInRowToWinn=3; 
+          break;
+      case 'Board: 5x5 5 in row': 
+          this.boardSize = 5; 
+          this.nrOfFiguresInRowToWinn=5; 
+          break;
+      case 'Board 10x10 5 in row': 
+          this.boardSize = 10; 
+          this.nrOfFiguresInRowToWinn=5; 
+          break;
+      default: throw new Error('Now, how that happened? There was a different board size choosen than in menu?')
+    }
+  }
+
 }
 
+// 'Board: 3x3 3 in row', 'Board: 5x5 5 in row', 'Board 10x10 5 in row'
