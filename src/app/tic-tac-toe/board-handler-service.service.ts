@@ -38,6 +38,12 @@ export class BoardHandlerServiceService {
       this.nextFigure = 'Circle';
     }
 
+    parametrize_ForTests(readyBoard: CellDescriptor[], nrOfFiguresNeededToWinn: number){
+      this.board = readyBoard;
+      this.nrOfFiguresNeededToWinn = nrOfFiguresNeededToWinn;
+      this.boardSize = Math.sqrt(readyBoard.length);
+    }
+
     restartGame(){
       this.board = createArrayOfEmements<CellDescriptor>(this.nrOfColumns * this.nrOfRows, this.createSingleCellDescriptor.bind(this));
       this.winningFigure = '';

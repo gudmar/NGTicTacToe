@@ -22,3 +22,11 @@ export interface TestCase{
   input: number[][],
   expectedOutput: CellCords[]
 }
+
+export interface TestFromArrayConfig {
+  testSuiteName: string,
+  testedFunction: Function,
+  testCaseArray: TestCase[],
+  beforeEachCb?: Function,
+  afterEachCb?: Function
+}
