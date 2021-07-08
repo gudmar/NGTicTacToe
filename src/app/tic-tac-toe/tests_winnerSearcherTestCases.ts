@@ -1,5 +1,5 @@
 export let testCase1 = {
-    name: 'Matrix 5x5 find 3 circles in last row',
+    name: '1) Matrix 5x5 find 3 circles in last row',
     input: [[0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0],
@@ -8,7 +8,7 @@ export let testCase1 = {
     expectedOutput: [[2, 5], [3, 5], [4, 5]]
 };
 let testCase2 = {
-    name: 'Matrix 5x5 find 3 crosses in first row',
+    name: '2) Matrix 5x5 find 3 crosses in first row',
     input: [[0, 0, 2, 2, 2],
             [0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0],
@@ -17,7 +17,7 @@ let testCase2 = {
     expectedOutput: [[3, 1], [4, 1], [5, 1]]
 };
 let testCase3 = {
-    name: 'Matrix 5x5 find 3 crosses in first column',
+    name: '3) Matrix 5x5 find 3 crosses in first column',
     input: [[2, 0, 0, 0, 0],
             [2, 0, 0, 0, 0],
             [2, 0, 0, 0, 0],
@@ -26,7 +26,7 @@ let testCase3 = {
     expectedOutput: [[1, 1], [1, 2], [1, 3]]
 };
 export let testCase4 = {
-    name: 'Matrix 5x5 find 3 circles in third column',
+    name: '4) Matrix 5x5 find 3 circles in third column',
     input: [[0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0],
             [0, 0, 1, 0, 0],
@@ -35,7 +35,7 @@ export let testCase4 = {
     expectedOutput: [[3, 3], [3, 4], [3, 5]]
 };
 export let testCase5 = {
-    name: 'Matrix 5x5 find 3 circles in left top diagonal',
+    name: '5) Matrix 5x5 find 3 circles in left top diagonal',
     input: [[1, 0, 0, 0, 0],
             [0, 1, 0, 0, 0],
             [0, 0, 1, 0, 0],
@@ -44,7 +44,7 @@ export let testCase5 = {
     expectedOutput: [[1, 1], [2, 2], [3, 3]]
 };
 export let testCase6 = {
-    name: 'Matrix 5x5 find 3 circles in left bottom diagonal',
+    name: '6) Matrix 5x5 find 3 circles in left bottom diagonal',
     input: [[0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0],
             [0, 0, 1, 0, 0],
@@ -52,7 +52,25 @@ export let testCase6 = {
             [1, 0, 0, 0, 0]],
     expectedOutput: [[1, 5], [2, 4], [3, 3]]
 }
+let testCase7 = {
+    name: '7) Matrix 5x5 find 3 crosses in first left top diagonal',
+    input: [[0, 0, 0, 0, 0],
+            [0, 2, 0, 0, 0],
+            [0, 0, 2, 0, 0],
+            [0, 0, 0, 2, 0],
+            [0, 0, 0, 0, 0]],
+    expectedOutput: [[2, 2], [3, 3], [4, 4]]
+};
+let testCase8 = {
+    name: '8) Matrix 5x5 find 3 circles in first column',
+    input: [[1, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0]],
+    expectedOutput: [[1, 1], [1, 2], [1, 3]]
+};
 
-export let  testSuiteCircle = [testCase1, testCase4, testCase5];
-export let  testSuiteCross = [testCase2, testCase3];
+export let  testSuiteCircle = [testCase1, testCase4, testCase5, testCase8];
+export let  testSuiteCross = [testCase2, testCase3, testCase7];
 

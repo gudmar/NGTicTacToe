@@ -40,18 +40,25 @@ export class ArrayToBoardTranslatorService {
     let arraySize = this.getArraySize(arrayBoardModel);
     let flattenedBoardModel = this.flattenBoardModelArray(arrayBoardModel)
     let converteSingleElement = function(this: ArrayToBoardTranslatorService, element: number, index:number){
-      let figure = flattenedBoardModel[index] == 0 ? '': flattenedBoardModel[index] == 1?"Circle" : "Cross";
+      let figure: Figure;
+      switch(flattenedBoardModel[index]){
+        case 0: figure = ''; break;
+        case 1: figure = "Circle"; break;
+        case 2: figure = "Cross"; break;
+        default: throw new Error(`${this.constructor.name}: board model figure symbol seems out of set 0, 1, 2: ${flattenedBoardModel[index]}.`)
+      }
+
       return this.getSingleCellDescriptor(this.indexToColumn(index, arraySize), this.indexToRow(index, arraySize), <Figure>figure)
     }.bind(this)
     return flattenedBoardModel.map(converteSingleElement)
   }
 
   indexToRow(index:number, arraySize:number){
-    return Math.floor((index + 1) / arraySize)
+    return Math.floor((index ) / arraySize) + 1
   }
 
   indexToColumn(index:number, arraySize:number){
-    return (index + 1) % arraySize;
+    return (index ) % arraySize + 1;
   }
 
   flattenBoardModelArray(arrayBoardModel:number[][]){
@@ -87,24 +94,4 @@ export class ArrayToBoardTranslatorService {
 
 
 }
-
-let testCase1:TestCase = {
-  name: 'some test',
-  input: [[0, 0, 1, 2, 0],
-          [0, 0, 1, 2, 0],
-          [0, 0, 1, 0, 0],
-          [0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0]],
-  expectedOutput: [[3, 1], [3, 2], [3, 3]]
-}
-
-// export interface CellDescriptor{
-//     figure: Figure,
-//     id: number,
-//     row: number,
-//     column: number,
-//     isPartOfWinningPlot: boolean,
-//     isOccupied: boolean,
-//     onclick: () => void
-//   }
 
