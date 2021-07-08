@@ -30,12 +30,15 @@ export class WinnerSearcherService {
       if (winnerInAllColumns.length > 0) return winnerInAllColumns;
       if (winnerInAllLeftTopDiagonals.length > 0) return winnerInAllLeftTopDiagonals;
       if (winnerInAllLeftBottomDiagonals.length) return winnerInAllLeftBottomDiagonals;
+      // debugger;
       return []
     }
   
     checkAllRowsForWinner(figure: FigureNotEmpty, nrOfFiguresToFind: number){
       for (let row = 1; row <= this.context.nrOfRows; row++){
         let winnerList = this.getWinnerOutOfSingleRow(figure, nrOfFiguresToFind, row)
+        console.log(`Winner list for row ${row} is ${JSON.stringify(winnerList)}`)
+        // debugger;
         if (winnerList.length >= this.context.nrOfFiguresNeededToWinn) return winnerList;
       }
       return [];
@@ -74,15 +77,18 @@ export class WinnerSearcherService {
     getWinnerOutOfSingleRow(figure:FigureNotEmpty, nrOfFiguresToFind: number, rowNr:number){
       let cords = [];
       for(let i = 0; i < this.context.nrOfColumns; i++){
-        cords.push([rowNr, i + 1])
+        cords.push([ i + 1, rowNr])
+        // !!!!
       }
+      console.log(`Cords : ${JSON.stringify(cords)}`)
       return this.findNrOfFeaguresOneByOne(figure, nrOfFiguresToFind, cords)
     }
   
     getWinnerOutOfSingleColumn(figure:FigureNotEmpty, nrOfFiguresToFind: number, colNr:number){
       let cords = [];
       for(let i = 0; i < this.context.nrOfRows; i++){
-        cords.push([i + 1, colNr])
+        cords.push([colNr, i + 1])
+        // !!!!
       }
       return this.findNrOfFeaguresOneByOne(figure, nrOfFiguresToFind, cords)
     }
