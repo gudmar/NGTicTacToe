@@ -41,9 +41,9 @@ export class ArrayToBoardTranslatorService {
     let flattenedBoardModel = this.flattenBoardModelArray(arrayBoardModel)
     let converteSingleElement = function(this: ArrayToBoardTranslatorService, element: number, index:number){
       let figure = flattenedBoardModel[index] == 0 ? '': flattenedBoardModel[index] == 1?"Circle" : "Cross";
-      return this.getSingleCellDescriptor(this.indexToRow(index, arraySize), this.indexToColumn(index, arraySize), <Figure>figure)
+      return this.getSingleCellDescriptor(this.indexToColumn(index, arraySize), this.indexToRow(index, arraySize), <Figure>figure)
     }.bind(this)
-    return arrayBoardModel.map(converteSingleElement)
+    return flattenedBoardModel.map(converteSingleElement)
   }
 
   indexToRow(index:number, arraySize:number){
@@ -63,7 +63,7 @@ export class ArrayToBoardTranslatorService {
     return output;
   }
 
-  getSingleCellDescriptor(rowNr: number, colNr: number, figure: Figure){
+  getSingleCellDescriptor(colNr: number, rowNr: number, figure: Figure): CellDescriptor{
     return {
       figure: figure,
       id: rowNr + colNr - 1,

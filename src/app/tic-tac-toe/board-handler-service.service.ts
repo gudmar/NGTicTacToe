@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CellDescriptor, Figure, CellCords } from '../app.types.d'
 import { WinnerSearcherService } from './winner-searcher.service'
+import { ConcatSource } from 'webpack-sources';
 // import { Z_PARTIAL_FLUSH } from 'zlib';
 // import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
@@ -10,6 +11,7 @@ function createArrayOfEmements<T>(arraySize: number, elementCreator: (index: num
     let newElement:T = elementCreator(i);
     output.push(newElement)
   }
+  console.log(output)
   return output;
 }
 
@@ -23,6 +25,7 @@ export class BoardHandlerServiceService {
     nrOfFiguresNeededToWinn: number = 3;
     board: CellDescriptor[] = [];
     nextFigure: Figure = '';
+    initialFigure: Figure = '';
     winnerChecker: WinnerSearcherService;
     winningFigure: Figure = '';
     constructor(){
@@ -36,17 +39,21 @@ export class BoardHandlerServiceService {
       this.nrOfFiguresNeededToWinn = nrOfFiguresInRowToWinn;
       this.board = createArrayOfEmements<CellDescriptor>(this.nrOfColumns * this.nrOfRows, this.createSingleCellDescriptor.bind(this));
       this.nextFigure = 'Circle';
+      this.initialFigure = this.nextFigure;
     }
 
     parametrize_ForTests(readyBoard: CellDescriptor[], nrOfFiguresNeededToWinn: number){
       this.board = readyBoard;
       this.nrOfFiguresNeededToWinn = nrOfFiguresNeededToWinn;
       this.boardSize = Math.sqrt(readyBoard.length);
+      this.nrOfColumns = this.boardSize;
+      this.nrOfRows = this.boardSize;
     }
 
     restartGame(){
       this.board = createArrayOfEmements<CellDescriptor>(this.nrOfColumns * this.nrOfRows, this.createSingleCellDescriptor.bind(this));
       this.winningFigure = '';
+      this.nextFigure = this.initialFigure;
     }
 
     setCellsToWinning(setOfCellCords: CellCords[]){
@@ -61,11 +68,11 @@ export class BoardHandlerServiceService {
     }
 
     checkIfIsPartOfWinningPlot(row:number, col:number){
-      return this.board[this.getIndex(row, col)].isPartOfWinningPlot
+      return this.board[this.getIndex(col, row)].isPartOfWinningPlot
     }
 
     checkIfCellIsOccupied(row:number, col: number){
-      return this.board[this.getIndex(row, col)].isOccupied
+      return this.board[this.getIndex(col, row)].isOccupied
     }
   
     createSingleCellDescriptor(index:number):CellDescriptor{
@@ -84,6 +91,8 @@ export class BoardHandlerServiceService {
           that.toggleNextFigure();
           that.setCellToOccupied(index);
           that.showWinner();
+          console.log('row : ' + (Math.floor(index / that.nrOfColumns) + 1));
+          console.log('col : ' + (index % that.nrOfRows + 1))
           return null;
         }
       }
@@ -108,16 +117,17 @@ export class BoardHandlerServiceService {
       this.setCellsToWinning(winningCords)
     }
   
-    getFigureAtRowColumn(rowNr:number, colNr:number):string{
+    getFigureAtRowColumn(colNr:number,rowNr:number):string{
+      // !!!!
   
-      return this.board[this.getIndex(rowNr, colNr)].figure
+      return this.board[this.getIndex(colNr, rowNr)].figure
     }
   
     fireOnclickHandlerAtRowColumn(rowNr:number, colNr:number){
-      this.board[this.getIndex(rowNr, colNr)].onclick();
+      this.board[this.getIndex(colNr, rowNr)].onclick();
     }
   
-    getIndex(rowNr:number, colNr:number):number{
+    getIndex(colNr:number, rowNr:number):number{
       return (rowNr - 1) * this.nrOfColumns + (colNr - 1)
     }
   

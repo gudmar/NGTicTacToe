@@ -12,7 +12,7 @@
                   {{col==colIds.length?'last-column':''}}"
                   (click) = "boardHandler.fireOnclickHandlerAtRowColumn(row, col)"
                   *ngFor = "let col of colIds" id="{{row}} {{col}}">
-                  <ng-container [ngSwitch]="boardHandler.getFigureAtRowColumn(row, col)">
+                  <ng-container [ngSwitch]="boardHandler.getFigureAtRowColumn(col, row)">
                       <ng-container *ngSwitchCase="'Circle'"><ng-container *ngTemplateOutlet="circle"></ng-container></ng-container>
                       <ng-container *ngSwitchCase="'Cross'"><ng-container *ngTemplateOutlet="cross"></ng-container></ng-container>
                       <ng-container *ngSwitchDefault><ng-container *ngTemplateOutlet="none"></ng-container></ng-container>

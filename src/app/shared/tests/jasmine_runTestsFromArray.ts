@@ -22,6 +22,26 @@ export class Jasmine_ServiceFunctionTestsFromArrayRunner implements TestFromArra
         this.afterEachCb = testSuiteConfig.afterEachCb;
     }
 
+    runTestSuit(testSuiteName: string, testCaseArray: TestCase[]){
+        let that = this;
+        let service= this.testedFunction;
+        describe(testSuiteName, () => {
+            
+
+            beforeEach(() => {
+              TestBed.configureTestingModule({});
+              service = TestBed.inject(service);
+            });
+            // afterEach(() => {
+            //     that.afterEachCb();
+            // })
+            for (let test of that.testCaseArray){
+                that.runSingleTest(test);
+            }
+
+        })
+    }
+
     runSingleTest(singleTestCase: TestCase){
         let that = this;
         // let service = that.testedService;
@@ -31,39 +51,22 @@ export class Jasmine_ServiceFunctionTestsFromArrayRunner implements TestFromArra
             that.beforeEachCb();
             // let testedFunction = that.testedFunction;
             expect(that.testedFunction).toEqual(singleTestCase.expectedOutput)
-        })
-    }
-
-    runTestSuit(testName: string, singleTestCase: TestCase){
-        let that = this;
-        describe(testName, () => {
-            // beforeEach(() => {
-            //     TestBed.configureTestingModule({});
-            //     service = TestBed.inject(that.testedService);
-            //     that.beforeEachCb();
-            // });
-            afterEach(() => {
-                that.afterEachCb();
-            })
-            for (let test of that.testCaseArray){
-                that.runSingleTest(test);
-            }
-
+            that.afterEachCb();
         })
     }
 
 
 }
 
-describe('BoardHandlerServiceService', () => {
-  let service: BoardHandlerServiceService;
+// describe('BoardHandlerServiceService', () => {
+//   let service: BoardHandlerServiceService;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(BoardHandlerServiceService);
-  });
+//   beforeEach(() => {
+//     TestBed.configureTestingModule({});
+//     service = TestBed.inject(BoardHandlerServiceService);
+//   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-});
+//   it('should be created', () => {
+//     expect(service).toBeTruthy();
+//   });
+// });
