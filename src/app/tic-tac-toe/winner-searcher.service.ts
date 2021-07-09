@@ -135,10 +135,11 @@ export class WinnerSearcherService {
       }
       let clearCordsMemory = function(){winnerCanditateCordMemory = []}
   
-      let checkSingleCord = function(this:any, element:CellCords, index:number){
+      let checkSingleCord = function(this:any, element:CellCords, index:number):void | null{
         let xCord = element[0];
         let yCord = element[1];
         let currentFigure = this.context.getFigureAtRowColumn(xCord, yCord);
+        if (winnerFound) return null;
         if (currentFigure == figure) {nrOfFiguresInRowSoFar++; saveCords(xCord, yCord); }
         else {
           if (!winnerFound) {nrOfFiguresInRowSoFar = 0; clearCordsMemory();}
