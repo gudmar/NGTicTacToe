@@ -38,7 +38,6 @@ export class WinnerSearcherService {
       for (let row = 1; row <= this.context.nrOfRows; row++){
         let winnerList = this.getWinnerOutOfSingleRow(figure, nrOfFiguresToFind, row)
         console.log(`Winner list for row ${row} is ${JSON.stringify(winnerList)}`)
-        // debugger;
         if (winnerList.length >= this.context.nrOfFiguresNeededToWinn) return winnerList;
       }
       return [];
@@ -78,9 +77,7 @@ export class WinnerSearcherService {
       let cords = [];
       for(let i = 0; i < this.context.nrOfColumns; i++){
         cords.push([ i + 1, rowNr])
-        // !!!!
       }
-      console.log(`Cords : ${JSON.stringify(cords)}`)
       return this.findNrOfFeaguresOneByOne(figure, nrOfFiguresToFind, cords)
     }
   
@@ -88,7 +85,6 @@ export class WinnerSearcherService {
       let cords = [];
       for(let i = 0; i < this.context.nrOfRows; i++){
         cords.push([colNr, i + 1])
-        // !!!!
       }
       return this.findNrOfFeaguresOneByOne(figure, nrOfFiguresToFind, cords)
     }

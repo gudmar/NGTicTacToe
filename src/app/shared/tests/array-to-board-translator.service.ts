@@ -50,7 +50,6 @@ export class ArrayToBoardTranslatorService {
 
       return this.getSingleCellDescriptor(this.indexToColumn(index, arraySize), this.indexToRow(index, arraySize), <Figure>figure)
     }.bind(this)
-    console.log(flattenedBoardModel.map(converteSingleElement))
     return flattenedBoardModel.map(converteSingleElement)
   }
 
