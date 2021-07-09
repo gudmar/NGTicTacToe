@@ -30,3 +30,8 @@ export interface TestFromArrayConfig {
   beforeEachCb?: Function,
   afterEachCb?: Function
 }
+
+export interface PatternDescriptor {
+  foundElements: number[][],
+  nextMoveProposals: number[][],
+}

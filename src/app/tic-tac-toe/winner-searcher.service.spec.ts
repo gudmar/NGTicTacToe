@@ -28,8 +28,6 @@ let testedFunction = function(figureToFind:FigureNotEmpty){
       let boardInput = boardTranslator.createArrayOfCellDescirptors(singleTestCase.input);
       boardHandlerService.parametrize_ForTests(boardInput, 3);
       let winnerSearcher = new WinnerSearcherService(boardHandlerService);
-      console.log(winnerSearcher.getWinnerCords(figureToFind))
-      console.log(singleTestCase.expectedOutput)
       expect(winnerSearcher.getWinnerCords(figureToFind)).hasArraySameElements(singleTestCase.expectedOutput);
     })
   }

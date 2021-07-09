@@ -11,7 +11,6 @@ function createArrayOfEmements<T>(arraySize: number, elementCreator: (index: num
     let newElement:T = elementCreator(i);
     output.push(newElement)
   }
-  console.log(output)
   return output;
 }
 
