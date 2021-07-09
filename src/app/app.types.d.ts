@@ -16,11 +16,16 @@ export type CellCords = number[];
 export type FigureNotEmpty = 'Circle' | 'Cross';
 
 export type Receiver = (signal: string) => void;
+
+export interface PatternDescriptor {
+  foundElements: number[][],
+  nextMoveProposals: number[][],
+}
  
 export interface TestCase{
   name: string,
   input: number[][],
-  expectedOutput: CellCords[]
+  expectedOutput: CellCords[] | PatternDescriptor
 }
 
 export interface TestFromArrayConfig {
@@ -29,9 +34,4 @@ export interface TestFromArrayConfig {
   testCaseArray: TestCase[],
   beforeEachCb?: Function,
   afterEachCb?: Function
-}
-
-export interface PatternDescriptor {
-  foundElements: number[][],
-  nextMoveProposals: number[][],
 }
