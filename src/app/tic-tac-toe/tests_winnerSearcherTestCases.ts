@@ -131,9 +131,45 @@ let testCase15 = {
             [1, 1, 0, 2, 1],
             [2, 2, 0, 1, 1],
             [2, 2, 2, 1, 2]],
+    expectedOutput: [[1, 5], [2, 5], [3, 5]]
+};
+let testCase16 = {
+    name: '16) Matrix 5x5 find 3 crosses in 4 row, starting from first column: polute with crosses and circles',
+    input: [[2, 2, 1, 1, 2],
+            [1, 2, 2, 1, 2],
+            [1, 1, 0, 2, 1],
+            [2, 2, 2, 1, 1],
+            [2, 2, 1, 1, 2]],
+    expectedOutput: [[2, 4], [1, 4], [3, 4]]
+};
+let testCase17 = {
+    name: '17) Matrix 5x5 find 3 circles in 5 row, starting from first column: polute with crosses and circles',
+    input: [[2, 2, 1, 1, 2],
+            [1, 2, 2, 1, 2],
+            [1, 1, 0, 2, 1],
+            [2, 2, 0, 1, 1],
+            [1, 1, 1, 2, 2]],
     expectedOutput: [[2, 5], [1, 5], [3, 5]]
 };
+let testCase18 = {
+    name: '18) Matrix 5x5 find 3 crosses in last row, starting in second column: polute with crosses and circles',
+    input: [[2, 2, 1, 1, 2],
+            [1, 2, 2, 1, 2],
+            [1, 1, 0, 2, 1],
+            [2, 2, 0, 1, 1],
+            [1, 2, 2, 2, 1]],
+    expectedOutput: [[2, 5], [4, 5], [3, 5]]
+};
+let testCase19 = {
+    name: '19) Matrix 5x5 find 3 crosses in first column, starting in 3 row: polute with crosses and circles',
+    input: [[2, 2, 1, 1, 2],
+            [1, 2, 2, 1, 2],
+            [2, 1, 0, 2, 1],
+            [2, 2, 0, 1, 1],
+            [2, 1, 2, 2, 1]],
+    expectedOutput: [[1, 5], [1, 3], [1, 4]]
+};
 
-export let  testSuiteCircle = [testCase1, testCase4, testCase5, testCase8, testCase9, testCase10, testCase11, testCase12];
-export let  testSuiteCross = [testCase2, testCase3, testCase7, testCase13, testCase14, testCase15];
+export let  testSuiteCircle = [testCase1, testCase4, testCase5, testCase8, testCase9, testCase10, testCase11, testCase12, testCase17];
+export let  testSuiteCross = [testCase2, testCase3, testCase7, testCase13, testCase14, testCase15, testCase16, testCase18, testCase19];
 
