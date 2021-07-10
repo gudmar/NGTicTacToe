@@ -80,7 +80,7 @@ export class PatternSearcherService {
     for(let i = 0; i < this.context.nrOfColumns; i++){
       cords.push([ i + 1, rowNr])
     }
-    return patternFinder.getPattern(figure, cords)
+    return patternFinder.getPattern(figure, this.context, cords)
   }
 
   getPatternOutOfSingleColumn(figure:FigureNotEmpty, patternFinder: PatternSearcher, colNr:number){
@@ -88,7 +88,7 @@ export class PatternSearcherService {
     for(let i = 0; i < this.context.nrOfRows; i++){
       cords.push([colNr, i + 1])
     }
-    return patternFinder.getPattern(figure, cords)
+    return patternFinder.getPattern(figure, this.context,  cords)
   }
 
 
@@ -102,7 +102,7 @@ export class PatternSearcherService {
         cords.push([xCord, yCord]);
       }
     }
-    return patternFinder.getPattern(figure, cords)
+    return patternFinder.getPattern(figure, this.context,  cords)
   }
 
   checkLeftTopDiagonalForWinner(figure:FigureNotEmpty, patternFinder: PatternSearcher, diagonalStartColumn: number){
@@ -115,7 +115,7 @@ export class PatternSearcherService {
         cords.push([xCord, yCord]);
       }
     }
-    return patternFinder.getPattern(figure, cords)
+    return patternFinder.getPattern(figure, this.context,  cords)
   }
 
   doesCordBelongToBoard(cord: CellCords) {
