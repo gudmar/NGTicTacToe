@@ -3,6 +3,8 @@
 // 3 == ''
 
 
+
+
 export let testCase1 = {
     name: '1) Matrix 5x5 find 3 circles in last row',
     input: [[0, 1, 1, 1, 0],
@@ -16,8 +18,8 @@ export let testCase1 = {
     }
 };
 
-export let  testSuiteCircle = [testCase1];
-export let  testSuiteCross = [];
+export let  testSuitePattern_0_Circle = [testCase1];
+// export let  testSuiteCross = [];
 
 
 

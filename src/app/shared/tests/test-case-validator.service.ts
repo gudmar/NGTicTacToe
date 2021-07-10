@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { TestCase, Figure, CellCords, CellDescriptor, FigureNotEmpty } from '../../app.types'
+import { TestCase, Figure, CellCords, CellDescriptor, FigureNotEmpty, PatternDescriptor } from '../../app.types'
 
 @Injectable({
   providedIn: 'root'
@@ -22,12 +22,24 @@ export class TestCaseValidatorService {
     return true;    
   }
 
-  validateExpectedResult(expectedResult: string | number[][]):boolean{
+  validateExpectedResult(expectedResult: string | number[][] | PatternDescriptor):boolean{
     if (typeof (expectedResult == 'string')) return true;
+    if (typeof (expectedResult == 'PatternDescirptor')) this.validatePatternDescriptor(<PatternDescriptor>expectedResult)
     if (this.validateCordsArray(<number[][]>expectedResult)) return true;
     if (this.validateBoardModelArray(<number[][]>expectedResult)) return true;
     return false;
   }
+
+  validatePatternDescriptor(expectedResult: PatternDescriptor){
+    let keys = Object.keys(expectedResult)
+    if (keys.includes('fonudElements')) return false;
+    if (keys.includes('nextMoveProposals')) return false;
+    if (!this.validateCordsArray(expectedResult.foundElements)) return false;
+    if (!this.validateCordsArray(expectedResult.nextMoveProposals)) return false;
+    return true;
+  }
+
+
   hasObjectKeysFromList(obj:Object, keys:string[]):boolean{
     for (let key of keys){
       if (!(key in obj)) return false

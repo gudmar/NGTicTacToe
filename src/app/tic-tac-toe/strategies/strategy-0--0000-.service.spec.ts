@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { BoardHandlerServiceService } from '../board-handler-service.service';
 import { runTestSuit } from '../../shared/tests/jasmine_runTestsFromArray'
-import {  } from 'testCases/tests_0__0000_StrategyTestCases'
+import { testSuitePattern_0_Circle } from './testCases/tests_0__0000_StrategyTestCases'
 import { ArrayToBoardTranslatorService } from '../../shared/tests/array-to-board-translator.service'
 import { TestCaseValidatorService } from '../../shared/tests/test-case-validator.service'
-import { TestCase, TestFromArrayConfig, Figure, FigureNotEmpty} from '../../app.types'
+import { TestCase, TestFromArrayConfig, Figure, FigureNotEmpty, PatternDescriptor} from '../../app.types'
 import { customMatchers } from '../../shared/tests/customMatchers'
 
 import MatchersUtil = jasmine.MatchersUtil;
@@ -34,14 +34,22 @@ let testedFunction = function(figureToFind:FigureNotEmpty){
       let sollution = patternSearcher.getCalculatedStrategy(figureToFind, Strategy00000Service);
       let foundPattern = sollution.foundElements;
       let proposedMoves = sollution.nextMoveProposals;
-      expect(foundPattern).hasArraySameElements(singleTestCase.expectedOutput.foundElements);
-      expect(proposedMoves).hasArraySameElements(singleTestCase.expectedOutput.nextMoveProposals);
+      let expOutput = <PatternDescriptor>singleTestCase.expectedOutput;
+      console.dir(singleTestCase.expectedOutput)
+      
+      expect(foundPattern).hasArraySameElements(expOutput.foundElements);
+      expect(proposedMoves).hasArraySameElements(expOutput.nextMoveProposals);
       expect(1).toBeTruthy();
     })
   }
 }
 
-runTestSuit(testedFunction('Circle'), 'Find XXXX pattern in first row', []);
+// export interface PatternDescriptor {
+//   foundElements: number[][],
+//   nextMoveProposals: number[][],
+// }
+
+runTestSuit(testedFunction('Circle'), 'Find XXXX pattern in first row', testSuitePattern_0_Circle);
 
 
 // describe('Strategy00000Service', () => {
