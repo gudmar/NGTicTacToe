@@ -6,7 +6,7 @@
 
 
 export let testCase1 = {
-    name: '1) Matrix 5x5 find 3 circles in last row',
+    name: '1) Matrix 5x5 find 3 circles in first row',
     input: [[0, 1, 1, 1, 0],
             [0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0],
