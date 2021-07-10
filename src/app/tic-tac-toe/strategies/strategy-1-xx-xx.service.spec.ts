@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { BoardHandlerServiceService } from '../board-handler-service.service';
 import { runTestSuit } from '../../shared/tests/jasmine_runTestsFromArray'
-import {  } from 'testCases/tests_0__0000_StrategyTestCases'
+// import { TestCasesCircle } from 'testCases/tests_0__0000_StrategyTestCases'
 import { ArrayToBoardTranslatorService } from '../../shared/tests/array-to-board-translator.service'
 import { TestCaseValidatorService } from '../../shared/tests/test-case-validator.service'
 import { TestCase, TestFromArrayConfig, Figure, FigureNotEmpty} from '../../app.types'
