@@ -11,8 +11,8 @@ export let  customMatchers = {
     hasArraySameElements: function(){
       return {
         compare: function(inputArray: any[], expectedResultArray: any[]){
-          console.log(`%cInput of test is ${JSON.stringify(inputArray)}`, 'background-color: red; color: white;')
-          console.log(`%cExpected result is ${JSON.stringify(expectedResultArray)}`, 'background-color: red; color: white;')
+          // console.log(`%cInput of test is ${JSON.stringify(inputArray)}`, 'background-color: red; color: white;')
+          // console.log(`%cExpected result is ${JSON.stringify(expectedResultArray)}`, 'background-color: red; color: white;')
           let result = {pass:false, message: ''}
           let arrInputLenght = inputArray.length;
           let arrExpectedLenght = expectedResultArray.length;
