@@ -73,9 +73,17 @@ export class Strategy00000Service {
     let foundPatternIndexes = getFoundPatternIndexes();
     let foundElementCords = this.simpleArrayIndex2Cords(foundPatternIndexes, cordsToSearchPatternIn)
     let nextMoveProposals = this.simpleArrayIndex2Cords(getListOfIndexesOfProposedMoves(foundPatternIndexes), cordsToSearchPatternIn)
+    if (nextMoveProposals.length == 0) return this.getEmptyPattern();
     return {
       foundElements: foundElementCords,
       nextMoveProposals: nextMoveProposals,
+    }
+  }
+
+  getEmptyPattern(){
+    return {
+      foundElements: [],
+      nextMoveProposals: []
     }
   }
 
