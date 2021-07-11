@@ -6,15 +6,17 @@
 
 
 export let testCase1 = {
-    name: '1) Matrix 5x5 find 3 circles in first row',
-    input: [[0, 1, 1, 1, 0],
-            [0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0]],
+    name: '1) Matrix 7x7 find 4 circles in first row',
+    input: [[0, 0, 1, 1, 1, 1, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0]],
     expectedOutput: {
-        foundElements: [[2, 1], [2, 1], [3, 1]],
-        nextMoveProposals: [[1, 1], [1, 5]]
+        foundElements: [[3, 1], [4, 1], [5, 1], [6, 1]],
+        nextMoveProposals: [[2, 1], [7, 1]]
     }
 };
 

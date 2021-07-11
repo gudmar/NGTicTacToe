@@ -37,7 +37,7 @@ export class WinnerSearcherService {
     checkAllRowsForWinner(figure: FigureNotEmpty, nrOfFiguresToFind: number){
       for (let row = 1; row <= this.context.nrOfRows; row++){
         let winnerList = this.getWinnerOutOfSingleRow(figure, nrOfFiguresToFind, row)
-        console.log(`Winner list for row ${row} is ${JSON.stringify(winnerList)}`)
+        // console.log(`Winner list for row ${row} is ${JSON.stringify(winnerList)}`)
         if (winnerList.length >= this.context.nrOfFiguresNeededToWinn) return winnerList;
       }
       return [];

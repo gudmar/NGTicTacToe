@@ -29,7 +29,8 @@ let testedFunction = function(figureToFind:FigureNotEmpty){
   return function(singleTestCase:TestCase){
     it(singleTestCase.name, () => {
       let boardInput = boardTranslator.createArrayOfCellDescirptors(singleTestCase.input);
-      boardHandlerService.parametrize_ForTests(boardInput, 3);
+      let nrOfFiguresInRowToWinn = 5;
+      boardHandlerService.parametrize_ForTests(boardInput, 5);
       let patternSearcher = new PatternSearcherService(boardHandlerService);
       let sollution = patternSearcher.getCalculatedStrategy(figureToFind, Strategy00000Service);
       let foundPattern = sollution.foundElements;

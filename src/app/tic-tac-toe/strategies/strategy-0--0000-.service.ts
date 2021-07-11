@@ -7,6 +7,7 @@ import { Injectable } from '@angular/core';
 import { FigureNotEmpty, PatternDescriptor, CellDescriptor, Figure } from '../../app.types.d'
 import { sign } from 'crypto';
 import { BoardHandlerServiceService } from '../board-handler-service.service';
+import { conditionallyCreateMapObjectLiteral } from '@angular/compiler/src/render3/view/util';
 
 interface Cords {
   rowNr: number,
@@ -25,6 +26,28 @@ export class Strategy00000Service {
     let foundIndexMemory: number[] = [];
     let nrOfFoundInRow = 0;
     let nrOfElementsInRowToWin = boardHandler.nrOfFiguresNeededToWinn;
+
+    let isFieldEmptyAndInBoundries = function(queredFieldIndex: number):boolean{
+      if (queredFieldIndex < 0) return false;
+      if (queredFieldIndex >= simplifiedArrayToSerachIn.length) return false;
+      if (simplifiedArrayToSerachIn[queredFieldIndex] != '') return false;
+      return true;
+    }
+
+    let getListOfIndexesOfProposedMoves = function(foundPatternIndexes: number[]){
+      let patternIndexes = getFoundPatternIndexes();
+      
+      let indexBeforePattern = Math.min(...foundPatternIndexes) - 1;
+      let indexAfterPattern = Math.max(...foundPatternIndexes) + 1;
+      let output = [];
+      let shouldAddAfter = isFieldEmptyAndInBoundries(indexAfterPattern);
+      let shouldAddBefore = isFieldEmptyAndInBoundries(indexBeforePattern)
+      if (isFieldEmptyAndInBoundries(indexAfterPattern)) output.push(indexAfterPattern);
+      if (isFieldEmptyAndInBoundries(indexBeforePattern)) output.push(indexBeforePattern)
+      // if (foundPatternIndexes.length > 0) debugger
+      return output;
+    }
+
     let checkIfPatternFound = function(simplifiedElementIndex:number){
       if (simplifiedArrayToSerachIn[simplifiedElementIndex] == figure) {
         foundIndexMemory.push(simplifiedElementIndex);
@@ -35,23 +58,29 @@ export class Strategy00000Service {
       }
       return nrOfFoundInRow == nrOfElementsInRowToWin - 1 ? true : false;
     }
-    let getSimplifiedCordsOfPatter = function(){
+    let getFoundPatternIndexes = function(){
       let currentIndex = 0;
       for (let element of simplifiedArrayToSerachIn) {
         if (checkIfPatternFound(currentIndex)) {
           let temp = foundIndexMemory;
           foundIndexMemory = [];
           nrOfFoundInRow = 0;
+          // debugger;
           return temp;
         } 
         currentIndex++;
       }
       return [];
     }
-    let foundElementCords = this.simpleArrayIndex2Cords(getSimplifiedCordsOfPatter(), cordsToSearchPatternIn)
+    let foundPatternIndexes = getFoundPatternIndexes();
+    let foundElementCords = this.simpleArrayIndex2Cords(foundPatternIndexes, cordsToSearchPatternIn)
+    let nextMoveProposals = this.simpleArrayIndex2Cords(getListOfIndexesOfProposedMoves(foundPatternIndexes), cordsToSearchPatternIn)
+    console.log('0_StrategyOutput : ');
+    console.dir(foundElementCords)
+    console.log(nextMoveProposals)
     return {
-      foundElements: [],
-      nextMoveProposals: [],
+      foundElements: foundElementCords,
+      nextMoveProposals: nextMoveProposals,
     }
   }
 
