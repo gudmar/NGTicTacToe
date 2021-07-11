@@ -44,7 +44,6 @@ export class Strategy00000Service {
       let shouldAddBefore = isFieldEmptyAndInBoundries(indexBeforePattern)
       if (isFieldEmptyAndInBoundries(indexAfterPattern)) output.push(indexAfterPattern);
       if (isFieldEmptyAndInBoundries(indexBeforePattern)) output.push(indexBeforePattern)
-      // if (foundPatternIndexes.length > 0) debugger
       return output;
     }
 
@@ -65,7 +64,6 @@ export class Strategy00000Service {
           let temp = foundIndexMemory;
           foundIndexMemory = [];
           nrOfFoundInRow = 0;
-          // debugger;
           return temp;
         } 
         currentIndex++;
@@ -75,9 +73,6 @@ export class Strategy00000Service {
     let foundPatternIndexes = getFoundPatternIndexes();
     let foundElementCords = this.simpleArrayIndex2Cords(foundPatternIndexes, cordsToSearchPatternIn)
     let nextMoveProposals = this.simpleArrayIndex2Cords(getListOfIndexesOfProposedMoves(foundPatternIndexes), cordsToSearchPatternIn)
-    console.log('0_StrategyOutput : ');
-    console.dir(foundElementCords)
-    console.log(nextMoveProposals)
     return {
       foundElements: foundElementCords,
       nextMoveProposals: nextMoveProposals,

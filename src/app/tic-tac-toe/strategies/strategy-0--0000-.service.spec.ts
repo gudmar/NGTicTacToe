@@ -36,8 +36,6 @@ let testedFunction = function(figureToFind:FigureNotEmpty){
       let foundPattern = sollution.foundElements;
       let proposedMoves = sollution.nextMoveProposals;
       let expOutput = <PatternDescriptor>singleTestCase.expectedOutput;
-      console.dir(singleTestCase.expectedOutput)
-      
       expect(foundPattern).hasArraySameElements(expOutput.foundElements);
       expect(proposedMoves).hasArraySameElements(expOutput.nextMoveProposals);
       expect(1).toBeTruthy();
@@ -65,3 +63,4 @@ runTestSuit(testedFunction('Circle'), 'Find XXXX pattern in first row', testSuit
 //     expect(service).toBeTruthy();
 //   });
 // });
+
