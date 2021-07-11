@@ -51,7 +51,7 @@ export class PatternSearcherService {
   checkAllColsForPattern(figure: FigureNotEmpty, patternFinder:PatternSearcher){
       for (let col = 1; col <= this.context.nrOfColumns; col++){
         let calculatedPattern = this.getPatternOutOfSingleColumn(figure, patternFinder, col);
-        if (calculatedPattern.foundElements.length >= this.context.nrOfFiguresNeededToWinn) return calculatedPattern;
+        if (calculatedPattern.foundElements.length >= 0) return calculatedPattern;
       }
       return this.getEmptyPattern();
     }
