@@ -90,8 +90,6 @@ export class BoardHandlerServiceService {
           that.toggleNextFigure();
           that.setCellToOccupied(index);
           that.showWinner();
-          console.log('row : ' + (Math.floor(index / that.nrOfColumns) + 1));
-          console.log('col : ' + (index % that.nrOfRows + 1))
           return null;
         }
       }

@@ -32,15 +32,17 @@ export class PatternSearcherService {
     if (patternInAllRows.foundElements.length > 0) return patternInAllRows;
     if (patternInAllColumns.foundElements.length > 0) return patternInAllColumns;
     if (patternInAllLeftTopDiagonals.foundElements.length > 0) return patternInAllLeftTopDiagonals;
-    if (patternInAllLeftBottomDiagonals.foundElements.length) return patternInAllLeftBottomDiagonals;
+    if (patternInAllLeftBottomDiagonals.foundElements.length > 0) return patternInAllLeftBottomDiagonals;
     return this.getEmptyPattern();
   }
 
   checkAllRowsForPattern(figure: FigureNotEmpty, patternFinder:PatternSearcher){
     for (let row = 1; row <= this.context.nrOfRows; row++){
       let calculatedPattern = this.getPatternOutOfSingleRow(figure, patternFinder, row)
-      console.log(`Winner list for row ${row} is ${JSON.stringify(calculatedPattern)}`)
-      if (calculatedPattern.foundElements.length >= this.context.nrOfFiguresNeededToWinn) return calculatedPattern;
+      if (calculatedPattern.foundElements.length >= 0) {
+        // coalcuatedPattern will return foundElements == [] if finds no match. Always !!!
+        return calculatedPattern;
+      }
     }
     return this.getEmptyPattern();
   }
