@@ -49,7 +49,10 @@ export class Strategy1_00_00Service implements StrategyImplementator {
       };
       case "": {
         if (this.nrOfFoundInRow == 0) return false;
-        if (this.nrOfGaps > 0) return false;
+        if (this.nrOfGaps > 1) {
+          this.resetMemory();
+          return false;
+        }
         this.nrOfGaps++;
         this.gapIndex = simplifiedElementIndex;
       }
