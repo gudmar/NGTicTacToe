@@ -117,10 +117,40 @@ let testCase8 = {
         nextMoveProposals: []
     }
 };
+let testCase9 = {
+    name: '9) Nearly 4 on 7x7 board in first row',
+    input: [[0, 1, 0, 1, 1, 2, 1],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0]],
+    expectedOutput: {
+        foundElements: [],
+        nextMoveProposals: []
+    }
+};
+let testCase10 = {
+    name: '10) Pattern of Circles in last row finishing in last column, poluted with not finished patterns',
+    input: [[0, 1, 0, 1, 1, 2, 1],
+            [2, 2, 2, 0, 0, 0, 0],
+            [0, 0, 0, 1, 0, 0, 0],
+            [0, 0, 2, 0, 1, 0, 1],
+            [0, 0, 2, 0, 0, 0, 0],
+            [0, 0, 2, 0, 0, 0, 1],
+            [0, 1, 0, 1, 1, 1, 1]],
+    expectedOutput: {
+        foundElements: [[4, 7], [5, 7], [6, 7], [7, 7]],
+        nextMoveProposals: [[3, 7]]
+    }
+};
 
 
-export let  testSuitePattern_0_Circle = [testCase1, testCase2, testCase3, testCase4, testCase5, testCase6, testCase7, testCase8];
-// export let  testSuiteCross = [];
+// export let  testSuitePattern_0_Circle = [testCase1, testCase2, testCase3, testCase4, testCase5, testCase6, testCase7, testCase8, testCase9, 
+//             testCase10];
+
+export let  testSuitePattern_0_Circle = [testCase10];
 
 
 

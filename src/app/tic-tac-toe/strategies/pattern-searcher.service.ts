@@ -4,6 +4,7 @@ import { CellCords, FigureNotEmpty, Figure, PatternDescriptor } from '../../app.
 import { Strategy00000Service } from './strategy-0--0000-.service'
 import { Strategy1XX_XXService} from './strategy-1-xx-xx.service'
 import { Strategy2XXXService } from "./strategy-2-xxx-.service";
+import { ConcatSource } from 'webpack-sources';
 
 
 type PatternSearcher = Strategy00000Service | Strategy1XX_XXService | Strategy2XXXService;
@@ -29,6 +30,11 @@ export class PatternSearcherService {
     let patternInAllRows = this.checkAllRowsForPattern(figure, patternFinder);
     let patternInAllLeftTopDiagonals = this.checkAllLeftTopDiagonalsForPattern(figure, patternFinder);
     let patternInAllLeftBottomDiagonals = this.checkAllLeftBottomDiagonalsForPattern(figure, patternFinder)
+    console.log('%cPatterns from rows, cols, diagonals: ', 'background-color: green; color: white; padding: 3px; border-radius:  4px')
+    console.log(patternInAllColumns);
+    console.log(patternInAllRows);
+    console.log(patternInAllLeftBottomDiagonals)
+    console.log(patternInAllLeftTopDiagonals)
     if (patternInAllRows.foundElements.length > 0) return patternInAllRows;
     if (patternInAllColumns.foundElements.length > 0) return patternInAllColumns;
     if (patternInAllLeftTopDiagonals.foundElements.length > 0) return patternInAllLeftTopDiagonals;
@@ -37,9 +43,9 @@ export class PatternSearcherService {
   }
 
   checkAllRowsForPattern(figure: FigureNotEmpty, patternFinder:PatternSearcher){
-    for (let row = 1; row <= this.context.nrOfRows; row++){
-      let calculatedPattern = this.getPatternOutOfSingleRow(figure, patternFinder, row)
-      if (calculatedPattern.foundElements.length >= 0) {
+    for (let _row = 1; _row <= this.context.nrOfRows; _row++){
+      let calculatedPattern = this.getPatternOutOfSingleRow(figure, patternFinder, _row)
+      if (calculatedPattern.foundElements.length > 0) {
         // coalcuatedPattern will return foundElements == [] if finds no match. Always !!!
         return calculatedPattern;
       }
@@ -51,7 +57,7 @@ export class PatternSearcherService {
   checkAllColsForPattern(figure: FigureNotEmpty, patternFinder:PatternSearcher){
       for (let col = 1; col <= this.context.nrOfColumns; col++){
         let calculatedPattern = this.getPatternOutOfSingleColumn(figure, patternFinder, col);
-        if (calculatedPattern.foundElements.length >= 0) return calculatedPattern;
+        if (calculatedPattern.foundElements.length > 0) return calculatedPattern;
       }
       return this.getEmptyPattern();
     }
@@ -82,6 +88,7 @@ export class PatternSearcherService {
     for(let i = 0; i < this.context.nrOfColumns; i++){
       cords.push([ i + 1, rowNr])
     }
+    console.log(`Current row nr is : ${rowNr}`)
     return patternFinder.getPattern(figure, this.context, cords)
   }
 
