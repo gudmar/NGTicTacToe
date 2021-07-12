@@ -110,7 +110,21 @@ let testCase70 = {
         nextMoveProposals: []
     }
 };  
+let testCase80 = {
+    name: '80) 0000_0 in column test case',
+    input: [[1, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 1],
+            [2, 0, 2, 1, 1, 1, 1],
+            [1, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 1]],
+    expectedOutput: {
+        foundElements: [],
+        nextMoveProposals: []
+    }
+}; 
 
 
-export let TestCasesCircles = [testCase0, testCase10, testCase20, testCase30, testCase40, testCase50, testCase60, testCase70]
-// export let TestCasesCircles = [testCase70]
+export let TestCasesCircles = [testCase0, testCase10, testCase20, testCase30, testCase40, testCase50, testCase60, testCase70, testCase80]
+// export let TestCasesCircles = [testCase80]
