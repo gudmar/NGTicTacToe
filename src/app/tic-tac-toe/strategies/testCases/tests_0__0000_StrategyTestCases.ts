@@ -462,6 +462,8 @@ let testCase4a = {
     }
 };  
 export let testSuitePattern_0_Cross = [testCase1a, testCase2a, testCase3a, testCase4a];
+testSuitePattern_0_Circle = []
+testSuitePattern_0_Cross = []
 // export let testSuitePattern_0_Cross = [testCase3a];
 
 
