@@ -219,7 +219,7 @@ let testCase15 = {
 };
 
 let testCase16 = {
-    name: '16) Pattern in first column not existing because it is a winner pattern, not a nearly winner',
+    name: '16) Pattern in first column not existing because it is a winner pattern, not a nearly winner - end in last row',
     input: [[2, 1, 0, 1, 1, 2, 1],
             [0, 2, 2, 0, 0, 1, 1],
             [1, 1, 0, 1, 1, 0, 2],
@@ -232,11 +232,238 @@ let testCase16 = {
         nextMoveProposals: []
     }
 };
+let testCase17 = {
+    name: '17) Pattern in first column not existing because it is a winner pattern, not a nearly winner - from first row',
+    input: [[1, 1, 0, 1, 1, 2, 1],
+            [1, 2, 2, 0, 0, 1, 1],
+            [1, 1, 0, 1, 1, 0, 2],
+            [1, 0, 2, 2, 1, 0, 2],
+            [1, 0, 2, 0, 1, 0, 1],
+            [0, 0, 2, 0, 0, 0, 1],
+            [1, 1, 0, 1, 2, 1, 1]],
+    expectedOutput: {
+        foundElements: [],
+        nextMoveProposals: []
+    }
+};
+let testCase18 = {
+    name: '18) Pattern in last column not existing because it is a winner pattern, not a nearly winner - from first row',
+    input: [[1, 1, 0, 1, 1, 2, 1],
+            [1, 2, 2, 0, 0, 1, 1],
+            [1, 1, 0, 1, 1, 0, 1],
+            [1, 0, 2, 2, 1, 0, 1],
+            [2, 0, 2, 0, 1, 0, 1],
+            [0, 0, 2, 0, 0, 0, 0],
+            [1, 1, 0, 1, 2, 1, 1]],
+    expectedOutput: {
+        foundElements: [],
+        nextMoveProposals: []
+    }
+};
+let testCase19 = {
+    name: '19) Pattern in top left diagonal from diagonal start, plus patterns that should not be discovered',
+    input: [[1, 1, 0, 1, 1, 2, 1],
+            [1, 1, 2, 0, 0, 1, 1],
+            [1, 1, 1, 1, 1, 0, 1],
+            [1, 0, 2, 1, 1, 0, 1],
+            [2, 0, 2, 0, 0, 0, 1],
+            [0, 0, 2, 0, 0, 1, 0],
+            [1, 1, 1, 1, 2, 1, 1]],
+    expectedOutput: {
+        foundElements: [[1, 1], [2, 2], [3, 3], [4, 4]],
+        nextMoveProposals: [[5, 5]]
+    }
+};
+let testCase20 = {
+    name: '20) Pattern in top left diagonal at diagonal end, plus patterns that should not be discovered',
+    input: [[1, 1, 0, 1, 1, 2, 1],
+            [1, 1, 2, 0, 0, 1, 1],
+            [1, 1, 0, 1, 1, 0, 1],
+            [1, 0, 2, 1, 1, 0, 1],
+            [2, 0, 2, 0, 1, 0, 1],
+            [0, 0, 2, 0, 0, 1, 0],
+            [1, 1, 1, 1, 2, 1, 1]],
+    expectedOutput: {
+        foundElements: [[7, 7], [6, 6], [5, 5], [4, 4]],
+        nextMoveProposals: [[3, 3]]
+    }
+};
+
+let testCase21 = {
+    name: '21) Pattern in bottom left diagonal at diagonal start, plus patterns that should not be discovered',
+    input: [[1, 1, 0, 1, 1, 2, 1],
+            [1, 1, 2, 0, 0, 1, 1],
+            [1, 1, 0, 1, 0, 0, 1],
+            [1, 0, 2, 1, 1, 0, 1],
+            [2, 0, 1, 0, 1, 0, 1],
+            [0, 1, 2, 0, 0, 1, 0],
+            [1, 1, 1, 0, 2, 1, 0]],
+    expectedOutput: {
+        foundElements: [[1, 7], [2, 6], [3, 5], [4, 4]],
+        nextMoveProposals: [[5, 3]]
+    }
+};
+let testCase22 = {
+    name: '22) Pattern in bottom left diagonal at diagonal end, plus patterns that should not be discovered',
+    input: [[1, 1, 0, 1, 1, 2, 1],
+            [1, 1, 2, 0, 0, 1, 1],
+            [1, 1, 0, 1, 1, 0, 1],
+            [1, 0, 2, 1, 1, 0, 1],
+            [2, 0, 0, 0, 1, 0, 1],
+            [0, 1, 2, 0, 0, 1, 0],
+            [1, 1, 1, 0, 2, 1, 0]],
+    expectedOutput: {
+        foundElements: [[7, 1], [6, 2], [5, 3], [4, 4]],
+        nextMoveProposals: [[3, 5]]
+    }
+};
+let testCase23 = {
+    name: '23) Pattern in bottom left diagonal No pattern found due to winner pattern',
+    input: [[1, 1, 0, 1, 1, 2, 1],
+            [1, 1, 2, 0, 0, 1, 1],
+            [1, 1, 0, 1, 1, 0, 1],
+            [1, 0, 2, 1, 1, 0, 1],
+            [2, 0, 1, 0, 1, 0, 1],
+            [0, 1, 2, 0, 0, 1, 0],
+            [1, 1, 1, 0, 2, 1, 0]],
+    expectedOutput: {
+        foundElements: [],
+        nextMoveProposals: []
+    }
+};
+let testCase24 = {
+    name: '24) 2 patterns (in row and col) found, one shuld be returned (row one due to implementation order)',
+    input: [[0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 1, 0, 0, 0],
+            [0, 0, 1, 1, 0, 0, 0],
+            [0, 1, 1, 1, 1, 2, 1],
+            [0, 0, 0, 1, 1, 0, 0],
+            [0, 0, 0, 0, 0, 1, 0],
+            [0, 0, 0, 0, 0, 0, 0]],
+    expectedOutput: {
+        foundElements: [[2, 4], [3, 4], [4, 4], [5, 4]],
+        nextMoveProposals: [[1, 4]]
+    }
+};
+
+let testCase25 = {
+    name: '24) 2 patterns in one row: first should be returned',
+    input: [[0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0]],
+    expectedOutput: {
+        foundElements: [[1, 13], [2, 13], [3, 13], [4, 13]],
+        nextMoveProposals: [[5, 13]]
+    }
+};
+
+let testCase26 = {
+    name: '26) In last row there is a winning pattern, that comes first, and a pattern to be found that is second. Second pattern should be found',
+    input: [[0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0]],
+    expectedOutput: {
+        foundElements: [[7, 13], [8, 13], [9, 13], [10, 13]],
+        nextMoveProposals: [[6, 13], [11, 13]]
+    }
+};
 
 export let  testSuitePattern_0_Circle = [testCase1, testCase2, testCase3, testCase4, testCase5, testCase6, testCase7, testCase8, testCase9, 
-            testCase10, testCase11, testCase12, testCase13, testCase14, testCase15, testCase16];
+            testCase10, testCase11, testCase12, testCase13, testCase14, testCase15, testCase16, testCase17, testCase18, testCase19, testCase20,
+            testCase21, testCase22, testCase23, testCase24, testCase25, testCase26];
 
-// export let  testSuitePattern_0_Circle = [testCase16];
+
+let testCase1a = {
+    name: '1a) pattern in left bottom diagonal should be found, one in top left diagonal is a winnig pattern, so shuld not be discovered',
+    input: [[0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 2, 0, 0, 0, 0],
+            [0, 0, 0, 2, 0, 0, 0],
+            [0, 0, 2, 0, 2, 0, 0],
+            [0, 2, 0, 0, 0, 2, 0],
+            [2, 0, 0, 0, 0, 0, 2]],
+    expectedOutput: {
+        foundElements: [[1, 7], [2, 6], [3, 5], [4, 4]],
+        nextMoveProposals: [[5, 3]]
+    }
+};    
+let testCase2a = {
+    name: '2a) pattern in last row to be found, polluted with part sollutions that should not be discovered',
+    input: [[1, 1, 1, 1, 0, 2, 2],
+            [0, 0, 0, 0, 0, 2, 0],
+            [2, 0, 0, 0, 2, 0, 0],
+            [0, 0, 1, 2, 2, 2, 2],
+            [2, 0, 2, 0, 0, 0, 0],
+            [2, 0, 0, 0, 0, 0, 0],
+            [2, 2, 0, 2, 2, 2, 2]],
+    expectedOutput: {
+        foundElements: [[7, 7], [6, 7], [5, 7], [4, 7]],
+        nextMoveProposals: [[3, 7]]
+    }
+};           
+let testCase3a = {
+    name: '3a) Firs pattern in top left diagonal should not be discovered, no free field, second should be found: cross',
+    input: [[2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 2, 0, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 2, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0]],
+    expectedOutput: {
+        foundElements: [[6, 6], [7, 7], [8, 8], [9, 9]],
+        nextMoveProposals: [[10, 10]]
+    }
+};  
+let testCase4a = {
+    name: '3a) First pattern in top left diagonal should not be noticed, second, ending diagonal should be found',
+    input: [[2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 2, 0, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 2, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0],
+            [1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 2]],
+    expectedOutput: {
+        foundElements: [[13, 13], [12, 12], [11, 11], [10, 10]],
+        nextMoveProposals: [[9, 9]]
+    }
+};  
+export let testSuitePattern_0_Cross = [testCase1a, testCase2a, testCase3a, testCase4a];
+// export let testSuitePattern_0_Cross = [testCase3a];
+
 
 
 

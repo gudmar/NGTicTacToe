@@ -37,7 +37,7 @@ export class Strategy00000Service {
     }
 
     let getListOfIndexesOfProposedMoves = function(foundPatternIndexes: number[]){
-      let patternIndexes = getFoundPatternIndexes();
+      let patternIndexes = foundPatternIndexes;
       
       let indexBeforePattern = Math.min(...foundPatternIndexes) - 1;
       let indexAfterPattern = Math.max(...foundPatternIndexes) + 1;
@@ -47,6 +47,10 @@ export class Strategy00000Service {
       if (isFieldEmptyAndInBoundries(indexAfterPattern)) output.push(indexAfterPattern);
       if (isFieldEmptyAndInBoundries(indexBeforePattern)) output.push(indexBeforePattern)
       return output;
+    }
+
+    let isThereAMovePossible = function(foundPatternIndexes: number[]){
+      return getListOfIndexesOfProposedMoves(foundPatternIndexes).length > 0 ? true : false;
     }
 
     let isAWinnerPattern = function(lastFoundIndexOfPatter: number): boolean{
@@ -63,13 +67,13 @@ export class Strategy00000Service {
         foundIndexMemory = [];
         nrOfFoundInRow = 0;  
       }
+
       if (nrOfFoundInRow == nrOfElementsInRowToWin - 1){
         if (isAWinnerPattern(simplifiedElementIndex)) return false;
+        if (!isThereAMovePossible(foundIndexMemory)) return false;
         return true
       }
       return false
-      
-      // return nrOfFoundInRow == nrOfElementsInRowToWin - 1 ? true : false;
     }
 
     let getFoundPatternIndexes = function(){
@@ -91,7 +95,7 @@ export class Strategy00000Service {
     console.log(`%cPattern output: `, 'background-color: black; color: white; padding: 5px; border-radius: 4px')
     console.log(foundElementCords)
     console.log(nextMoveProposals)
-    if (nextMoveProposals.length == 0) return this.getEmptyPattern();
+    // if (nextMoveProposals.length == 0) return this.getEmptyPattern();
     return {
       foundElements: foundElementCords,
       nextMoveProposals: nextMoveProposals,
