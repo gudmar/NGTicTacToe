@@ -14,7 +14,7 @@ import CustomMatcher = jasmine.CustomMatcher;
 import CustomMatcherResult = jasmine.CustomMatcherResult;
 import { ConcatSource } from 'webpack-sources';
 
-import { Strategy1XX_XXService } from './strategy-1-xx-xx.service';
+import { Strategy1XX_XXService } from './strategy-20-xx-xx.service';
 
 let boardHandlerService = new BoardHandlerServiceService();
 let testValidator = new TestCaseValidatorService()
@@ -47,4 +47,6 @@ let testedFunction = function(figureToFind:FigureNotEmpty){
 }
 
 runTestSuit(testedFunction('Circle'), 'Find winner: Circle instance', []);
+
+
 

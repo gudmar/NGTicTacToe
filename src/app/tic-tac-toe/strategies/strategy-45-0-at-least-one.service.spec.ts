@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { Strategy40AtLeastOneService } from './strategy-4-0-at-least-one.service';
+import { Strategy40AtLeastOneService } from './strategy-45-0-at-least-one.service';
 
 describe('Strategy40AtLeastOneService', () => {
   let service: Strategy40AtLeastOneService;

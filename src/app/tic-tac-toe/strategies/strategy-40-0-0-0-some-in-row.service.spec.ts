@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { Strategy3000SomeInRowService } from './strategy-3-0-0-0-some-in-row.service';
+import { Strategy3000SomeInRowService } from './strategy-40-0-0-0-some-in-row.service';
 
 describe('Strategy3000SomeInRowService', () => {
   let service: Strategy3000SomeInRowService;
