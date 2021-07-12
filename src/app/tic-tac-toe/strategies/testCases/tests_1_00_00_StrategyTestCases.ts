@@ -124,7 +124,95 @@ let testCase80 = {
         nextMoveProposals: []
     }
 }; 
+let testCase90 = {
+    name: '90) Left top diagonal, 00_000 end',
+    input: [[0, 0, 0, 0, 0, 0, 0],
+            [0, 1, 0, 0, 0, 0, 0],
+            [0, 0, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 1, 0, 0],
+            [0, 0, 0, 0, 0, 1, 0],
+            [0, 0, 0, 0, 0, 0, 1]],
+    expectedOutput: {
+        foundElements: [[2, 2], [3, 3], [5, 5], [6, 6]],
+        nextMoveProposals: [[4, 4]]
+    }
+}; 
+
+let testCase100 = {
+    name: '100) Left Bottom diagonal, start, circle',
+    input: [[0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 1, 0, 0],
+            [0, 0, 0, 1, 0, 0, 0],
+            [0, 0, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0, 0, 0]],
+    expectedOutput: {
+        foundElements: [[7, 1], [3, 5], [4, 4], [5, 3]],
+        nextMoveProposals: [[6, 2]]
+    }
+}; 
 
 
-export let TestCasesCircles = [testCase0, testCase10, testCase20, testCase30, testCase40, testCase50, testCase60, testCase70, testCase80]
-// export let TestCasesCircles = [testCase80]
+export let TestCasesCircles = [testCase0, testCase10, testCase20, testCase30, testCase40, testCase50, testCase60, testCase70, 
+    testCase80, testCase90, testCase100]
+
+let testCase0a = {
+    name: '0a) Row Cross poluted',
+    input: [[2, 0, 0, 0, 0, 0, 1],
+            [0, 2, 0, 0, 0, 0, 0],
+            [0, 0, 2, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 1, 1, 0, 1, 1, 1],
+            [0, 2, 0, 2, 2, 2, 1],
+            [0, 1, 1, 0, 1, 1, 1]],
+    expectedOutput: {
+        foundElements: [[2, 6], [4, 6], [5, 6], [6, 6]],
+        nextMoveProposals: [[3, 6]]
+    }
+};  
+let testCase10a = {
+    name: '10a) Column Cross poluted',
+    input: [[2, 0, 0, 0, 0, 0, 1],
+            [0, 2, 0, 2, 0, 0, 0],
+            [0, 0, 2, 2, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 1, 1, 2, 1, 1, 1],
+            [0, 2, 0, 2, 2, 0, 2],
+            [0, 1, 1, 0, 1, 1, 1]],
+    expectedOutput: {
+        foundElements: [[4, 2], [4, 3], [4, 5], [4, 6]],
+        nextMoveProposals: [[4, 4]]
+    }
+};  
+let testCase20a = {
+    name: '20a) Left top diagonal, cross poluted',
+    input: [[2, 0, 0, 0, 0, 0, 1],
+            [0, 1, 0, 2, 0, 0, 0],
+            [0, 0, 2, 1, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 1, 1, 2, 2, 1, 1],
+            [0, 2, 0, 1, 2, 2, 2],
+            [0, 1, 1, 0, 1, 1, 2]],
+    expectedOutput: {
+        foundElements: [[7, 7], [6, 6], [5, 5], [3, 3]],
+        nextMoveProposals: [[4, 4]]
+    }
+};  
+let testCase30a = {
+    name: '30a) Left top diagonal, cross poluted',
+    input: [[2, 0, 0, 0, 0, 0, 2],
+            [0, 1, 0, 2, 0, 0, 0],
+            [0, 0, 2, 1, 2, 0, 1],
+            [0, 0, 0, 2, 0, 0, 0],
+            [0, 1, 2, 2, 2, 1, 1],
+            [0, 1, 0, 1, 2, 2, 2],
+            [0, 1, 1, 0, 1, 1, 1]],
+    expectedOutput: {
+        foundElements: [[7, 1], [5, 3], [4, 4], [3, 5]],
+        nextMoveProposals: [[6, 2]]
+    }
+};  
+export let TestCasesCross = [testCase0a, testCase10a, testCase20a, testCase30a]    
+// export let TestCasesCircles = [testCase100]
