@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { Strategy4NoneInRowService } from './strategy-4----none-in-row.service';
+import { Strategy4NoneInRowService } from './strategy-50----none-in-row.service';
 
 describe('Strategy4NoneInRowService', () => {
   let service: Strategy4NoneInRowService;
