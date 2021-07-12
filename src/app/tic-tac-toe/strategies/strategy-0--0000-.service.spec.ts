@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { BoardHandlerServiceService } from '../board-handler-service.service';
 import { runTestSuit } from '../../shared/tests/jasmine_runTestsFromArray'
-import { testSuitePattern_0_Circle } from './testCases/tests_0__0000_StrategyTestCases'
+import { testSuitePattern_0_Circle, testSuitePattern_0_Cross } from './testCases/tests_0__0000_StrategyTestCases'
 import { ArrayToBoardTranslatorService } from '../../shared/tests/array-to-board-translator.service'
 import { TestCaseValidatorService } from '../../shared/tests/test-case-validator.service'
 import { TestCase, TestFromArrayConfig, Figure, FigureNotEmpty, PatternDescriptor} from '../../app.types'
@@ -48,7 +48,8 @@ let testedFunction = function(figureToFind:FigureNotEmpty){
 //   nextMoveProposals: number[][],
 // }
 
-runTestSuit(testedFunction('Circle'), 'Find XXXX pattern in first row', testSuitePattern_0_Circle);
+runTestSuit(testedFunction('Circle'), 'Find strategy 0 XXXX pattern: circle test instances', testSuitePattern_0_Circle);
+runTestSuit(testedFunction('Cross'), 'Find strategy 0 XXXX pattern: cross test instances', testSuitePattern_0_Cross);
 
 
 // describe('Strategy00000Service', () => {
