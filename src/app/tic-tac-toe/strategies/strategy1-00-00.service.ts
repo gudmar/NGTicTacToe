@@ -18,7 +18,16 @@ export class Strategy1_00_00Service implements StrategyImplementator {
   figure: FigureNotEmpty = 'Circle';
   nrOfGaps: number = 0;
   gapIndex: number = -1;
+  // _nrOfFoundInRow = 0;
   constructor() {}
+
+  // get nrOfFoundInRow(){
+  //   return this._nrOfFoundInRow;
+  // }
+  // set nrOfFoundInRow(val){
+  //   console.log(`Setting nrOfFoundInrRow, before setting value was: ${this._nrOfFoundInRow}`)
+  //   this._nrOfFoundInRow = val;
+  // }
   
   clearThisInstanceMemory() {
     this.simplifiedArrayToSerachIn = [];
@@ -34,17 +43,25 @@ export class Strategy1_00_00Service implements StrategyImplementator {
 
   checkIfPatternFound(simplifiedElementIndex:number):boolean{
     let test = this.simplifiedArrayToSerachIn[simplifiedElementIndex]
-    // if (test == "Circle") debugger;
     switch(this.simplifiedArrayToSerachIn[simplifiedElementIndex]){
       case this.figure: {
         this.addIndexToMemory(simplifiedElementIndex);
-        if ((this.nrOfFoundInRow >= this.nrOfElementsInRowToWin - 1) && (this.nrOfGaps == 1)) return true;
+        if ((this.nrOfFoundInRow == this.nrOfElementsInRowToWin - 1) && (this.nrOfGaps == 1)) {
+          return true;
+        }
+        if ((this.nrOfFoundInRow >= this.nrOfElementsInRowToWin - 1) && (this.nrOfGaps < 1)) {
+          this.resetMemory;
+          return false;
+        }
+        if (this.nrOfFoundInRow > this.nrOfElementsInRowToWin - 1) {
+          this.resetMemory;
+          return false;
+        }
         // as this is already the other pattern implementation (0Strategy)
         break;
       };
       case this.opositeFigure(this.figure): {
         this.resetMemory()
-        // debugger;
         break;
       };
       case "": {
@@ -60,10 +77,8 @@ export class Strategy1_00_00Service implements StrategyImplementator {
     return false;
   }
   addIndexToMemory(index: number){
-    // this.nrOfFoundInRow++;
     this.nrOfFoundInRow = this.nrOfFoundInRow + 1
-    this.foundIndexMemory.push(index)
-    // debugger;
+    this.foundIndexMemory.push(index);
 
   }
 
@@ -104,8 +119,9 @@ export class Strategy1_00_00Service implements StrategyImplementator {
     for (let element of this.simplifiedArrayToSerachIn) {
       if (this.checkIfPatternFound(currentIndex)) {
         let temp = this.foundIndexMemory;
-        this.foundIndexMemory = [];
-        this.nrOfFoundInRow = 0;
+        // this.foundIndexMemory = [];
+        // this.nrOfFoundInRow = 0;
+        this.resetMemory
         return temp;
       } 
       currentIndex++;
