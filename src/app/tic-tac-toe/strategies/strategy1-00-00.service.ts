@@ -18,16 +18,7 @@ export class Strategy1_00_00Service implements StrategyImplementator {
   figure: FigureNotEmpty = 'Circle';
   nrOfGaps: number = 0;
   gapIndex: number = -1;
-  // _nrOfFoundInRow = 0;
   constructor() {}
-
-  // get nrOfFoundInRow(){
-  //   return this._nrOfFoundInRow;
-  // }
-  // set nrOfFoundInRow(val){
-  //   console.log(`Setting nrOfFoundInrRow, before setting value was: ${this._nrOfFoundInRow}`)
-  //   this._nrOfFoundInRow = val;
-  // }
   
   clearThisInstanceMemory() {
     this.simplifiedArrayToSerachIn = [];
@@ -41,23 +32,10 @@ export class Strategy1_00_00Service implements StrategyImplementator {
     this.gapIndex = -1;
   }
 
-  checkIfPatternFound(simplifiedElementIndex:number):boolean{
-    let test = this.simplifiedArrayToSerachIn[simplifiedElementIndex]
-    switch(this.simplifiedArrayToSerachIn[simplifiedElementIndex]){
+  handleMemoryForSingleFigureIndex(elementIndex:number):void{
+    switch(this.simplifiedArrayToSerachIn[elementIndex]){
       case this.figure: {
-        this.addIndexToMemory(simplifiedElementIndex);
-        if ((this.nrOfFoundInRow == this.nrOfElementsInRowToWin - 1) && (this.nrOfGaps == 1)) {
-          return true;
-        }
-        if ((this.nrOfFoundInRow >= this.nrOfElementsInRowToWin - 1) && (this.nrOfGaps < 1)) {
-          this.resetMemory;
-          return false;
-        }
-        if (this.nrOfFoundInRow > this.nrOfElementsInRowToWin - 1) {
-          this.resetMemory;
-          return false;
-        }
-        // as this is already the other pattern implementation (0Strategy)
+        this.addIndexToMemory(elementIndex);
         break;
       };
       case this.opositeFigure(this.figure): {
@@ -65,17 +43,78 @@ export class Strategy1_00_00Service implements StrategyImplementator {
         break;
       };
       case "": {
-        if (this.nrOfFoundInRow == 0) return false;
-        if (this.nrOfGaps > 1) {
-          this.resetMemory();
+        if (this.nrOfFoundInRow == 0) return undefined;
+        if (this.nrOfGaps > 1) this.resetMemory();
+        this.nrOfGaps++;
+        this.gapIndex = elementIndex;
+      }
+    }    
+  }
+
+  checkIfPatternFound(simplifiedElementIndex:number):boolean{
+    let test = this.simplifiedArrayToSerachIn[simplifiedElementIndex]
+    switch(this.simplifiedArrayToSerachIn[simplifiedElementIndex]){
+      case this.figure: {
+        if ((this.nrOfFoundInRow == this.nrOfElementsInRowToWin - 1) && (this.nrOfGaps == 1)) {
+          return true;
+        }
+        if ((this.nrOfFoundInRow >= this.nrOfElementsInRowToWin - 1) && (this.nrOfGaps < 1)) {
           return false;
         }
-        this.nrOfGaps++;
-        this.gapIndex = simplifiedElementIndex;
+        if (this.nrOfFoundInRow > this.nrOfElementsInRowToWin - 1) {
+          return false;
+        }
+        // as this is already the other pattern implementation (0Strategy)
+        break;
+      };
+      case this.opositeFigure(this.figure): {
+        break;
+      };
+      case "": {
+        if (this.nrOfFoundInRow == 0) return false;
+        if (this.nrOfGaps > 1) return false;
       }
     }
     return false;
   }
+
+  // checkIfPatternFound(simplifiedElementIndex:number):boolean{
+  //   let test = this.simplifiedArrayToSerachIn[simplifiedElementIndex]
+  //   switch(this.simplifiedArrayToSerachIn[simplifiedElementIndex]){
+  //     case this.figure: {
+  //       this.addIndexToMemory(simplifiedElementIndex);
+  //       if ((this.nrOfFoundInRow == this.nrOfElementsInRowToWin - 1) && (this.nrOfGaps == 1)) {
+  //         return true;
+  //       }
+  //       if ((this.nrOfFoundInRow >= this.nrOfElementsInRowToWin - 1) && (this.nrOfGaps < 1)) {
+  //         this.resetMemory;
+  //         return false;
+  //       }
+  //       if (this.nrOfFoundInRow > this.nrOfElementsInRowToWin - 1) {
+  //         this.resetMemory;
+  //         return false;
+  //       }
+  //       // as this is already the other pattern implementation (0Strategy)
+  //       break;
+  //     };
+  //     case this.opositeFigure(this.figure): {
+  //       this.resetMemory()
+  //       break;
+  //     };
+  //     case "": {
+  //       if (this.nrOfFoundInRow == 0) return false;
+  //       if (this.nrOfGaps > 1) {
+  //         this.resetMemory();
+  //         return false;
+  //       }
+  //       this.nrOfGaps++;
+  //       this.gapIndex = simplifiedElementIndex;
+  //     }
+  //   }
+  //   return false;
+  // }
+
+
   addIndexToMemory(index: number){
     this.nrOfFoundInRow = this.nrOfFoundInRow + 1
     this.foundIndexMemory.push(index);
@@ -117,10 +156,9 @@ export class Strategy1_00_00Service implements StrategyImplementator {
   getFoundPatternIndexes(): number[]{
     let currentIndex = 0;
     for (let element of this.simplifiedArrayToSerachIn) {
+      this.handleMemoryForSingleFigureIndex(currentIndex)
       if (this.checkIfPatternFound(currentIndex)) {
         let temp = this.foundIndexMemory;
-        // this.foundIndexMemory = [];
-        // this.nrOfFoundInRow = 0;
         this.resetMemory
         return temp;
       } 
