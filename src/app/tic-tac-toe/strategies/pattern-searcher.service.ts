@@ -4,12 +4,13 @@ import { CellCords, FigureNotEmpty, Figure, PatternDescriptor, CellDescriptor } 
 import { Strategy00000Service } from './strategy-0--0000-.service'
 import { Strategy1_00_00Service } from './strategy1-00-00.service'
 import { Strategy1XX_XXService} from './strategy-20-xx-xx.service'
-import { Strategy2XXXService } from "./strategy-30-xxx-.service";
+// import { Strategy2XXXService } from "./strategy-30-xxx-.service";
+import {Strategy_3__XX_X_Service} from "./strategy-3--xx-x-.service"
 import { ConcatSource } from 'webpack-sources';
 import { ThrowStmt, ThisReceiver } from '@angular/compiler';
 
 
-type PatternSearcher = Strategy00000Service | Strategy1XX_XXService | Strategy2XXXService | Strategy1_00_00Service;
+type PatternSearcher = Strategy00000Service | Strategy1XX_XXService | Strategy1_00_00Service | Strategy_3__XX_X_Service;
 
 class ArrayVectorConverter {
 

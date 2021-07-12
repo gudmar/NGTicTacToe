@@ -31,9 +31,9 @@ let testedFunction = function(figureToFind:FigureNotEmpty){
       let nrOfFiguresInRowToWinn = 5;
       boardHandlerService.parametrize_ForTests(boardInput, 5);
       let patternSearcher = new PatternSearcherService(boardHandlerService);
-      let sollution = patternSearcher.getCalculatedStrategy(figureToFind, Strategy1_00_00Service);
-      let foundPattern = sollution.foundElements;
-      let proposedMoves = sollution.nextMoveProposals;
+      let solution = patternSearcher.getCalculatedStrategy(figureToFind, Strategy1_00_00Service);
+      let foundPattern = solution.foundElements;
+      let proposedMoves = solution.nextMoveProposals;
       let expOutput = <PatternDescriptor>singleTestCase.expectedOutput;
       expect(foundPattern).hasArraySameElements(expOutput.foundElements);
       expect(proposedMoves).hasArraySameElements(expOutput.nextMoveProposals);
@@ -42,25 +42,8 @@ let testedFunction = function(figureToFind:FigureNotEmpty){
   }
 }
 
-// export interface PatternDescriptor {
-//   foundElements: number[][],
-//   nextMoveProposals: number[][],
-// }
 
-runTestSuit(testedFunction('Circle'), 'Find strategy 1 00_00 pattern: circle test instances', TestCasesCircles);
-runTestSuit(testedFunction('Cross'), 'Find strategy 1 00_00 pattern: cross test instances', TestCasesCross);
+// runTestSuit(testedFunction('Circle'), 'Find strategy 1 00_00 pattern: circle test instances', TestCasesCircles);
+// runTestSuit(testedFunction('Cross'), 'Find strategy 1 00_00 pattern: cross test instances', TestCasesCross);
 
-
-// describe('Strategy00000Service', () => {
-//   let service: Strategy00000Service;
-
-//   beforeEach(() => {
-//     TestBed.configureTestingModule({});
-//     service = TestBed.inject(Strategy00000Service);
-//   });
-
-//   it('should be created', () => {
-//     expect(service).toBeTruthy();
-//   });
-// });
 

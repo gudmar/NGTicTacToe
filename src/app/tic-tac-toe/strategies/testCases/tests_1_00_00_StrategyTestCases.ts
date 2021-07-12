@@ -214,5 +214,19 @@ let testCase30a = {
         nextMoveProposals: [[6, 2]]
     }
 };  
-export let TestCasesCross = [testCase0a, testCase10a, testCase20a, testCase30a]    
+let testCase40a = {
+    name: '40a) Row, cross, too large gap',
+    input: [[0, 0, 0, 0, 0, 0, 0],
+            [2, 2, 0, 0, 2, 2, 2],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0]],
+    expectedOutput: {
+        foundElements: [],
+        nextMoveProposals: []
+    }
+};  
+export let TestCasesCross = [testCase0a, testCase10a, testCase20a, testCase30a, testCase40a]    
 // export let TestCasesCircles = [testCase100]
