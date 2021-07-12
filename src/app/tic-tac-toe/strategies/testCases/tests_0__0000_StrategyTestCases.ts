@@ -189,7 +189,7 @@ let testCase13 = {
     }
 };
 let testCase14 = {
-    name: '14) Pattern in last column ending in last row not existing due to lack of free field for sollution',
+    name: '14) Pattern in last column ending in last row not existing due to lack of free field for solution',
     input: [[0, 1, 0, 1, 1, 2, 1],
             [2, 2, 2, 0, 0, 1, 1],
             [1, 1, 0, 1, 1, 0, 2],
@@ -408,7 +408,7 @@ let testCase1a = {
     }
 };    
 let testCase2a = {
-    name: '2a) pattern in last row to be found, polluted with part sollutions that should not be discovered',
+    name: '2a) pattern in last row to be found, polluted with part solutions that should not be discovered',
     input: [[1, 1, 1, 1, 0, 2, 2],
             [0, 0, 0, 0, 0, 2, 0],
             [2, 0, 0, 0, 2, 0, 0],
