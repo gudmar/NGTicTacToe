@@ -9,7 +9,7 @@ export class Strategy3000SomeInRowService {
 
   constructor() { }
 
-  getPattern(figure: FigureNotEmpty, boardHandler: BoardHandlerServiceService, cordsToSearchPatternIn: number[][]):PatternDescriptor{
+  getPattern(figure: FigureNotEmpty, nrOfElementsInRowToWin: number,  boardSlice: string[]):PatternDescriptor{
 
     return {
       foundElements: [],

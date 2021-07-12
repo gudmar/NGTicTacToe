@@ -1,13 +1,50 @@
 import { Injectable } from '@angular/core';
 import { BoardHandlerServiceService } from '../board-handler-service.service'
-import { CellCords, FigureNotEmpty, Figure, PatternDescriptor } from '../../app.types.d'
+import { CellCords, FigureNotEmpty, Figure, PatternDescriptor, CellDescriptor } from '../../app.types.d'
 import { Strategy00000Service } from './strategy-0--0000-.service'
 import { Strategy1XX_XXService} from './strategy-1-xx-xx.service'
 import { Strategy2XXXService } from "./strategy-2-xxx-.service";
 import { ConcatSource } from 'webpack-sources';
+import { ThrowStmt, ThisReceiver } from '@angular/compiler';
 
 
 type PatternSearcher = Strategy00000Service | Strategy1XX_XXService | Strategy2XXXService;
+
+class ArrayVectorConverter {
+
+  constructor(){}
+
+  cords2simpleArray(boardDescriptor: CellDescriptor[], cordsToSearchPatternIn:number[][]) : string[]{
+    let that = this;
+    return cordsToSearchPatternIn.map((element:number[], index:number) => {
+      return boardDescriptor[that.Cords2Index(element, boardDescriptor)].figure
+    })
+  }
+
+  simpleArrayIndex2Cords(simpleArrayIndexes: number[], cordsToSearchPatternIn: number[][]){
+    return simpleArrayIndexes.map((singleIndexElement) => {
+      return cordsToSearchPatternIn[singleIndexElement]
+    })
+  }
+
+  getBoardSize(boardDescriptor: CellDescriptor[]): number{
+    return Math.sqrt(boardDescriptor.length)
+  }
+
+  index2Cords(index: number, boardDescriptor: CellDescriptor[]):number[]{
+    let boardSize = this.getBoardSize(boardDescriptor);
+    let rows: number = Math.floor(index / boardSize) + 1;
+    let cols: number = index % boardSize + 1;
+    return [cols, rows]
+  }
+
+  Cords2Index(cords: number[], boardDescriptor: CellDescriptor[]){
+    let rowNr:number = cords[1];
+    let colNr:number = cords[0];
+    let boardSize = this.getBoardSize(boardDescriptor)
+    return (rowNr - 1) * boardSize + (colNr - 1)
+  }
+}
 
 
 @Injectable({
@@ -15,9 +52,11 @@ type PatternSearcher = Strategy00000Service | Strategy1XX_XXService | Strategy2X
 })
 export class PatternSearcherService {
   context:BoardHandlerServiceService
+  AVConverter: ArrayVectorConverter;
   
   constructor(context:BoardHandlerServiceService){
     this.context = context;
+    this.AVConverter = new ArrayVectorConverter();
   }
 
   getCalculatedStrategy(figure:FigureNotEmpty, patternSearchingClass: { new(): PatternSearcher }){
@@ -89,7 +128,8 @@ export class PatternSearcherService {
       cords.push([ i + 1, rowNr])
     }
     console.log(`Current row nr is : ${rowNr}`)
-    return patternFinder.getPattern(figure, this.context, cords)
+    return this.findPatternInCords(cords, patternFinder, figure)
+    // return patternFinder.getPattern(figure, this.context, cords)
   }
 
   getPatternOutOfSingleColumn(figure:FigureNotEmpty, patternFinder: PatternSearcher, colNr:number){
@@ -97,7 +137,7 @@ export class PatternSearcherService {
     for(let i = 0; i < this.context.nrOfRows; i++){
       cords.push([colNr, i + 1])
     }
-    return patternFinder.getPattern(figure, this.context,  cords)
+    return this.findPatternInCords(cords, patternFinder, figure)
   }
 
 
@@ -111,7 +151,7 @@ export class PatternSearcherService {
         cords.push([xCord, yCord]);
       }
     }
-    return patternFinder.getPattern(figure, this.context,  cords)
+    return this.findPatternInCords(cords, patternFinder, figure)
   }
 
   checkLeftTopDiagonalForWinner(figure:FigureNotEmpty, patternFinder: PatternSearcher, diagonalStartColumn: number){
@@ -124,7 +164,16 @@ export class PatternSearcherService {
         cords.push([xCord, yCord]);
       }
     }
-    return patternFinder.getPattern(figure, this.context,  cords)
+    return this.findPatternInCords(cords, patternFinder, figure)
+  }
+
+  findPatternInCords(cords: number[][], patternFinder: PatternSearcher, figure: FigureNotEmpty){
+    let vectorizedArray: string[] = this.AVConverter.cords2simpleArray(this.context.board, cords);
+    let solution = patternFinder.getPattern(figure, this.context.nrOfFiguresNeededToWinn, vectorizedArray);
+    return {
+      foundElements: this.AVConverter.simpleArrayIndex2Cords(<number[]>solution.foundElements, cords),
+      nextMoveProposals: this.AVConverter.simpleArrayIndex2Cords(<number[]>solution.nextMoveProposals, cords)
+    }
   }
 
   doesCordBelongToBoard(cord: CellCords) {

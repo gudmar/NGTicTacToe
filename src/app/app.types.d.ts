@@ -35,3 +35,27 @@ export interface TestFromArrayConfig {
   beforeEachCb?: Function,
   afterEachCb?: Function
 }
+
+export interface SlicedPatternDescriptor {
+  foundElements: number[],
+  nextMoveProposals: number[]
+}
+
+export interface StrategyImplementator {
+  simplifiedArrayToSerachIn: string[],
+  foundIndexMemory: number[],
+  nrOfFoundInRow: number,
+  maxNrOfFoundInRowSoFar: number,
+  maxNrOfFoundInRowIndexMemory:number[],
+  nrOfElementsInRowToWin:number,
+  figure: FigureNotEmpty,
+  constructor: Function,
+  clearThisInstanceMemory: Function,
+  checkIfPatternFound: Function,
+  isThereAMovePossible: Function,
+  getListOfIndexesOfProposedMoves: Function,
+  isFieldEmptyAndInBoundries: Function,
+  isAWinnerPattern?: Function,
+  getFoundPatternIndexes: Function,
+  getPattern: Function
+}
