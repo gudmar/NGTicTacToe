@@ -25,6 +25,8 @@ export class Strategy00000Service {
     let simplifiedArrayToSerachIn = this.cords2simpleArray(boardHandler.board, cordsToSearchPatternIn);
     let foundIndexMemory: number[] = [];
     let nrOfFoundInRow = 0;
+    let maxNrOfFoundInRowSoFar = 0;
+    let maxNrOfFoundInRowIndexMemory = [];
     let nrOfElementsInRowToWin = boardHandler.nrOfFiguresNeededToWinn;
 
     let isFieldEmptyAndInBoundries = function(queredFieldIndex: number):boolean{
@@ -47,6 +49,12 @@ export class Strategy00000Service {
       return output;
     }
 
+    let isAWinnerPattern = function(lastFoundIndexOfPatter: number): boolean{
+      let nextIndex = lastFoundIndexOfPatter + 1;
+      if (nextIndex >= simplifiedArrayToSerachIn.length) return false;
+      return simplifiedArrayToSerachIn[nextIndex] == figure ? true : false;
+    }
+
     let checkIfPatternFound = function(simplifiedElementIndex:number){
       if (simplifiedArrayToSerachIn[simplifiedElementIndex] == figure) {
         foundIndexMemory.push(simplifiedElementIndex);
@@ -55,8 +63,15 @@ export class Strategy00000Service {
         foundIndexMemory = [];
         nrOfFoundInRow = 0;  
       }
-      return nrOfFoundInRow == nrOfElementsInRowToWin - 1 ? true : false;
+      if (nrOfFoundInRow == nrOfElementsInRowToWin - 1){
+        if (isAWinnerPattern(simplifiedElementIndex)) return false;
+        return true
+      }
+      return false
+      
+      // return nrOfFoundInRow == nrOfElementsInRowToWin - 1 ? true : false;
     }
+
     let getFoundPatternIndexes = function(){
       let currentIndex = 0;
       for (let element of simplifiedArrayToSerachIn) {

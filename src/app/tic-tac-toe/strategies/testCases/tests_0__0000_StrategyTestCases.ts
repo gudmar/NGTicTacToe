@@ -145,12 +145,98 @@ let testCase10 = {
         nextMoveProposals: [[3, 7]]
     }
 };
+let testCase11 = {
+    name: '11) Pattern of Circles in last row staring first column, poluted with not finished patterns',
+    input: [[0, 1, 0, 1, 1, 2, 1],
+            [2, 2, 2, 0, 0, 0, 0],
+            [0, 0, 0, 1, 0, 0, 0],
+            [0, 0, 2, 0, 1, 0, 1],
+            [0, 0, 2, 0, 0, 0, 0],
+            [0, 0, 2, 0, 0, 0, 1],
+            [1, 1, 1, 1, 0, 1, 1]],
+    expectedOutput: {
+        foundElements: [[1, 7], [2, 7], [3, 7], [4, 7]],
+        nextMoveProposals: [[5, 7]]
+    }
+};
 
+let testCase12 = {
+    name: '12) Pattern of Circles in last column staring first column, poluted with not finished patterns',
+    input: [[0, 1, 0, 1, 1, 2, 1],
+            [2, 2, 2, 0, 0, 1, 1],
+            [1, 1, 0, 1, 1, 0, 1],
+            [0, 0, 2, 2, 1, 0, 1],
+            [0, 0, 2, 0, 1, 0, 0],
+            [0, 0, 2, 0, 0, 0, 1],
+            [1, 1, 0, 1, 2, 1, 1]],
+    expectedOutput: {
+        foundElements: [[7, 1], [7, 2], [7, 3], [7, 4]],
+        nextMoveProposals: [[7, 5]]
+    }
+};
+let testCase13 = {
+    name: '13) Pattern of Circles in last column finishing in last column, poluted with not finished patterns',
+    input: [[0, 1, 0, 1, 1, 2, 1],
+            [2, 2, 2, 0, 0, 1, 1],
+            [1, 1, 0, 1, 1, 0, 0],
+            [0, 0, 2, 2, 1, 0, 1],
+            [0, 0, 2, 0, 1, 0, 1],
+            [0, 0, 2, 0, 0, 0, 1],
+            [1, 1, 0, 1, 2, 1, 1]],
+    expectedOutput: {
+        foundElements: [[7, 7], [7, 6], [7, 5], [7, 4]],
+        nextMoveProposals: [[7, 3]]
+    }
+};
+let testCase14 = {
+    name: '14) Pattern in last column ending in last row not existing due to lack of free field for sollution',
+    input: [[0, 1, 0, 1, 1, 2, 1],
+            [2, 2, 2, 0, 0, 1, 1],
+            [1, 1, 0, 1, 1, 0, 2],
+            [0, 0, 2, 2, 1, 0, 1],
+            [0, 0, 2, 0, 1, 0, 1],
+            [0, 0, 2, 0, 0, 0, 1],
+            [1, 1, 0, 1, 2, 1, 1]],
+    expectedOutput: {
+        foundElements: [],
+        nextMoveProposals: []
+    }
+};
 
-// export let  testSuitePattern_0_Circle = [testCase1, testCase2, testCase3, testCase4, testCase5, testCase6, testCase7, testCase8, testCase9, 
-//             testCase10];
+let testCase15 = {
+    name: '15) Pattern in first column ending in last row, Circle, polluted with not finished solutions',
+    input: [[2, 1, 0, 1, 1, 2, 1],
+            [2, 2, 2, 0, 0, 1, 1],
+            [0, 1, 0, 1, 1, 0, 2],
+            [1, 0, 2, 2, 1, 0, 2],
+            [1, 0, 2, 0, 1, 0, 1],
+            [1, 0, 2, 0, 0, 0, 1],
+            [1, 1, 0, 1, 2, 1, 1]],
+    expectedOutput: {
+        foundElements: [[1, 7], [1, 6], [1, 5], [1, 4]],
+        nextMoveProposals: [[1, 3]]
+    }
+};
 
-export let  testSuitePattern_0_Circle = [testCase10];
+let testCase16 = {
+    name: '16) Pattern in first column not existing because it is a winner pattern, not a nearly winner',
+    input: [[2, 1, 0, 1, 1, 2, 1],
+            [0, 2, 2, 0, 0, 1, 1],
+            [1, 1, 0, 1, 1, 0, 2],
+            [1, 0, 2, 2, 1, 0, 2],
+            [1, 0, 2, 0, 1, 0, 1],
+            [1, 0, 2, 0, 0, 0, 1],
+            [1, 1, 0, 1, 2, 1, 1]],
+    expectedOutput: {
+        foundElements: [],
+        nextMoveProposals: []
+    }
+};
+
+export let  testSuitePattern_0_Circle = [testCase1, testCase2, testCase3, testCase4, testCase5, testCase6, testCase7, testCase8, testCase9, 
+            testCase10, testCase11, testCase12, testCase13, testCase14, testCase15, testCase16];
+
+// export let  testSuitePattern_0_Circle = [testCase16];
 
 
 
