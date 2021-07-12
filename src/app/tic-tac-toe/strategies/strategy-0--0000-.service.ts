@@ -35,22 +35,41 @@ export class Strategy00000Service implements StrategyImplementator {
     this.figure = 'Circle';
   }
 
-  checkIfPatternFound(simplifiedElementIndex:number){
-    if (this.simplifiedArrayToSerachIn[simplifiedElementIndex] == this.figure) {
-      this.foundIndexMemory.push(simplifiedElementIndex);
+  handleMemoryForSingleFigureIndex(elementIndex: number): void{
+    if (this.simplifiedArrayToSerachIn[elementIndex] == this.figure) {
+      this.foundIndexMemory.push(elementIndex);
       this.nrOfFoundInRow++;
     } else {
       this.foundIndexMemory = [];
       this.nrOfFoundInRow = 0;  
     }
+  }
 
+  checkIfPatternFound(elementIndex:number):boolean{
     if (this.nrOfFoundInRow == this.nrOfElementsInRowToWin - 1){
-      if (this.isAWinnerPattern(simplifiedElementIndex)) return false;
+      if (this.isAWinnerPattern(elementIndex)) return false;
       if (!this.isThereAMovePossible(this.foundIndexMemory)) return false;
       return true
     }
     return false
   }
+
+  // checkIfPatternFound(simplifiedElementIndex:number){
+  //   if (this.simplifiedArrayToSerachIn[simplifiedElementIndex] == this.figure) {
+  //     this.foundIndexMemory.push(simplifiedElementIndex);
+  //     this.nrOfFoundInRow++;
+  //   } else {
+  //     this.foundIndexMemory = [];
+  //     this.nrOfFoundInRow = 0;  
+  //   }
+
+  //   if (this.nrOfFoundInRow == this.nrOfElementsInRowToWin - 1){
+  //     if (this.isAWinnerPattern(simplifiedElementIndex)) return false;
+  //     if (!this.isThereAMovePossible(this.foundIndexMemory)) return false;
+  //     return true
+  //   }
+  //   return false
+  // }
 
 
   isThereAMovePossible(foundPatternIndexes: number[]){
@@ -85,6 +104,7 @@ export class Strategy00000Service implements StrategyImplementator {
   getFoundPatternIndexes(){
     let currentIndex = 0;
     for (let element of this.simplifiedArrayToSerachIn) {
+      this.handleMemoryForSingleFigureIndex(currentIndex);
       if (this.checkIfPatternFound(currentIndex)) {
         let temp = this.foundIndexMemory;
         this.foundIndexMemory = [];
