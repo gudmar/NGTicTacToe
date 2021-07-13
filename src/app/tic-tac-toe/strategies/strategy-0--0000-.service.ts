@@ -4,7 +4,7 @@
 // XX_XX means that 2 oponent symbols are one by one, one pause and 2 next oponent symbols are grupped
 
 import { Injectable } from '@angular/core';
-import { FigureNotEmpty, PatternDescriptor, CellDescriptor, Figure, SlicedPatternDescriptor, StrategyImplementator } from '../../app.types.d'
+import { FigureNotEmpty, PatternDescriptor, CellDescriptor, Figure, SlicedPatternDescriptor, StrategyImplementator, StrategyParameters } from '../../app.types.d'
 import { sign } from 'crypto';
 import { BoardHandlerServiceService } from '../board-handler-service.service';
 import { conditionallyCreateMapObjectLiteral } from '@angular/compiler/src/render3/view/util';
@@ -115,6 +115,7 @@ export class Strategy00000Service implements StrategyImplementator {
     }
     return [];
   }
+
 
   getPattern(figure: FigureNotEmpty, nrOfElementsInRowToWin: number, boardSlice: string[]):SlicedPatternDescriptor{
     this.clearThisInstanceMemory();

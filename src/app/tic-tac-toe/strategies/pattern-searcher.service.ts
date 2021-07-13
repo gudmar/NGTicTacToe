@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core';
 import { BoardHandlerServiceService } from '../board-handler-service.service'
-import { CellCords, FigureNotEmpty, Figure, PatternDescriptor, CellDescriptor } from '../../app.types.d'
+import { CellCords, FigureNotEmpty, Figure, PatternDescriptor, CellDescriptor, StrategyParameters } from '../../app.types.d'
 import { Strategy00000Service } from './strategy-0--0000-.service'
 import { Strategy1_00_00Service } from './strategy1-00-00.service'
 import { Strategy1XX_XXService} from './strategy-20-xx-xx.service'
+import { GeneralStrategyService } from './general-strategy.service'
 // import { Strategy2XXXService } from "./strategy-30-xxx-.service";
 import {Strategy_3__XX_X_Service} from "./strategy-3--xx-x-.service"
 import { ConcatSource } from 'webpack-sources';
 import { ThrowStmt, ThisReceiver } from '@angular/compiler';
 
+import {Strategy3} from './general-strategy.service.spec'
 
-type PatternSearcher = Strategy00000Service | Strategy1XX_XXService | Strategy1_00_00Service | Strategy_3__XX_X_Service;
+
+type PatternSearcher = Strategy00000Service | Strategy1_00_00Service | Strategy_3__XX_X_Service | GeneralStrategyService | Strategy3;
 
 class ArrayVectorConverter {
 
@@ -82,6 +85,7 @@ export class PatternSearcherService {
     if (patternInAllLeftBottomDiagonals.foundElements.length > 0) return patternInAllLeftBottomDiagonals;
     return this.getEmptyPattern();
   }
+
 
   checkAllRowsForPattern(figure: FigureNotEmpty, patternFinder:PatternSearcher){
     for (let _row = 1; _row <= this.context.nrOfRows; _row++){

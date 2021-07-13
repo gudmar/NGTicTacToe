@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FigureNotEmpty, PatternDescriptor, CellDescriptor, Figure, SlicedPatternDescriptor, StrategyImplementator } from '../../app.types.d'
+import { FigureNotEmpty, PatternDescriptor, CellDescriptor, Figure, SlicedPatternDescriptor, StrategyImplementator, StrategyParameters } from '../../app.types.d'
 import { sign } from 'crypto';
 import { BoardHandlerServiceService } from '../board-handler-service.service';
 import { conditionallyCreateMapObjectLiteral } from '@angular/compiler/src/render3/view/util';
@@ -78,42 +78,6 @@ export class Strategy1_00_00Service implements StrategyImplementator {
     return false;
   }
 
-  // checkIfPatternFound(simplifiedElementIndex:number):boolean{
-  //   let test = this.simplifiedArrayToSerachIn[simplifiedElementIndex]
-  //   switch(this.simplifiedArrayToSerachIn[simplifiedElementIndex]){
-  //     case this.figure: {
-  //       this.addIndexToMemory(simplifiedElementIndex);
-  //       if ((this.nrOfFoundInRow == this.nrOfElementsInRowToWin - 1) && (this.nrOfGaps == 1)) {
-  //         return true;
-  //       }
-  //       if ((this.nrOfFoundInRow >= this.nrOfElementsInRowToWin - 1) && (this.nrOfGaps < 1)) {
-  //         this.resetMemory;
-  //         return false;
-  //       }
-  //       if (this.nrOfFoundInRow > this.nrOfElementsInRowToWin - 1) {
-  //         this.resetMemory;
-  //         return false;
-  //       }
-  //       // as this is already the other pattern implementation (0Strategy)
-  //       break;
-  //     };
-  //     case this.opositeFigure(this.figure): {
-  //       this.resetMemory()
-  //       break;
-  //     };
-  //     case "": {
-  //       if (this.nrOfFoundInRow == 0) return false;
-  //       if (this.nrOfGaps > 1) {
-  //         this.resetMemory();
-  //         return false;
-  //       }
-  //       this.nrOfGaps++;
-  //       this.gapIndex = simplifiedElementIndex;
-  //     }
-  //   }
-  //   return false;
-  // }
-
 
   addIndexToMemory(index: number){
     this.nrOfFoundInRow = this.nrOfFoundInRow + 1
@@ -166,6 +130,7 @@ export class Strategy1_00_00Service implements StrategyImplementator {
     }
     return [];
   }
+
 
     getPattern(figure: FigureNotEmpty, nrOfElementsInRowToWin: number, boardSlice: string[]):SlicedPatternDescriptor{
       console.log(boardSlice)

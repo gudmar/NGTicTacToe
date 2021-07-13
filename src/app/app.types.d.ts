@@ -59,3 +59,12 @@ export interface StrategyImplementator {
   getFoundPatternIndexes: Function,
   getPattern: Function
 }
+
+export interface StrategyParameters {
+  nrOfElementsInRowToWin:number,
+  expectedNrOfGaps:number,
+  maxGapSize?: number,
+  shouldBeforePatternFieldBeEmpty: boolean,
+  shouldAfterPatternFieldBeEmpty: boolean,
+  nrOfSearchedFigures: number
+}
