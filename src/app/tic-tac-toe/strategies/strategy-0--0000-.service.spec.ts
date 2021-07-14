@@ -14,6 +14,7 @@ import CustomMatcher = jasmine.CustomMatcher;
 import CustomMatcherResult = jasmine.CustomMatcherResult;
 import { ConcatSource } from 'webpack-sources';
 
+
 import { Strategy00000Service } from './strategy-0--0000-.service';
 import { PatternSearcherService } from './pattern-searcher.service';
 
@@ -24,6 +25,8 @@ let boardTranslator = new ArrayToBoardTranslatorService(testValidator)
 
 // foundElements: [[2, 1], [2, 1], [3, 1]],
 // nextMoveProposals: [[1, 1], [1, 5]]
+
+
 
 let testedFunction = function(figureToFind:FigureNotEmpty){
   return function(singleTestCase:TestCase){

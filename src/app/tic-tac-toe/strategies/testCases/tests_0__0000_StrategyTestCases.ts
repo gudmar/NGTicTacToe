@@ -103,6 +103,20 @@ let testCase7 = {
         nextMoveProposals: [[1, 1]]
     }
 };
+let testCase7a = {
+    name: '7) should find pattern in 4 row',
+    input: [[0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 1, 1, 1, 1, 2, 1],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0]],
+    expectedOutput: {
+        foundElements: [[5, 4], [2, 4], [3, 4], [4, 4]],
+        nextMoveProposals: [[1, 4]]
+    }
+};
 let testCase8 = {
     name: '8) Matrix 7x7 find 4 circles in first row, crosses after and before pattern',
     input: [[2, 1, 1, 1, 1, 2, 1],
@@ -388,9 +402,12 @@ let testCase26 = {
     }
 };
 
-export let  testSuitePattern_0_Circle = [testCase1, testCase2, testCase3, testCase4, testCase5, testCase6, testCase7, testCase8, testCase9, 
-            testCase10, testCase11, testCase12, testCase13, testCase14, testCase15, testCase16, testCase17, testCase18, testCase19, testCase20,
-            testCase21, testCase22, testCase23, testCase24, testCase25, testCase26];
+// export let  testSuitePattern_0_Circle = [testCase1, testCase2, testCase3, testCase4, testCase5, testCase6, testCase7, testCase8, testCase9, 
+//             testCase10, testCase11, testCase12, testCase13, testCase14, testCase15, testCase16, testCase17, testCase18, testCase19, testCase20,
+//             testCase21, testCase22, testCase23, testCase24, testCase25, testCase26];
+
+// export let  testSuitePattern_0_Circle = [testCase1, testCase5, testCase6, testCase7, testCase8, testCase9, testCase7a] //, testCase6, testCase7, testCase8, testCase9]
+export let  testSuitePattern_0_Circle = [testCase7a, testCase15]
 
 
 let testCase1a = {
@@ -461,10 +478,11 @@ let testCase4a = {
         nextMoveProposals: [[9, 9]]
     }
 };  
-export let testSuitePattern_0_Cross = [testCase1a, testCase2a, testCase3a, testCase4a];
+// export let testSuitePattern_0_Cross = [testCase1a, testCase2a, testCase3a, testCase4a];
 // testSuitePattern_0_Circle = []
 // testSuitePattern_0_Cross = []
 // export let testSuitePattern_0_Cross = [testCase3a];
+export let testSuitePattern_0_Cross = []
 
 
 
