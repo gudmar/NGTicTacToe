@@ -42,7 +42,7 @@ export interface SlicedPatternDescriptor {
 }
 
 export interface StrategyImplementator {
-  simplifiedArrayToSerachIn: string[],
+  simplifiedArrayToSerachIn?: string[],
   foundIndexMemory: number[],
   nrOfFoundInRow: number,
   maxNrOfFoundInRowSoFar: number,
@@ -61,10 +61,10 @@ export interface StrategyImplementator {
 }
 
 export interface StrategyParameters {
-  nrOfElementsInRowToWin:number,
   expectedNrOfGaps:number,
   maxGapSize?: number,
   shouldBeforePatternFieldBeEmpty: boolean,
   shouldAfterPatternFieldBeEmpty: boolean,
+  shouldBeforeOrAfterPatternFieldBeEmpty: boolean,
   nrOfSearchedFigures: number
 }

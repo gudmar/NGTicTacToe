@@ -3,18 +3,21 @@ import { FigureNotEmpty, PatternDescriptor, CellDescriptor, Figure, SlicedPatter
 import { sign } from 'crypto';
 import { BoardHandlerServiceService } from '../board-handler-service.service';
 import { conditionallyCreateMapObjectLiteral } from '@angular/compiler/src/render3/view/util';
+import { ConstantPool } from '@angular/compiler';
 
 
 //  Decorator for customizing strategy
 export function Parametrize(parameters: StrategyParameters){
   return function <T extends { new(...args: any[]): {}}>(constructor: T){
     return class extends constructor {
-      nrOfElementsInRowToWin = parameters.nrOfElementsInRowToWin;
+      // nrOfElementsInRowToWin = parameters.nrOfElementsInRowToWin;
       expectedNrOfGaps = parameters.expectedNrOfGaps;
       maxGapSize = parameters.maxGapSize != undefined ? parameters.maxGapSize : 0;
       shouldAfterPatternFieldBeEmpty = parameters.shouldAfterPatternFieldBeEmpty;
       shouldBeforePatternFieldBeEmpty= parameters.shouldBeforePatternFieldBeEmpty;
+      shouldBeforeOrAfterPatternFieldBeEmpty = parameters.shouldBeforeOrAfterPatternFieldBeEmpty;
       nrOfSearchedFigures = parameters.nrOfSearchedFigures;
+      
     }
   }
 }
@@ -43,6 +46,7 @@ export class GeneralStrategyService {
   maxGapSize: number = 0;
   shouldBeforePatternFieldBeEmpty: boolean = true;
   shouldAfterPatternFieldBeEmpty: boolean = true;
+  shouldBeforeOrAfterPatternFieldBeEmpty: boolean = false;
   nrOfSearchedFigures: number = 0;
 
   // parametrize(parameters: StrategyParameters):void{
@@ -70,6 +74,7 @@ export class GeneralStrategyService {
     this.maxGapSize = 0;
     this.shouldBeforePatternFieldBeEmpty = true;
     this.shouldAfterPatternFieldBeEmpty = true;
+    this.shouldBeforeOrAfterPatternFieldBeEmpty = false;
 
     this.isInGapMeasurementMode = false;
     this.currentGapSize = 0;
@@ -102,7 +107,8 @@ export class GeneralStrategyService {
         }
         this.gapIndexes.push(elementIndex);
       }
-    }    
+    }
+    // debugger;    
   }
 
   resetMemoryIfPatternCannotBeFound(currentElementIndex: number){
@@ -116,9 +122,14 @@ export class GeneralStrategyService {
     let test = this.inputArraySlice[simplifiedElementIndex]
     switch(this.inputArraySlice[simplifiedElementIndex]){
       case this.figure: {
-        if ((this.nrOfFoundInRow == this.nrOfSearchedFigures) && (this.nrOfGaps == 1)) {
+        if ((this.nrOfFoundInRow == this.nrOfSearchedFigures) && (this.nrOfGaps == this.expectedNrOfGaps)) {
           if (!this.isFieldAfterPatternFree() && this.shouldAfterPatternFieldBeEmpty) return false
           if (!this.isFieldBeforePatternFree() && this.shouldBeforePatternFieldBeEmpty) return false
+          if (this.shouldBeforeOrAfterPatternFieldBeEmpty) {
+            let a = this.isFieldAfterPatternFree()
+            let b = this.isFieldBeforePatternFree()
+            if (!this.isFieldAfterPatternFree() && !this.isFieldBeforePatternFree()) return false
+          }
           return true;
         }
         if ((this.nrOfFoundInRow >= this.nrOfSearchedFigures) && (this.nrOfGaps < 1)) {
@@ -143,21 +154,39 @@ export class GeneralStrategyService {
   }
 
   countNrOfFreeFieldsBeforeFoundPattern(){
-    let firstIndex = Math.min(...this.foundIndexMemory);
+    let firstIndex = this.getFirstPatternFieldIndex()
     let nrOfFreeFields = 0;
     for(let i = firstIndex - 1; i >=0; i--){
+      // debugger;
       if (this.inputArraySlice[i] == '') nrOfFreeFields++;
     }
     return nrOfFreeFields;
   }
 
   countNrOfFreeFieldsAfterFoundPattern(){
-    let lastIndex = Math.max(...this.foundIndexMemory);
+    let lastIndex = this.getLastPatternFieldIndex();
     let nrOfFreeFields = 0;
     for(let i = lastIndex + 1; i < this.inputArraySlice.length; i++){
+      // debugger
       if (this.inputArraySlice[i] == '') nrOfFreeFields++;
     }
     return nrOfFreeFields;
+  }
+
+  getLastPatternFieldIndex(){
+    if (this.foundIndexMemory.length == 0) {
+      console.warn('getLastPatternFieldIndex: lenght of foundIndexMemory == 0!!')
+      return -1
+    }
+    return Math.max(...this.foundIndexMemory);
+  }
+
+  getFirstPatternFieldIndex(){
+    if (this.foundIndexMemory.length == 0) {
+      console.warn('getLastPatternFieldIndex: lenght of foundIndexMemory == 0!!')
+      return -1
+    }
+    return Math.min(...this.foundIndexMemory);
   }
 
 
@@ -211,6 +240,15 @@ export class GeneralStrategyService {
   }
 
   getListOfIndexesOfProposedMoves(foundPatternIndexes: number[]):number[]{
+    console.log('in get list of indexes')
+    if (this.gapIndexes.length == 0) {
+      let beforeAfterPatternFreeFields = []
+      // let fieldBeforePatternIndex = this.getFirstPatternFieldIndex() - 1;
+      // let fieldAfterPatternIndex = this.getLastPatternFieldIndex() + 1;
+      if (this.isFieldAfterPatternFree()) beforeAfterPatternFreeFields.push(this.getLastPatternFieldIndex() + 1)
+      if (this.isFieldBeforePatternFree()) beforeAfterPatternFreeFields.push(this.getFirstPatternFieldIndex() - 1)
+      return beforeAfterPatternFreeFields;
+    }
     return this.gapIndexes;
   }
 
@@ -231,7 +269,7 @@ export class GeneralStrategyService {
       this.addToMemoryForSingleFigureIndex(currentIndex)
       if (this.checkIfPatternFound(currentIndex)) {
         let temp = this.foundIndexMemory;
-        this.resetMemory
+        // this.resetMemory()
         return temp;
       } 
       this.resetMemoryIfPatternCannotBeFound(currentIndex);
@@ -241,8 +279,10 @@ export class GeneralStrategyService {
   }
 
     getPattern(figure: FigureNotEmpty, nrOfElementsInRowToWin: number, boardSlice: string[]):SlicedPatternDescriptor{
+      console.log('Board slice: ')
       console.log(boardSlice)
-    this.clearThisInstanceMemory();
+    // this.clearThisInstanceMemory();
+    // debugger;
     this.inputArraySlice = boardSlice;
     this.nrOfElementsInRowToWin = nrOfElementsInRowToWin;
     this.figure = figure;
@@ -252,9 +292,12 @@ export class GeneralStrategyService {
     console.log(`%cPattern output: `, 'background-color: black; color: white; padding: 5px; border-radius: 4px')
     console.log(foundElementCords)
     console.log(nextMoveProposals)
+    this.resetMemory();
+    console.dir(this)
+    // debugger;
     return {
       foundElements: foundElementCords,
-      nextMoveProposals: nextMoveProposals,
+      nextMoveProposals: foundElementCords.length > 0 ? nextMoveProposals : [],
     }
   }
 }

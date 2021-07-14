@@ -33,8 +33,8 @@ let testedFunction = function(figureToFind:FigureNotEmpty){
   }
 }
 
-runTestSuit(testedFunction('Circle'), 'Find winner: Circle instance', testSuiteCircle);
-runTestSuit(testedFunction('Cross'), 'Find winner: Circle instance', testSuiteCross);
+// runTestSuit(testedFunction('Circle'), 'Find winner: Circle instance', testSuiteCircle);
+// runTestSuit(testedFunction('Cross'), 'Find winner: Circle instance', testSuiteCross);
 
 
 

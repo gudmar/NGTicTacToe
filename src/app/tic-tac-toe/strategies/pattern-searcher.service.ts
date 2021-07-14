@@ -70,19 +70,25 @@ export class PatternSearcherService {
 
   getCordinanceOfPattern(figure:FigureNotEmpty, patternSearchingClass: { new(): PatternSearcher }){
     let patternFinder = new patternSearchingClass();
-    let patternInAllColumns = this.checkAllColsForPattern(figure, patternFinder);
     let patternInAllRows = this.checkAllRowsForPattern(figure, patternFinder);
-    let patternInAllLeftTopDiagonals = this.checkAllLeftTopDiagonalsForPattern(figure, patternFinder);
-    let patternInAllLeftBottomDiagonals = this.checkAllLeftBottomDiagonalsForPattern(figure, patternFinder)
+    let patternInAllColumns = this.checkAllColsForPattern(figure, patternFinder);
+    // let patternInAllRows = this.checkAllRowsForPattern(figure, patternFinder);
+
+    console.error(`Tests from rows and columns pass, depending on order of calling functions searching for patterns in cols and rows.
+    So if cols are chosen first they pass, and if rows are chosen first they pass, and in this case cols fail. Like some kind of state is
+    remembered somewhere... `)
+    
+    // let patternInAllLeftTopDiagonals = this.checkAllLeftTopDiagonalsForPattern(figure, patternFinder);
+    // let patternInAllLeftBottomDiagonals = this.checkAllLeftBottomDiagonalsForPattern(figure, patternFinder)
     console.log('%cPatterns from rows, cols, diagonals: ', 'background-color: green; color: white; padding: 3px; border-radius:  4px')
-    console.log(patternInAllColumns);
+    // console.log(patternInAllColumns);
     console.log(patternInAllRows);
-    console.log(patternInAllLeftBottomDiagonals)
-    console.log(patternInAllLeftTopDiagonals)
+    // console.log(patternInAllLeftBottomDiagonals)
+    // console.log(patternInAllLeftTopDiagonals)
     if (patternInAllRows.foundElements.length > 0) return patternInAllRows;
     if (patternInAllColumns.foundElements.length > 0) return patternInAllColumns;
-    if (patternInAllLeftTopDiagonals.foundElements.length > 0) return patternInAllLeftTopDiagonals;
-    if (patternInAllLeftBottomDiagonals.foundElements.length > 0) return patternInAllLeftBottomDiagonals;
+    // if (patternInAllLeftTopDiagonals.foundElements.length > 0) return patternInAllLeftTopDiagonals;
+    // if (patternInAllLeftBottomDiagonals.foundElements.length > 0) return patternInAllLeftBottomDiagonals;
     return this.getEmptyPattern();
   }
 
