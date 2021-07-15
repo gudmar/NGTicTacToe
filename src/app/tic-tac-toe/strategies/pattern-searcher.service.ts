@@ -74,21 +74,16 @@ export class PatternSearcherService {
     let patternInAllColumns = this.checkAllColsForPattern(figure, patternFinder);
     // let patternInAllRows = this.checkAllRowsForPattern(figure, patternFinder);
 
-    console.error(`Tests from rows and columns pass, depending on order of calling functions searching for patterns in cols and rows.
-    So if cols are chosen first they pass, and if rows are chosen first they pass, and in this case cols fail. Like some kind of state is
-    remembered somewhere... `)
-    
-    // let patternInAllLeftTopDiagonals = this.checkAllLeftTopDiagonalsForPattern(figure, patternFinder);
-    // let patternInAllLeftBottomDiagonals = this.checkAllLeftBottomDiagonalsForPattern(figure, patternFinder)
-    console.log('%cPatterns from rows, cols, diagonals: ', 'background-color: green; color: white; padding: 3px; border-radius:  4px')
+    let patternInAllLeftTopDiagonals = this.checkAllLeftTopDiagonalsForPattern(figure, patternFinder);
+    let patternInAllLeftBottomDiagonals = this.checkAllLeftBottomDiagonalsForPattern(figure, patternFinder)
+  
     // console.log(patternInAllColumns);
-    console.log(patternInAllRows);
     // console.log(patternInAllLeftBottomDiagonals)
     // console.log(patternInAllLeftTopDiagonals)
     if (patternInAllRows.foundElements.length > 0) return patternInAllRows;
     if (patternInAllColumns.foundElements.length > 0) return patternInAllColumns;
-    // if (patternInAllLeftTopDiagonals.foundElements.length > 0) return patternInAllLeftTopDiagonals;
-    // if (patternInAllLeftBottomDiagonals.foundElements.length > 0) return patternInAllLeftBottomDiagonals;
+    if (patternInAllLeftTopDiagonals.foundElements.length > 0) return patternInAllLeftTopDiagonals;
+    if (patternInAllLeftBottomDiagonals.foundElements.length > 0) return patternInAllLeftBottomDiagonals;
     return this.getEmptyPattern();
   }
 
@@ -101,6 +96,7 @@ export class PatternSearcherService {
         return calculatedPattern;
       }
     }
+    // return this.getPatternOutOfSingleRow("Circle", patternFinder, 1)
     return this.getEmptyPattern();
   }
 
@@ -110,6 +106,7 @@ export class PatternSearcherService {
         let calculatedPattern = this.getPatternOutOfSingleColumn(figure, patternFinder, col);
         if (calculatedPattern.foundElements.length > 0) return calculatedPattern;
       }
+      // return this.getPatternOutOfSingleColumn("Circle", patternFinder, 1);
       return this.getEmptyPattern();
     }
 
@@ -139,9 +136,7 @@ export class PatternSearcherService {
     for(let i = 0; i < this.context.nrOfColumns; i++){
       cords.push([ i + 1, rowNr])
     }
-    console.log(`Current row nr is : ${rowNr}`)
     return this.findPatternInCords(cords, patternFinder, figure)
-    // return patternFinder.getPattern(figure, this.context, cords)
   }
 
   getPatternOutOfSingleColumn(figure:FigureNotEmpty, patternFinder: PatternSearcher, colNr:number){
@@ -181,6 +176,7 @@ export class PatternSearcherService {
 
   findPatternInCords(cords: number[][], patternFinder: PatternSearcher, figure: FigureNotEmpty){
     let vectorizedArray: string[] = this.AVConverter.cords2simpleArray(this.context.board, cords);
+
     let solution = patternFinder.getPattern(figure, this.context.nrOfFiguresNeededToWinn, vectorizedArray);
     return {
       foundElements: this.AVConverter.simpleArrayIndex2Cords(<number[]>solution.foundElements, cords),

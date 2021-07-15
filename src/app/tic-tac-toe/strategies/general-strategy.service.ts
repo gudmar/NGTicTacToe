@@ -3,7 +3,7 @@ import { FigureNotEmpty, PatternDescriptor, CellDescriptor, Figure, SlicedPatter
 import { sign } from 'crypto';
 import { BoardHandlerServiceService } from '../board-handler-service.service';
 import { conditionallyCreateMapObjectLiteral } from '@angular/compiler/src/render3/view/util';
-import { ConstantPool } from '@angular/compiler';
+import { ConstantPool, ThrowStmt } from '@angular/compiler';
 
 
 //  Decorator for customizing strategy
@@ -48,6 +48,7 @@ export class GeneralStrategyService {
   shouldAfterPatternFieldBeEmpty: boolean = true;
   shouldBeforeOrAfterPatternFieldBeEmpty: boolean = false;
   nrOfSearchedFigures: number = 0;
+  maxFoundGapSize: number = 0;
 
   // parametrize(parameters: StrategyParameters):void{
   //   this.nrOfElementsInRowToWin = parameters.nrOfElementsInRowToWin;
@@ -78,12 +79,14 @@ export class GeneralStrategyService {
 
     this.isInGapMeasurementMode = false;
     this.currentGapSize = 0;
+    this.maxFoundGapSize = 0;
   }
 
   addToMemoryForSingleFigureIndex(elementIndex:number):void{
     switch(this.inputArraySlice[elementIndex]){
       case this.figure: {
         this.isInGapMeasurementMode = false;
+        this.currentGapSize = 0;
         this.addIndexToMemory(elementIndex);
         break;
       };
@@ -92,10 +95,11 @@ export class GeneralStrategyService {
         break;
       };
       case "": {
+        if (this.currentGapSize > this.maxFoundGapSize) this.maxFoundGapSize = this.currentGapSize;
         if (this.nrOfFoundInRow == 0) return undefined;
+        if (this.isInGapMeasurementMode) this.currentGapSize++
+        if (!this.isInGapMeasurementMode) this.nrOfGaps++
         this.isInGapMeasurementMode = true;
-        this.currentGapSize++;
-        this.nrOfGaps++;
 
         if (this.nrOfGaps > this.expectedNrOfGaps) { 
           // this.resetMemory();
@@ -114,25 +118,39 @@ export class GeneralStrategyService {
   resetMemoryIfPatternCannotBeFound(currentElementIndex: number){
     let currentElement = this.inputArraySlice[currentElementIndex]
     if (currentElement == this.opositeFigure(this.figure)) this.resetMemory();
-    if (this.nrOfGaps > this.expectedNrOfGaps) this.resetMemory();
-    if (this.currentGapSize > this.maxGapSize) this.resetMemory();
+    if (currentElementIndex == this.inputArraySlice.length && this.nrOfFoundInRow < this.nrOfSearchedFigures) this.resetMemory();
+    if (!this.areFoundPatternConditionsMade()) this.resetMemory();
+    // if (this.nrOfFoundInRow > this.nrOfSearchedFigures) this.resetMemory();
+    // if (this.nrOfGaps > this.expectedNrOfGaps) this.resetMemory();
+    // if (this.currentGapSize > this.maxGapSize) this.resetMemory();
+  }
+
+  areFoundPatternConditionsMade(){
+    if (this.nrOfFoundInRow > this.nrOfSearchedFigures) return false;
+    if (this.nrOfGaps > this.expectedNrOfGaps) return false;
+    // if (this.maxGapSize > this.currentGapSize) return false;
+    if (this.maxFoundGapSize > this.maxGapSize) return false;
+    return true;
   }
 
   checkIfPatternFound(simplifiedElementIndex:number):boolean{
     let test = this.inputArraySlice[simplifiedElementIndex]
     switch(this.inputArraySlice[simplifiedElementIndex]){
       case this.figure: {
+
         if ((this.nrOfFoundInRow == this.nrOfSearchedFigures) && (this.nrOfGaps == this.expectedNrOfGaps)) {
           if (!this.isFieldAfterPatternFree() && this.shouldAfterPatternFieldBeEmpty) return false
           if (!this.isFieldBeforePatternFree() && this.shouldBeforePatternFieldBeEmpty) return false
+          if (this.isFieldAfterTheSameFigure()) return false
+          if (this.isFieldBeforeTheSameFigure()) return false
           if (this.shouldBeforeOrAfterPatternFieldBeEmpty) {
-            let a = this.isFieldAfterPatternFree()
-            let b = this.isFieldBeforePatternFree()
+            // let a = this.isFieldAfterPatternFree()
+            // let b = this.isFieldBeforePatternFree()
             if (!this.isFieldAfterPatternFree() && !this.isFieldBeforePatternFree()) return false
           }
           return true;
         }
-        if ((this.nrOfFoundInRow >= this.nrOfSearchedFigures) && (this.nrOfGaps < 1)) {
+        if ((this.nrOfFoundInRow >= this.nrOfSearchedFigures) && (this.nrOfGaps < this.expectedNrOfGaps)) {
           return false;
         }
         if (this.nrOfFoundInRow > this.nrOfSearchedFigures) {
@@ -153,12 +171,27 @@ export class GeneralStrategyService {
     return false;
   }
 
+  isFieldAfterTheSameFigure(){
+    let lastIndex = this.getLastPatternFieldIndex();
+    if (lastIndex == this.inputArraySlice.length - 1) return false;
+    if ((this.inputArraySlice[lastIndex + 1]) == this.figure) return true;
+    return false;
+  }
+  isFieldBeforeTheSameFigure(){
+    let firstIndex = this.getFirstPatternFieldIndex()
+    if (firstIndex == 0) return false;
+    if (this.inputArraySlice[firstIndex - 1] == this.figure) return true;
+    return false;
+  }
+
   countNrOfFreeFieldsBeforeFoundPattern(){
     let firstIndex = this.getFirstPatternFieldIndex()
     let nrOfFreeFields = 0;
+    let noMoreFreeFields = false;
     for(let i = firstIndex - 1; i >=0; i--){
       // debugger;
-      if (this.inputArraySlice[i] == '') nrOfFreeFields++;
+      if (this.inputArraySlice[i] != '') noMoreFreeFields = true;
+      if (this.inputArraySlice[i] == '' && ! noMoreFreeFields) nrOfFreeFields++;
     }
     return nrOfFreeFields;
   }
@@ -166,9 +199,11 @@ export class GeneralStrategyService {
   countNrOfFreeFieldsAfterFoundPattern(){
     let lastIndex = this.getLastPatternFieldIndex();
     let nrOfFreeFields = 0;
+    let noMoreFreeFields = false;
     for(let i = lastIndex + 1; i < this.inputArraySlice.length; i++){
       // debugger
-      if (this.inputArraySlice[i] == '') nrOfFreeFields++;
+      if (this.inputArraySlice[i] != '') noMoreFreeFields = true;
+      if (this.inputArraySlice[i] == '' && ! noMoreFreeFields) nrOfFreeFields++;
     }
     return nrOfFreeFields;
   }
@@ -267,6 +302,8 @@ export class GeneralStrategyService {
     let currentIndex = 0;
     for (let element of this.inputArraySlice) {
       this.addToMemoryForSingleFigureIndex(currentIndex)
+      console.log('Index memory')
+      console.log(this.foundIndexMemory)
       if (this.checkIfPatternFound(currentIndex)) {
         let temp = this.foundIndexMemory;
         // this.resetMemory()
@@ -281,6 +318,8 @@ export class GeneralStrategyService {
     getPattern(figure: FigureNotEmpty, nrOfElementsInRowToWin: number, boardSlice: string[]):SlicedPatternDescriptor{
       console.log('Board slice: ')
       console.log(boardSlice)
+      console.log('THIS OBJECT')
+      console.dir(this)
     // this.clearThisInstanceMemory();
     // debugger;
     this.inputArraySlice = boardSlice;

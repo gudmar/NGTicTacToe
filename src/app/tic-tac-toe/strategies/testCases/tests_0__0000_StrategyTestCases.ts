@@ -226,6 +226,7 @@ let testCase15 = {
             [1, 0, 2, 0, 1, 0, 1],
             [1, 0, 2, 0, 0, 0, 1],
             [1, 1, 0, 1, 2, 1, 1]],
+
     expectedOutput: {
         foundElements: [[1, 7], [1, 6], [1, 5], [1, 4]],
         nextMoveProposals: [[1, 3]]
@@ -402,12 +403,12 @@ let testCase26 = {
     }
 };
 
-// export let  testSuitePattern_0_Circle = [testCase1, testCase2, testCase3, testCase4, testCase5, testCase6, testCase7, testCase8, testCase9, 
-//             testCase10, testCase11, testCase12, testCase13, testCase14, testCase15, testCase16, testCase17, testCase18, testCase19, testCase20,
-//             testCase21, testCase22, testCase23, testCase24, testCase25, testCase26];
+export let  testSuitePattern_0_Circle = [testCase1, testCase2, testCase3, testCase4, testCase5, testCase6, testCase7, testCase8, testCase9, 
+            testCase10, testCase11, testCase12, testCase13, testCase14, testCase15, testCase16, testCase17, testCase18, testCase19, testCase20,
+            testCase21, testCase22, testCase23, testCase24, testCase25, testCase26];
 
 // export let  testSuitePattern_0_Circle = [testCase1, testCase5, testCase6, testCase7, testCase8, testCase9, testCase7a] //, testCase6, testCase7, testCase8, testCase9]
-export let  testSuitePattern_0_Circle = [testCase7a, testCase15]
+// export let  testSuitePattern_0_Circle = [testCase16]
 
 
 let testCase1a = {
@@ -478,11 +479,11 @@ let testCase4a = {
         nextMoveProposals: [[9, 9]]
     }
 };  
-// export let testSuitePattern_0_Cross = [testCase1a, testCase2a, testCase3a, testCase4a];
+export let testSuitePattern_0_Cross = [testCase1a, testCase2a, testCase3a, testCase4a];
 // testSuitePattern_0_Circle = []
 // testSuitePattern_0_Cross = []
 // export let testSuitePattern_0_Cross = [testCase3a];
-export let testSuitePattern_0_Cross = []
+// export let testSuitePattern_0_Cross = []
 
 
 

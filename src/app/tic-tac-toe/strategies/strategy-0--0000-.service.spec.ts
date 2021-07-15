@@ -38,9 +38,10 @@ let testedFunction = function(figureToFind:FigureNotEmpty){
       let solution = patternSearcher.getCalculatedStrategy(figureToFind, Strategy00000Service);
       let foundPattern = solution.foundElements;
       let proposedMoves = solution.nextMoveProposals;
-      let expOutput = <PatternDescriptor>singleTestCase.expectedOutput;
+      let expOutput:PatternDescriptor = <PatternDescriptor>singleTestCase.expectedOutput;
       expect(foundPattern).hasArraySameElements(expOutput.foundElements);
       expect(proposedMoves).hasArraySameElements(expOutput.nextMoveProposals);
+
       expect(1).toBeTruthy();
     })
   }
