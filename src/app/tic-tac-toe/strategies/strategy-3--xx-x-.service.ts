@@ -156,7 +156,6 @@ export class Strategy_3__XX_X_Service implements StrategyImplementator {
   }
 
     getPattern(figure: FigureNotEmpty, nrOfElementsInRowToWin: number, boardSlice: string[]):SlicedPatternDescriptor{
-      console.log(boardSlice)
     this.clearThisInstanceMemory();
     this.simplifiedArrayToSerachIn = boardSlice;
     this.nrOfElementsInRowToWin = nrOfElementsInRowToWin;
@@ -164,9 +163,9 @@ export class Strategy_3__XX_X_Service implements StrategyImplementator {
     let foundPatternIndexes = this.getFoundPatternIndexes();
     let foundElementCords = foundPatternIndexes
     let nextMoveProposals = this.getListOfIndexesOfProposedMoves(foundPatternIndexes)
-    console.log(`%cPattern output: `, 'background-color: black; color: white; padding: 5px; border-radius: 4px')
-    console.log(foundElementCords)
-    console.log(nextMoveProposals)
+    // console.log(`%cPattern output: `, 'background-color: black; color: white; padding: 5px; border-radius: 4px')
+    // console.log(foundElementCords)
+    // console.log(nextMoveProposals)
     return {
       foundElements: foundElementCords,
       nextMoveProposals: nextMoveProposals,
