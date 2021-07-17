@@ -3,7 +3,7 @@ import { BoardHandlerServiceService } from '../board-handler-service.service'
 import { CellCords, FigureNotEmpty, Figure, PatternDescriptor, CellDescriptor, StrategyParameters } from '../../app.types.d'
 import { Strategy00000Service } from './strategy-0--0000-.service'
 import { Strategy1_00_00Service } from './strategy1-00-00.service'
-import { Strategy1XX_XXService} from './strategy-20-xx-xx.service'
+import { Strategy_20_XX_XX_Service} from './strategy-20-xx-xx.service'
 import { GeneralStrategyService } from './general-strategy.service'
 // import { Strategy2XXXService } from "./strategy-30-xxx-.service";
 import {Strategy_3__XX_X_Service} from "./strategy-3--xx-x-.service"
