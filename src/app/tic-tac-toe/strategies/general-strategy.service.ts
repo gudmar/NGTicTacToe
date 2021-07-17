@@ -98,23 +98,25 @@ export class GeneralStrategyService {
         break;
       };
       case this.opositeFigure(this.figure): {
+        this.isInGapMeasurementMode = false;
         break;
       };
       case "": {
         if (this.currentGapSize > this.maxFoundGapSize) this.maxFoundGapSize = this.currentGapSize;
         if (this.nrOfFoundInRow == 0) return undefined;
-        if (this.isInGapMeasurementMode) this.currentGapSize++
+        // if (this.isInGapMeasurementMode) this.currentGapSize++
         if (!this.isInGapMeasurementMode) this.nrOfGaps++
         this.isInGapMeasurementMode = true;
+        if (this.isInGapMeasurementMode) this.currentGapSize++
 
-        if (this.nrOfGaps > this.expectedNrOfGaps) { 
-          // this.resetMemory();
-          return undefined;
-        }
-        if (this.currentGapSize > this.maxGapSize) {
-          // this.resetMemory();
-          return undefined;
-        }
+        // if (this.nrOfGaps > this.expectedNrOfGaps) { 
+        //   // this.resetMemory();
+        //   return undefined;
+        // }
+        // if (this.currentGapSize > this.maxGapSize) {
+        //   // this.resetMemory();
+        //   return undefined;
+        // }
         this.gapIndexes.push(elementIndex);
 
       }
@@ -126,6 +128,7 @@ export class GeneralStrategyService {
     let currentElement = this.inputArraySlice[currentElementIndex]
     if (currentElement == this.opositeFigure(this.figure)) this.resetMemory();
     if (currentElementIndex == this.inputArraySlice.length && this.nrOfFoundInRow < this.nrOfSearchedFigures) this.resetMemory();
+    if (this.currentGapSize > this.maxGapSize) this.resetMemory();
     if (!this.areFoundPatternConditionsMade()) this.resetMemory();
     // if (this.nrOfFoundInRow > this.nrOfSearchedFigures) this.resetMemory();
     // if (this.nrOfGaps > this.expectedNrOfGaps) this.resetMemory();
