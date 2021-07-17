@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { BoardHandlerServiceService } from '../board-handler-service.service';
 import { runTestSuit } from '../../shared/tests/jasmine_runTestsFromArray'
-import { testCasesCircle } from './testCases/tests_20_XX_XX_StrategyTestCases'
+import { testCasesCircle } from './testCases/tests_Last_mostInRow_enoughPlace_StrategyTestCases'
 import { ArrayToBoardTranslatorService } from '../../shared/tests/array-to-board-translator.service'
 import { TestCaseValidatorService } from '../../shared/tests/test-case-validator.service'
 import { PatternDescriptor, TestCase, TestFromArrayConfig, Figure, FigureNotEmpty} from '../../app.types'
@@ -14,7 +14,7 @@ import CustomMatcher = jasmine.CustomMatcher;
 import CustomMatcherResult = jasmine.CustomMatcherResult;
 import { ConcatSource } from 'webpack-sources';
 
-import { Strategy_20_XX_XX_Service } from './strategy-20-xx-xx.service';
+import { StratgyLastMostInRowEnoughPlace } from './stratgy-last-most-in-row-enough-place.service';
 import { PatternSearcherService } from './pattern-searcher.service';
 
 let boardHandlerService = new BoardHandlerServiceService();
@@ -31,7 +31,7 @@ let testedFunction = function(figureToFind:FigureNotEmpty){
       let nrOfFiguresInRowToWinn = 5;
       boardHandlerService.parametrize_ForTests(boardInput, 5);
       let patternSearcher = new PatternSearcherService(boardHandlerService);
-      let sollution = patternSearcher.getCalculatedStrategy(figureToFind, Strategy_20_XX_XX_Service);
+      let sollution = patternSearcher.getCalculatedStrategy(figureToFind, StratgyLastMostInRowEnoughPlace);
       let foundPattern = sollution.foundElements;
       let proposedMoves = sollution.nextMoveProposals;
       let expOutput = <PatternDescriptor>singleTestCase.expectedOutput;
@@ -44,30 +44,5 @@ let testedFunction = function(figureToFind:FigureNotEmpty){
 
 
 
-// runTestSuit(testedFunction('Circle'), 'Find Strategy_20_XX_XX_Service pattern: circle test instances', testCasesCircle);
-// runTestSuit(testedFunction('Cross'), 'Find Strategy_20_XX_XX_Service pattern: circle test instances', testCasesCross);
-
-
-
-
-
-
-
-
-
-// let testedFunction = function(figureToFind:FigureNotEmpty){
-//   return function(singleTestCase:TestCase){
-//     it(singleTestCase.name, () => {
-//       let boardInput = boardTranslator.createArrayOfCellDescirptors(singleTestCase.input);
-//       boardHandlerService.parametrize_ForTests(boardInput, 3);
-//       // let winnerSearcher = new WinnerSearcherService(boardHandlerService);
-//       // expect(winnerSearcher.getWinnerCords(figureToFind)).hasArraySameElements(singleTestCase.expectedOutput);
-//       expect(1).toBeTruthy();
-//     })
-//   }
-// }
-
-// runTestSuit(testedFunction('Circle'), 'Find winner: Circle instance', []);
-
-
-
+runTestSuit(testedFunction('Circle'), 'Tests for final strategy: most elements in row, enough space', testCasesCircle);
+// runTestSuit(testedFunction('Cross'), 'Tests for final strategy: most elements in row, enough space', testCasesCross);
