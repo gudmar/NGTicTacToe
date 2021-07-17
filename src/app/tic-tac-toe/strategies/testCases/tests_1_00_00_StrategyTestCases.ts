@@ -158,6 +158,8 @@ let testCase100 = {
 export let TestCasesCircles = [testCase0, testCase10, testCase20, testCase30, testCase40, testCase50, testCase60, testCase70, 
     testCase80, testCase90, testCase100]
 
+// export let TestCasesCircles = []
+
 let testCase0a = {
     name: '0a) Row Cross poluted',
     input: [[2, 0, 0, 0, 0, 0, 1],
@@ -229,4 +231,4 @@ let testCase40a = {
     }
 };  
 export let TestCasesCross = [testCase0a, testCase10a, testCase20a, testCase30a, testCase40a]    
-// export let TestCasesCircles = [testCase100]
+// export let TestCasesCross = [testCase40a]
