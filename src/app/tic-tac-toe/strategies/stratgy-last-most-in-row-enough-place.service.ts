@@ -33,6 +33,7 @@ export class StratgyLastMostInRowEnoughPlace {
   listOfEmptyFields: number[] = [];
 
   numberOfFiguresInRowNeededToWin: number = 0;
+  sliceOfBoardArray: string[] = [];
   constructor() {}
 
   getPattern(figure: FigureNotEmpty, nrOfFiguresNeededToWin: number, sliceOfBoardArray: string[]):SlicedPatternDescriptor{
@@ -42,6 +43,7 @@ export class StratgyLastMostInRowEnoughPlace {
 
   getSinglePattern(figure: FigureNotEmpty, nrOfFiguresNeededToWin: number, sliceOfBoardArray: string[], startFromIndex: number = 0):SlicedPatternDescriptor{
     let currentIndex = 0;
+    this.sliceOfBoardArray = sliceOfBoardArray;
     let isPatternFound = false;
     for (let element of sliceOfBoardArray){
       if (element == figure) this.rememberFigure(currentIndex);
@@ -58,21 +60,35 @@ export class StratgyLastMostInRowEnoughPlace {
       if (isPatternFound) {
         let currentPattern = this.getCurrentPatternFromMemory();
         this.clearMemory();
-        console.log(currentPattern)
         return currentPattern;
       }
       currentIndex++
       // debugger;
     }
-    this.clearMemory()
+    isPatternFound = this.checkIfPatternIsFound();
+    if (isPatternFound){
+      let currentPattern = this.getCurrentPatternFromMemory();
+      return currentPattern
+    }
+      this.clearMemory()
     return this.getEmptyPattern();
   }
 
   getCurrentPatternFromMemory(){
     return {
       foundElements: this.listOfFigureIndexes,
-      nextMoveProposals: this.listOfEmptyFields,
+      nextMoveProposals: this.listOfEmptyFields.filter(this.isMoveProposalInConstraines.bind(this)),
     }
+  }
+
+  isMoveProposalInConstraines(indexOfMoveProposal: number){
+    // debugger;
+    let lowerBoundry = Math.max(this.indexOfLastFigureFound - this.numberOfFiguresInRowNeededToWin, 0);
+    let upperBoundry = Math.min(this.indexOfFirstFoundFigure + this.numberOfFiguresInRowNeededToWin, this.sliceOfBoardArray.length);
+    let isInLowerBoundry = indexOfMoveProposal > lowerBoundry;
+    let isInUpperBoundry = indexOfMoveProposal < upperBoundry;
+    // debugger;
+    return isInLowerBoundry && isInUpperBoundry
   }
 
   clearMemory(){
@@ -87,10 +103,19 @@ export class StratgyLastMostInRowEnoughPlace {
   }
 
   checkIfPatternIsFound():boolean{
+    let min = function(a: number, b:number) {
+      if (a > b) return b 
+      else return a
+    }
+    let max = function(a: number, b:number) {
+      if (a > b) return a
+      else return b
+    }
+
     if (this.indexOfFirstFoundEmptyField == -1) return false;
     if (this.indexOfFirstFoundFigure == -1) return false;
-    let slotStart = Math.min(this.indexOfFirstFoundEmptyField, this.indexOfFirstFoundFigure)
-    let slotEnd   = Math.max(this.indexOfLastEmptyFieldFound, this.indexOfLastFigureFound)
+    let slotStart = min(this.indexOfFirstFoundEmptyField, this.indexOfFirstFoundFigure)
+    let slotEnd   = max(this.indexOfLastEmptyFieldFound, this.indexOfLastFigureFound)
     if (slotEnd - slotStart < this.numberOfFiguresInRowNeededToWin)  return false;
     // debugger;
     return true;
