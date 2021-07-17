@@ -223,7 +223,6 @@ export class GeneralStrategyService {
 
   getLastPatternFieldIndex(){
     if (this.foundIndexMemory.length == 0) {
-      console.warn('getLastPatternFieldIndex: lenght of foundIndexMemory == 0!!')
       return -1
     }
     return Math.max(...this.foundIndexMemory);
@@ -231,7 +230,6 @@ export class GeneralStrategyService {
 
   getFirstPatternFieldIndex(){
     if (this.foundIndexMemory.length == 0) {
-      console.warn('getLastPatternFieldIndex: lenght of foundIndexMemory == 0!!')
       return -1
     }
     return Math.min(...this.foundIndexMemory);
@@ -295,7 +293,6 @@ export class GeneralStrategyService {
   }
 
   getListOfIndexesOfProposedMoves(foundPatternIndexes: number[]):number[]{
-    console.log('in get list of indexes')
     if (this.gapIndexes.length == 0) {
       let beforeAfterPatternFreeFields = []
       // let fieldBeforePatternIndex = this.getFirstPatternFieldIndex() - 1;
@@ -322,8 +319,6 @@ export class GeneralStrategyService {
     let currentIndex = 0;
     for (let element of this.inputArraySlice) {
       this.addToMemoryForSingleFigureIndex(currentIndex)
-      console.log('Index memory')
-      console.log(this.foundIndexMemory)
       if (this.checkIfPatternFound(currentIndex)) {
         let temp = this.foundIndexMemory;
         return temp;
@@ -335,23 +330,16 @@ export class GeneralStrategyService {
   }
 
     getPattern(figure: FigureNotEmpty, nrOfElementsInRowToWin: number, boardSlice: string[]):SlicedPatternDescriptor{
-      console.log('Board slice: ')
-      console.log(boardSlice)
-      console.log('THIS OBJECT')
-      console.dir(this)
-    // this.clearThisInstanceMemory();
-    // debugger;
     this.inputArraySlice = boardSlice;
     this.nrOfElementsInRowToWin = nrOfElementsInRowToWin;
     this.figure = figure;
     let foundPatternIndexes = this.getFoundPatternIndexes();
     let foundElementCords = foundPatternIndexes
     let nextMoveProposals = this.getListOfIndexesOfProposedMoves(foundPatternIndexes)
-    console.log(`%cPattern output: `, 'background-color: black; color: white; padding: 5px; border-radius: 4px')
-    console.log(foundElementCords)
-    console.log(nextMoveProposals)
+    // console.log(`%cPattern output: `, 'background-color: black; color: white; padding: 5px; border-radius: 4px')
+    // console.log(foundElementCords)
+    // console.log(nextMoveProposals)
     this.resetMemory();
-    console.dir(this)
     // debugger;
     return {
       foundElements: foundElementCords,
