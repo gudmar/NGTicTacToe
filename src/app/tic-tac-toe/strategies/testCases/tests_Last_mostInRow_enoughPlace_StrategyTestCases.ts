@@ -9,7 +9,7 @@ let testCase0 = {
             [0, 0, 0, 0, 0, 0, 0]],
     expectedOutput: {
         foundElements: [[4, 2], [4, 5]],
-        nextMoveProposals: [[4, 1], [4, 3], [4, 4], [4, 6], [4, 7]]
+        nextMoveProposals: [[4, 1], [4, 3], [4, 4], [4, 6]]
     }
 };
 let testCase10 = {
