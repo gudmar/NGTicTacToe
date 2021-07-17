@@ -66,5 +66,9 @@ export interface StrategyParameters {
   shouldBeforePatternFieldBeEmpty: boolean,
   shouldAfterPatternFieldBeEmpty: boolean,
   shouldBeforeOrAfterPatternFieldBeEmpty: boolean,
-  nrOfSearchedFigures: number
+  nrOfSearchedFigures: number,
+  canThereBeASearchedFigureAfterOfBeforePattern?: boolean
 }
+
+type StrategyKeys = 'expectedNrOfGaps' | 'maxGapSize' | 'shouldBeforePatternFieldBeEmpty' | 
+      'shouldAfterPatternFieldBeEmpty' | 'nrOfSearchedFigures' | 'canThereBeASearchedFigureAfterOfBeforePattern'

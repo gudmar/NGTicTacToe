@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FigureNotEmpty, PatternDescriptor, CellDescriptor, Figure, SlicedPatternDescriptor, StrategyImplementator, StrategyParameters } from '../../app.types.d'
+import { StrategyKeys, FigureNotEmpty, PatternDescriptor, CellDescriptor, Figure, SlicedPatternDescriptor, StrategyImplementator, StrategyParameters } from '../../app.types.d'
 import { sign } from 'crypto';
 import { BoardHandlerServiceService } from '../board-handler-service.service';
 import { conditionallyCreateMapObjectLiteral } from '@angular/compiler/src/render3/view/util';
@@ -9,6 +9,11 @@ import { ConstantPool, ThrowStmt } from '@angular/compiler';
 //  Decorator for customizing strategy
 export function Parametrize(parameters: StrategyParameters){
   return function <T extends { new(...args: any[]): {}}>(constructor: T){
+    let getDefaultOrValue = function(key: StrategyKeys, _default: any){
+      if (!Object.keys(parameters).includes(key)) return _default;
+      if (parameters[key] as any == undefined || parameters[key] == null) return _default;
+      return parameters[key]
+    }
     return class extends constructor {
       // nrOfElementsInRowToWin = parameters.nrOfElementsInRowToWin;
       expectedNrOfGaps = parameters.expectedNrOfGaps;
@@ -17,7 +22,7 @@ export function Parametrize(parameters: StrategyParameters){
       shouldBeforePatternFieldBeEmpty= parameters.shouldBeforePatternFieldBeEmpty;
       shouldBeforeOrAfterPatternFieldBeEmpty = parameters.shouldBeforeOrAfterPatternFieldBeEmpty;
       nrOfSearchedFigures = parameters.nrOfSearchedFigures;
-      
+      canThereBeASearchedFigureAfterOfBeforePattern = getDefaultOrValue('canThereBeASearchedFigureAfterOfBeforePattern', false)
     }
   }
 }
@@ -49,6 +54,7 @@ export class GeneralStrategyService {
   shouldBeforeOrAfterPatternFieldBeEmpty: boolean = false;
   nrOfSearchedFigures: number = 0;
   maxFoundGapSize: number = 0;
+  canThereBeASearchedFigureAfterOfBeforePattern: boolean = false;
 
   // parametrize(parameters: StrategyParameters):void{
   //   this.nrOfElementsInRowToWin = parameters.nrOfElementsInRowToWin;
@@ -76,6 +82,7 @@ export class GeneralStrategyService {
     this.shouldBeforePatternFieldBeEmpty = true;
     this.shouldAfterPatternFieldBeEmpty = true;
     this.shouldBeforeOrAfterPatternFieldBeEmpty = false;
+    this.canThereBeASearchedFigureAfterOfBeforePattern = false;
 
     this.isInGapMeasurementMode = false;
     this.currentGapSize = 0;
@@ -91,7 +98,6 @@ export class GeneralStrategyService {
         break;
       };
       case this.opositeFigure(this.figure): {
-        // this.resetMemory()
         break;
       };
       case "": {
@@ -110,6 +116,7 @@ export class GeneralStrategyService {
           return undefined;
         }
         this.gapIndexes.push(elementIndex);
+
       }
     }
     // debugger;    
@@ -124,6 +131,7 @@ export class GeneralStrategyService {
     // if (this.nrOfGaps > this.expectedNrOfGaps) this.resetMemory();
     // if (this.currentGapSize > this.maxGapSize) this.resetMemory();
   }
+
 
   areFoundPatternConditionsMade(){
     if (this.nrOfFoundInRow > this.nrOfSearchedFigures) return false;
@@ -141,8 +149,8 @@ export class GeneralStrategyService {
         if ((this.nrOfFoundInRow == this.nrOfSearchedFigures) && (this.nrOfGaps == this.expectedNrOfGaps)) {
           if (!this.isFieldAfterPatternFree() && this.shouldAfterPatternFieldBeEmpty) return false
           if (!this.isFieldBeforePatternFree() && this.shouldBeforePatternFieldBeEmpty) return false
-          if (this.isFieldAfterTheSameFigure()) return false
-          if (this.isFieldBeforeTheSameFigure()) return false
+          if (this.isFieldAfterTheSameFigure() && !this.canThereBeASearchedFigureAfterOfBeforePattern) return false
+          if (this.isFieldBeforeTheSameFigure() && !this.canThereBeASearchedFigureAfterOfBeforePattern) return false
           if (this.shouldBeforeOrAfterPatternFieldBeEmpty) {
             // let a = this.isFieldAfterPatternFree()
             // let b = this.isFieldBeforePatternFree()
@@ -153,6 +161,8 @@ export class GeneralStrategyService {
         if ((this.nrOfFoundInRow >= this.nrOfSearchedFigures) && (this.nrOfGaps < this.expectedNrOfGaps)) {
           return false;
         }
+        // if (this.nrOfGaps != this.expectedNrOfGaps) return false;
+        // if (this.currentGapSize > this.maxGapSize) return false;
         if (this.nrOfFoundInRow > this.nrOfSearchedFigures) {
           return false;
         }
@@ -261,6 +271,13 @@ export class GeneralStrategyService {
     this.nrOfFoundInRow = 0;
     this.nrOfGaps = 0;
     this.isInGapMeasurementMode = false;
+
+    this.currentGapSize = 0;
+    this.maxFoundGapSize = 0;
+    this.gapIndexes = [];
+    this.maxNrOfFoundInRowSoFar = 0;
+    this.maxNrOfFoundInRowIndexMemory = [];    
+  
   }
 
   opositeFigure(figure: Figure){
@@ -306,7 +323,6 @@ export class GeneralStrategyService {
       console.log(this.foundIndexMemory)
       if (this.checkIfPatternFound(currentIndex)) {
         let temp = this.foundIndexMemory;
-        // this.resetMemory()
         return temp;
       } 
       this.resetMemoryIfPatternCannotBeFound(currentIndex);

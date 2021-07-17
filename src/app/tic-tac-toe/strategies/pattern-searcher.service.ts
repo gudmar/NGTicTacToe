@@ -72,7 +72,6 @@ export class PatternSearcherService {
     let patternFinder = new patternSearchingClass();
     let patternInAllRows = this.checkAllRowsForPattern(figure, patternFinder);
     let patternInAllColumns = this.checkAllColsForPattern(figure, patternFinder);
-    // let patternInAllRows = this.checkAllRowsForPattern(figure, patternFinder);
 
     let patternInAllLeftTopDiagonals = this.checkAllLeftTopDiagonalsForPattern(figure, patternFinder);
     let patternInAllLeftBottomDiagonals = this.checkAllLeftBottomDiagonalsForPattern(figure, patternFinder)
@@ -96,7 +95,7 @@ export class PatternSearcherService {
         return calculatedPattern;
       }
     }
-    // return this.getPatternOutOfSingleRow("Circle", patternFinder, 1)
+    // return this.getPatternOutOfSingleRow("Circle", patternFinder, 7)
     return this.getEmptyPattern();
   }
 
@@ -107,6 +106,7 @@ export class PatternSearcherService {
         if (calculatedPattern.foundElements.length > 0) return calculatedPattern;
       }
       // return this.getPatternOutOfSingleColumn("Circle", patternFinder, 1);
+      
       return this.getEmptyPattern();
     }
 
@@ -118,6 +118,7 @@ export class PatternSearcherService {
       let calculatedPattern = this.checkLeftTopDiagonalForPattern(figure, patternFinder, diagonalNr);
       if (calculatedPattern.foundElements.length > 0) return calculatedPattern
     }
+    // return this.checkLeftTopDiagonalForPattern("Circle", patternFinder, 1);
     return this.getEmptyPattern();
   }
 
@@ -158,6 +159,8 @@ export class PatternSearcherService {
         cords.push([xCord, yCord]);
       }
     }
+    console.log(`diagonal _______ ${diagonalStartColumn}`)
+    console.log(cords)
     return this.findPatternInCords(cords, patternFinder, figure)
   }
 
