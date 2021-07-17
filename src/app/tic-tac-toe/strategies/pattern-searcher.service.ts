@@ -76,19 +76,19 @@ export class PatternSearcherService {
 
   getCordinanceOfPattern(figure:FigureNotEmpty, patternSearchingClass: { new(): PatternSearcher }){
     let patternFinder = new patternSearchingClass();
-    let patternInAllRows = this.checkAllRowsForPattern(figure, patternFinder);
+    // let patternInAllRows = this.checkAllRowsForPattern(figure, patternFinder);
     let patternInAllColumns = this.checkAllColsForPattern(figure, patternFinder);
 
-    let patternInAllLeftTopDiagonals = this.checkAllLeftTopDiagonalsForPattern(figure, patternFinder);
-    let patternInAllLeftBottomDiagonals = this.checkAllLeftBottomDiagonalsForPattern(figure, patternFinder)
+    // let patternInAllLeftTopDiagonals = this.checkAllLeftTopDiagonalsForPattern(figure, patternFinder);
+    // let patternInAllLeftBottomDiagonals = this.checkAllLeftBottomDiagonalsForPattern(figure, patternFinder)
   
     // console.log(patternInAllColumns);
     // console.log(patternInAllLeftBottomDiagonals)
     // console.log(patternInAllLeftTopDiagonals)
-    if (patternInAllRows.foundElements.length > 0) return patternInAllRows;
+    // if (patternInAllRows.foundElements.length > 0) return patternInAllRows;
     if (patternInAllColumns.foundElements.length > 0) return patternInAllColumns;
-    if (patternInAllLeftTopDiagonals.foundElements.length > 0) return patternInAllLeftTopDiagonals;
-    if (patternInAllLeftBottomDiagonals.foundElements.length > 0) return patternInAllLeftBottomDiagonals;
+    // if (patternInAllLeftTopDiagonals.foundElements.length > 0) return patternInAllLeftTopDiagonals;
+    // if (patternInAllLeftBottomDiagonals.foundElements.length > 0) return patternInAllLeftBottomDiagonals;
     return this.getEmptyPattern();
   }
 
@@ -107,11 +107,11 @@ export class PatternSearcherService {
 
 
   checkAllColsForPattern(figure: FigureNotEmpty, patternFinder:PatternSearcher){
-      for (let col = 1; col <= this.context.nrOfColumns; col++){
-        let calculatedPattern = this.getPatternOutOfSingleColumn(figure, patternFinder, col);
-        if (calculatedPattern.foundElements.length > 0) return calculatedPattern;
-      }
-      // return this.getPatternOutOfSingleColumn("Circle", patternFinder, 1);
+      // for (let col = 1; col <= this.context.nrOfColumns; col++){
+      //   let calculatedPattern = this.getPatternOutOfSingleColumn(figure, patternFinder, col);
+      //   if (calculatedPattern.foundElements.length > 0) return calculatedPattern;
+      // }
+      return this.getPatternOutOfSingleColumn("Circle", patternFinder, 4);
       
       return this.getEmptyPattern();
     }
@@ -165,8 +165,6 @@ export class PatternSearcherService {
         cords.push([xCord, yCord]);
       }
     }
-    console.log(`diagonal _______ ${diagonalStartColumn}`)
-    console.log(cords)
     return this.findPatternInCords(cords, patternFinder, figure)
   }
 
