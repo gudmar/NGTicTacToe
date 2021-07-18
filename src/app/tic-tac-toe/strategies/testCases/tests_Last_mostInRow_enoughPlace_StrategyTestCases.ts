@@ -68,6 +68,20 @@ let testCase40 = {
         nextMoveProposals: []
     }
 };
+let testCase50 = {
+    name: '50) 0 _ _ _ 0 1 2 _  in column: should find pattern and propose positions to move to.',
+    input: [[0, 0, 0, 1, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 1, 0, 0, 0],
+            [0, 0, 0, 2, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0]],
+    expectedOutput: {
+        foundElements: [[4, 1], [4, 5]],
+        nextMoveProposals: [[4, 2], [4, 3], [4, 4]]
+    }
+};
 
-export let testCasesCircle = [testCase0, testCase10, testCase20, testCase30, testCase40]
-// export let testCasesCircle = [testCase40]
+export let testCasesCircle = [testCase0, testCase10, testCase20, testCase30, testCase40, testCase50]
+// export let testCasesCircle = [testCase50]
