@@ -112,13 +112,13 @@ export class StratgyLastMostInRowEnoughPlace {
   }
 
   checkIfPatternIsFound():boolean{
-
+    
     if (this.indexOfFirstFoundEmptyField == -1) return false;
     if (this.indexOfFirstFoundFigure == -1) return false;
     let slotStart = Math.min(this.indexOfFirstFoundEmptyField, this.indexOfFirstFoundFigure)
     let slotEnd   = Math.max(this.indexOfLastEmptyFieldFound, this.indexOfLastFigureFound)
-    if (slotEnd - slotStart < this.numberOfFiguresInRowNeededToWin)  return false;
-    // debugger;
+    if (slotEnd - slotStart < this.numberOfFiguresInRowNeededToWin - 1)  return false; // -1 because of indexing arrays from 0
+    
     return true;
   }
 
