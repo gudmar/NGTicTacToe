@@ -12,6 +12,7 @@ import { ConcatSource } from 'webpack-sources';
 import { ThrowStmt, ThisReceiver } from '@angular/compiler';
 
 import {Strategy3} from './general-strategy.service.spec'
+import { fileURLToPath } from 'url';
 
 
 type PatternSearcher = Strategy00000Service | 
@@ -71,25 +72,69 @@ export class PatternSearcherService {
   }
 
   getCalculatedStrategy(figure:FigureNotEmpty, patternSearchingClass: { new(): PatternSearcher }){
+    // console.log(patternSearchingClass)
+    // console.log(StratgyLastMostInRowEnoughPlace)
+    console.log(patternSearchingClass.prototype.constructor.name)
+    console.log('StratgyLastMostInRowEnoughPlace_5' == patternSearchingClass.prototype.constructor.name)
+    if (patternSearchingClass == StratgyLastMostInRowEnoughPlace) {
+      this.getCordinanceOfPatternWithMaximumNrOfFigures(figure, patternSearchingClass)
+    }
     return this.getCordinanceOfPattern(figure, patternSearchingClass)
   }
 
   getCordinanceOfPattern(figure:FigureNotEmpty, patternSearchingClass: { new(): PatternSearcher }){
     let patternFinder = new patternSearchingClass();
-    // let patternInAllRows = this.checkAllRowsForPattern(figure, patternFinder);
+    let patternInAllRows = this.checkAllRowsForPattern(figure, patternFinder);
     let patternInAllColumns = this.checkAllColsForPattern(figure, patternFinder);
 
-    // let patternInAllLeftTopDiagonals = this.checkAllLeftTopDiagonalsForPattern(figure, patternFinder);
-    // let patternInAllLeftBottomDiagonals = this.checkAllLeftBottomDiagonalsForPattern(figure, patternFinder)
+    let patternInAllLeftTopDiagonals = this.checkAllLeftTopDiagonalsForPattern(figure, patternFinder);
+    let patternInAllLeftBottomDiagonals = this.checkAllLeftBottomDiagonalsForPattern(figure, patternFinder)
   
     // console.log(patternInAllColumns);
     // console.log(patternInAllLeftBottomDiagonals)
     // console.log(patternInAllLeftTopDiagonals)
-    // if (patternInAllRows.foundElements.length > 0) return patternInAllRows;
+    if (patternInAllRows.foundElements.length > 0) return patternInAllRows;
     if (patternInAllColumns.foundElements.length > 0) return patternInAllColumns;
-    // if (patternInAllLeftTopDiagonals.foundElements.length > 0) return patternInAllLeftTopDiagonals;
-    // if (patternInAllLeftBottomDiagonals.foundElements.length > 0) return patternInAllLeftBottomDiagonals;
+    if (patternInAllLeftTopDiagonals.foundElements.length > 0) return patternInAllLeftTopDiagonals;
+    if (patternInAllLeftBottomDiagonals.foundElements.length > 0) return patternInAllLeftBottomDiagonals;
     return this.getEmptyPattern();
+  }
+
+  getCordinanceOfPatternWithMaximumNrOfFigures(figure: FigureNotEmpty, patternSearchingClass: { new(): PatternSearcher }){
+    let patternFinder = new patternSearchingClass();
+    let rows = this.findMaxPatternInAllRows(figure, patternFinder);
+    let cols = this.findMaxPatternInAllCols(figure, patternFinder);
+    let leftTopDiagonal = this.findMaxPatternInAllTopLeftDiagonals(figure, patternFinder);
+    let leftBottomDiagonal = this.findMaxPatternInAllBottomLeftDiagonals(figure, patternFinder);
+  }
+
+  findMaxPatternInAllCols(figure: FigureNotEmpty, patternFinder: PatternSearcher){
+    return this.findMaxPatternInAllSlices(figure, patternFinder, this.getPatternOutOfSingleColumn)
+  }
+
+  findMaxPatternInAllRows(figure: FigureNotEmpty, patternFinder: PatternSearcher){
+    return this.findMaxPatternInAllSlices(figure, patternFinder, this.getPatternOutOfSingleRow)
+  }
+
+  findMaxPatternInAllTopLeftDiagonals(figure: FigureNotEmpty, patternFinder: PatternSearcher){
+    return this.findMaxPatternInAllSlices(figure, patternFinder, this.checkLeftTopDiagonalForWinner)
+  }
+
+  findMaxPatternInAllBottomLeftDiagonals(figure: FigureNotEmpty, patternFinder: PatternSearcher){
+    return this.findMaxPatternInAllSlices(figure, patternFinder, this.checkLeftTopDiagonalForWinner)
+  }
+
+  findMaxPatternInAllSlices(figure: FigureNotEmpty, patternFinder:PatternSearcher, patternGetterFunction: Function) {
+    let maxFiguresSollutionMemory = this.getEmptyPattern();
+    for (let _row = 1; _row <= this.context.nrOfRows; _row++){
+      let calculatedPattern = patternGetterFunction(figure, patternFinder, _row)
+      if (calculatedPattern.foundElements.length > 0) {
+        let nrOfFiguresInCurrentSolution = calculatedPattern.foundElements.length;
+        let nrOfFiguresInBiggestColutionSoFar = maxFiguresSollutionMemory.foundElements.length;
+        if (nrOfFiguresInBiggestColutionSoFar < nrOfFiguresInCurrentSolution) maxFiguresSollutionMemory = calculatedPattern;
+      }
+    }
+    return maxFiguresSollutionMemory;
   }
 
 
@@ -107,13 +152,13 @@ export class PatternSearcherService {
 
 
   checkAllColsForPattern(figure: FigureNotEmpty, patternFinder:PatternSearcher){
-      // for (let col = 1; col <= this.context.nrOfColumns; col++){
-      //   let calculatedPattern = this.getPatternOutOfSingleColumn(figure, patternFinder, col);
-      //   if (calculatedPattern.foundElements.length > 0) return calculatedPattern;
-      // }
-      return this.getPatternOutOfSingleColumn("Circle", patternFinder, 4);
+      for (let col = 1; col <= this.context.nrOfColumns; col++){
+        let calculatedPattern = this.getPatternOutOfSingleColumn(figure, patternFinder, col);
+        if (calculatedPattern.foundElements.length > 0) return calculatedPattern;
+      }
+      // return this.getPatternOutOfSingleColumn("Circle", patternFinder, 4);
       
-      // return this.getEmptyPattern();
+      return this.getEmptyPattern();
     }
 
 

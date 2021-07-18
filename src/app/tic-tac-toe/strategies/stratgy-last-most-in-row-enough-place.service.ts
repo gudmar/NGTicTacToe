@@ -75,6 +75,7 @@ export class StratgyLastMostInRowEnoughPlace {
     if (isPatternFound){
       let currentPattern = this.getCurrentPatternFromMemory();
       isPatternFound = false;
+      this.clearMemory();
       return currentPattern
     }
       this.clearMemory()
