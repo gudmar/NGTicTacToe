@@ -5,7 +5,7 @@ import { Strategy00000Service } from './strategy-0--0000-.service'
 import { Strategy1_00_00Service } from './strategy1-00-00.service'
 import { Strategy_20_XX_XX_Service} from './strategy-20-xx-xx.service'
 import { GeneralStrategyService } from './general-strategy.service'
-import {StratgyLastMostInRowEnoughPlace} from './stratgy-last-most-in-row-enough-place.service'
+import {StratgyLastMostInRowEnoughPlace, SetNrOfFiguresNeededToWinn} from './stratgy-last-most-in-row-enough-place.service'
 // import { Strategy2XXXService } from "./strategy-30-xxx-.service";
 import {Strategy_3__XX_X_Service} from "./strategy-3--xx-x-.service"
 import { ConcatSource } from 'webpack-sources';
@@ -63,7 +63,7 @@ class ArrayVectorConverter {
   providedIn: 'root'
 })
 export class PatternSearcherService {
-  context:BoardHandlerServiceService
+  context:BoardHandlerServiceService;
   AVConverter: ArrayVectorConverter;
   
   constructor(context:BoardHandlerServiceService){
@@ -75,10 +75,17 @@ export class PatternSearcherService {
     // console.log(patternSearchingClass)
     // console.log(StratgyLastMostInRowEnoughPlace)
     console.log(patternSearchingClass.prototype.constructor.name)
-    console.log('StratgyLastMostInRowEnoughPlace_5' == patternSearchingClass.prototype.constructor.name)
-    if (patternSearchingClass == StratgyLastMostInRowEnoughPlace) {
-      this.getCordinanceOfPatternWithMaximumNrOfFigures(figure, patternSearchingClass)
+    console.log('StratgyLastMostInRowEnoughPlace' == patternSearchingClass.prototype.constructor.name)
+
+    @SetNrOfFiguresNeededToWinn(5)
+    class StratgyLastMostInRowEnoughPlace_nrToWinnInjected extends StratgyLastMostInRowEnoughPlace{
     }
+
+    let nrOfFiguresNeededToWinn = this.context.nrOfFiguresNeededToWinn;
+    if (patternSearchingClass == StratgyLastMostInRowEnoughPlace) {
+      return this.getCordinanceOfPatternWithMaximumNrOfFigures(figure, StratgyLastMostInRowEnoughPlace_nrToWinnInjected)
+    }
+    // debugger;
     return this.getCordinanceOfPattern(figure, patternSearchingClass)
   }
 
@@ -101,27 +108,47 @@ export class PatternSearcherService {
   }
 
   getCordinanceOfPatternWithMaximumNrOfFigures(figure: FigureNotEmpty, patternSearchingClass: { new(): PatternSearcher }){
+    let that = this;
     let patternFinder = new patternSearchingClass();
     let rows = this.findMaxPatternInAllRows(figure, patternFinder);
     let cols = this.findMaxPatternInAllCols(figure, patternFinder);
     let leftTopDiagonal = this.findMaxPatternInAllTopLeftDiagonals(figure, patternFinder);
     let leftBottomDiagonal = this.findMaxPatternInAllBottomLeftDiagonals(figure, patternFinder);
+    // debugger;
+    let getSolutionWithMostFigures = function(arrayOfSolutions: PatternDescriptor[]){
+      let solutionWithMaxFigures = that.getEmptyPattern();
+      let maxNrOfFigures = -1;
+      for (let solution of arrayOfSolutions){
+        let curentSolutionLenght = solution.foundElements.length;
+        if (curentSolutionLenght > maxNrOfFigures) {
+          solutionWithMaxFigures = solution;
+          maxNrOfFigures = curentSolutionLenght;
+        }
+        console.log(solution)
+        // debugger;
+      }
+      return solutionWithMaxFigures;
+    }
+
+    return getSolutionWithMostFigures([rows, cols, leftTopDiagonal, leftBottomDiagonal])
   }
 
+  
+
   findMaxPatternInAllCols(figure: FigureNotEmpty, patternFinder: PatternSearcher){
-    return this.findMaxPatternInAllSlices(figure, patternFinder, this.getPatternOutOfSingleColumn)
+    return this.findMaxPatternInAllSlices(figure, patternFinder, this.getPatternOutOfSingleColumn.bind(this))
   }
 
   findMaxPatternInAllRows(figure: FigureNotEmpty, patternFinder: PatternSearcher){
-    return this.findMaxPatternInAllSlices(figure, patternFinder, this.getPatternOutOfSingleRow)
+    return this.findMaxPatternInAllSlices(figure, patternFinder, this.getPatternOutOfSingleRow.bind(this))
   }
 
   findMaxPatternInAllTopLeftDiagonals(figure: FigureNotEmpty, patternFinder: PatternSearcher){
-    return this.findMaxPatternInAllSlices(figure, patternFinder, this.checkLeftTopDiagonalForWinner)
+    return this.findMaxPatternInAllSlices(figure, patternFinder, this.checkLeftTopDiagonalForWinner.bind(this))
   }
 
   findMaxPatternInAllBottomLeftDiagonals(figure: FigureNotEmpty, patternFinder: PatternSearcher){
-    return this.findMaxPatternInAllSlices(figure, patternFinder, this.checkLeftTopDiagonalForWinner)
+    return this.findMaxPatternInAllSlices(figure, patternFinder, this.checkLeftTopDiagonalForWinner.bind(this))
   }
 
   findMaxPatternInAllSlices(figure: FigureNotEmpty, patternFinder:PatternSearcher, patternGetterFunction: Function) {

@@ -8,6 +8,8 @@ import { FigureNotEmpty,
   StrategyParameters 
  } from '../../app.types.d'
 import { ConstantPool, ThrowStmt } from '@angular/compiler';
+import { tick } from '@angular/core/testing';
+
 
 
  export function SetNrOfFiguresNeededToWinn(nrOfFiguresNeededToWin: number){
@@ -17,6 +19,7 @@ import { ConstantPool, ThrowStmt } from '@angular/compiler';
     }
   }
 }
+
 
 
 @Injectable({
@@ -42,6 +45,10 @@ export class StratgyLastMostInRowEnoughPlace {
   getPattern(figure: FigureNotEmpty, nrOfFiguresNeededToWin: number, sliceOfBoardArray: string[]):SlicedPatternDescriptor{
 
     return this.getSinglePattern(figure, nrOfFiguresNeededToWin, sliceOfBoardArray, 0);
+  }
+
+  setNumberOfFiguresInRowNeededToWin(value: number):void{
+    this.numberOfFiguresInRowNeededToWin = value;
   }
 
   getSinglePattern(figure: FigureNotEmpty, nrOfFiguresNeededToWin: number, sliceOfBoardArray: string[], startFromIndex: number = 0):SlicedPatternDescriptor{
