@@ -7,7 +7,7 @@ import { FigureNotEmpty,
   StrategyImplementator, 
   StrategyParameters 
  } from '../../app.types.d'
-import { ConstantPool } from '@angular/compiler';
+import { ConstantPool, ThrowStmt } from '@angular/compiler';
 
 
  export function SetNrOfFiguresNeededToWinn(nrOfFiguresNeededToWin: number){
@@ -59,7 +59,10 @@ export class StratgyLastMostInRowEnoughPlace {
       if (element == figure && this.isDistanceBetweenFirstLastFiguresGreaterThanNrOfNeededToWin()) {
         isPatternFound = this.checkIfPatternIsFound()
       }
-      if (element == this.opositeFigure(figure)) isPatternFound = this.checkIfPatternIsFound();
+      if (element == this.opositeFigure(figure)) {
+        isPatternFound = this.checkIfPatternIsFound();
+        if (!isPatternFound) this.clearMemory();
+      }
       if (isPatternFound) {
         let currentPattern = this.getCurrentPatternFromMemory();
         this.clearMemory();
@@ -79,9 +82,12 @@ export class StratgyLastMostInRowEnoughPlace {
   }
 
   getCurrentPatternFromMemory(){
+    let foundElements = this.listOfFigureIndexes;
+    let nextMoveProposals = this.listOfEmptyFields.filter(this.isMoveProposalInConstraines.bind(this))
+    // if (nextMoveProposals.length == 0) return this.getEmptyPattern();
     return {
-      foundElements: this.listOfFigureIndexes,
-      nextMoveProposals: this.listOfEmptyFields.filter(this.isMoveProposalInConstraines.bind(this)),
+      foundElements: foundElements,
+      nextMoveProposals: nextMoveProposals,
     }
   }
 
