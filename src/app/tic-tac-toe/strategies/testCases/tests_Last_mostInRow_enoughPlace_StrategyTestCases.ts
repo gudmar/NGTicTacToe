@@ -26,6 +26,48 @@ let testCase10 = {
         nextMoveProposals: [[4, 3], [4, 4], [4, 6]]
     }
 };
+let testCase20 = {
+    name: '20) 0_ 0 _ _ _ _ _  in column: should find pattern and propose positions to move to.',
+    input: [[0, 0, 0, 1, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 1, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0]],
+    expectedOutput: {
+        foundElements: [[4, 1], [4, 3]],
+        nextMoveProposals: [[4, 2], [4, 4], [4, 5]]
+    }
+};
+let testCase30 = {
+    name: '30) 0 _ _ _ 0 _ _ _  in column: should find pattern and propose positions to move to.',
+    input: [[0, 0, 0, 1, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 1, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0]],
+    expectedOutput: {
+        foundElements: [[4, 1], [4, 5]],
+        nextMoveProposals: [[4, 2], [4, 3], [4, 4]]
+    }
+};
+let testCase40 = {
+    name: '40) 0 _ _ X 0 _ _ _  in column: should return empty',
+    input: [[0, 0, 0, 1, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 2, 0, 0, 0],
+            [0, 0, 0, 1, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0]],
+    expectedOutput: {
+        foundElements: [],
+        nextMoveProposals: []
+    }
+};
 
-
-export let testCasesCircle = [testCase0, testCase10]
+export let testCasesCircle = [testCase0, testCase10, testCase20, testCase30, testCase40]
+// export let testCasesCircle = [testCase40]
