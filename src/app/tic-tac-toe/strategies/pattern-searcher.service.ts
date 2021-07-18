@@ -130,6 +130,7 @@ export class PatternSearcherService {
       return solutionWithMaxFigures;
     }
 
+    // return getSolutionWithMostFigures([leftTopDiagonal])
     return getSolutionWithMostFigures([rows, cols, leftTopDiagonal, leftBottomDiagonal])
   }
 
@@ -144,7 +145,7 @@ export class PatternSearcherService {
   }
 
   findMaxPatternInAllTopLeftDiagonals(figure: FigureNotEmpty, patternFinder: PatternSearcher){
-    return this.findMaxPatternInAllSlices(figure, patternFinder, this.checkLeftTopDiagonalForWinner.bind(this))
+    return this.findMaxPatternInAllSlices(figure, patternFinder, this.checkAllLeftTopDiagonalsForPattern.bind(this))
   }
 
   findMaxPatternInAllBottomLeftDiagonals(figure: FigureNotEmpty, patternFinder: PatternSearcher){

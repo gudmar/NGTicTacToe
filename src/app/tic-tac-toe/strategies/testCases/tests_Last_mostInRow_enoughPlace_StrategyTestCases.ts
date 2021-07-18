@@ -197,6 +197,69 @@ let testCase130 = {
     }
 };
 
-export let testCasesCircle = [testCase0, testCase10, testCase20, testCase30, testCase40, testCase50, 
-    testCase60, testCase70, testCase80, testCase90, testCase100, testCase110, testCase120, testCase130]
-// export let testCasesCircle = [testCase0]
+/****************************************************************************************/
+
+let testCase140 = {
+    name: '140) _ _ _ _ _ _ _  Board is empty. First move: implement additional class for setting proposals to move. First move should be in the middle',
+    input: [[0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0]],
+    expectedOutput: {
+        foundElements: [],
+        nextMoveProposals: []
+    }
+};
+
+let testCase150 = {
+    name: '150) _ X _ X X ...   some oposite figures: nothing returend as earlier strategies take care of those situations.',
+    input: [[0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 2, 2, 2, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0]],
+    expectedOutput: {
+        foundElements: [],
+        nextMoveProposals: []
+    }
+};
+
+let testCase160 = {
+    name: '160) 0 _ 0 _ 0 in 4 row should be chosen',
+    input: [[0, 0, 1, 0, 0, 0, 0],
+            [0, 1, 1, 0, 0, 0, 0],
+            [0, 0, 2, 2, 2, 0, 0],
+            [0, 1, 0, 1, 0, 1, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0]],
+    expectedOutput: {
+        foundElements: [[2, 4], [4, 4], [6, 4]],
+        nextMoveProposals: [[3, 4], [5, 4]]
+    }
+};
+
+let testCase170 = {
+    name: '170) 0 _ 0 _ 0 in 4 row should be chosen',
+    input: [[0, 0, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 1, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0]],
+    expectedOutput: {
+        foundElements: [[3, 1], [5, 3], [7, 5]],
+        nextMoveProposals: [[4, 2], [6, 4]]
+    }
+};
+
+// export let testCasesCircle = [testCase0, testCase10, testCase20, testCase30, testCase40, testCase50, 
+//     testCase60, testCase70, testCase80, testCase90, testCase100, testCase110, testCase120, testCase130, testCase140, testCase150,
+//     testCase160, testCase170]
+export let testCasesCircle = [testCase170]
