@@ -13,7 +13,7 @@ let testCase0 = {
     }
 };
 let testCase10 = {
-    name: '0) _ _ _ _ O _ O  in column: should find pattern and propose positions to move to.',
+    name: '10) _ _ _ _ O _ O  in column: should find pattern and propose positions to move to.',
     input: [[0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0],
@@ -55,7 +55,7 @@ let testCase30 = {
     }
 };
 let testCase40 = {
-    name: '40) 0 _ _ X 0 _ _ _  in column: should return empty',
+    name: '40) 0 _ _ X 0 _ _ _  in column: should not return solution from column',
     input: [[0, 0, 0, 1, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0],
@@ -64,8 +64,8 @@ let testCase40 = {
             [0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0]],
     expectedOutput: {
-        foundElements: [],
-        nextMoveProposals: []
+        foundElements: [[4, 1]],
+        nextMoveProposals: [[1,1],[2,1],[3,1],[5,1],[6,1],[7,1]]
     }
 };
 let testCase50 = {
@@ -126,7 +126,8 @@ let testCase80 = {
     }
 };
 let testCase90 = {
-    name: '90) X 0 0 0 0 0 X  in column: should return empty, as there is nowhere to move',
+    name: `90) X 0 0 0 0 0 X  in column: a winning pattern. Should NOT return a winning pattern, as there is not place to move, should return 
+    row solution, as winnig pattern should be discovered anyway in first strategy.`,
     input: [[0, 0, 0, 2, 0, 0, 0],
             [0, 0, 0, 1, 0, 0, 0],
             [0, 0, 0, 1, 0, 0, 0],
@@ -135,8 +136,8 @@ let testCase90 = {
             [0, 0, 0, 1, 0, 0, 0],
             [0, 0, 0, 2, 0, 0, 0]],
     expectedOutput: {
-        foundElements: [],
-        nextMoveProposals: []
+        foundElements: [[4, 2]],
+        nextMoveProposals: [[1,2],[2,2],[3,2],[5,2],[6,2],[7,2]]
     }
 };
 let testCase100 = {
@@ -198,4 +199,4 @@ let testCase130 = {
 
 export let testCasesCircle = [testCase0, testCase10, testCase20, testCase30, testCase40, testCase50, 
     testCase60, testCase70, testCase80, testCase90, testCase100, testCase110, testCase120, testCase130]
-// export let testCasesCircle = [testCase50]
+// export let testCasesCircle = [testCase0]

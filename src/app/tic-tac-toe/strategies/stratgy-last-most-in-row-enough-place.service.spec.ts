@@ -22,9 +22,9 @@ let testValidator = new TestCaseValidatorService()
 let boardTranslator = new ArrayToBoardTranslatorService(testValidator)
 
 
-@SetNrOfFiguresNeededToWinn(5)
-  export class StratgyLastMostInRowEnoughPlace_5 extends StratgyLastMostInRowEnoughPlace {
-}
+// @SetNrOfFiguresNeededToWinn(5)
+//   export class StratgyLastMostInRowEnoughPlace_5 extends StratgyLastMostInRowEnoughPlace {
+// }
 
 
 
@@ -36,7 +36,7 @@ let testedFunction = function(figureToFind:FigureNotEmpty){
       let nrOfFiguresInRowToWinn = 5;
       boardHandlerService.parametrize_ForTests(boardInput, 5);
       let patternSearcher = new PatternSearcherService(boardHandlerService);
-      let sollution = patternSearcher.getCalculatedStrategy(figureToFind, StratgyLastMostInRowEnoughPlace_5);
+      let sollution = patternSearcher.getCalculatedStrategy(figureToFind, StratgyLastMostInRowEnoughPlace);
       let foundPattern = sollution.foundElements;
       let proposedMoves = sollution.nextMoveProposals;
       let expOutput = <PatternDescriptor>singleTestCase.expectedOutput;
