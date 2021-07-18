@@ -34,6 +34,9 @@ export class StratgyLastMostInRowEnoughPlace {
 
   numberOfFiguresInRowNeededToWin: number = 0;
   sliceOfBoardArray: string[] = [];
+
+  lowerBoundry: number = -1;
+  upperBoundry: number = -1;
   constructor() {}
 
   getPattern(figure: FigureNotEmpty, nrOfFiguresNeededToWin: number, sliceOfBoardArray: string[]):SlicedPatternDescriptor{
@@ -60,14 +63,15 @@ export class StratgyLastMostInRowEnoughPlace {
       if (isPatternFound) {
         let currentPattern = this.getCurrentPatternFromMemory();
         this.clearMemory();
+        isPatternFound = false;
         return currentPattern;
       }
       currentIndex++
-      // debugger;
     }
     isPatternFound = this.checkIfPatternIsFound();
     if (isPatternFound){
       let currentPattern = this.getCurrentPatternFromMemory();
+      isPatternFound = false;
       return currentPattern
     }
       this.clearMemory()
@@ -82,12 +86,11 @@ export class StratgyLastMostInRowEnoughPlace {
   }
 
   isMoveProposalInConstraines(indexOfMoveProposal: number){
-    // debugger;
-    let lowerBoundry = Math.max(this.indexOfLastFigureFound - this.numberOfFiguresInRowNeededToWin, 0);
+
+    let lowerBoundry = Math.max(this.indexOfLastFigureFound - this.numberOfFiguresInRowNeededToWin, -1); // -1 because of testCase 0
     let upperBoundry = Math.min(this.indexOfFirstFoundFigure + this.numberOfFiguresInRowNeededToWin, this.sliceOfBoardArray.length);
     let isInLowerBoundry = indexOfMoveProposal > lowerBoundry;
     let isInUpperBoundry = indexOfMoveProposal < upperBoundry;
-    // debugger;
     return isInLowerBoundry && isInUpperBoundry
   }
 
@@ -103,19 +106,11 @@ export class StratgyLastMostInRowEnoughPlace {
   }
 
   checkIfPatternIsFound():boolean{
-    let min = function(a: number, b:number) {
-      if (a > b) return b 
-      else return a
-    }
-    let max = function(a: number, b:number) {
-      if (a > b) return a
-      else return b
-    }
 
     if (this.indexOfFirstFoundEmptyField == -1) return false;
     if (this.indexOfFirstFoundFigure == -1) return false;
-    let slotStart = min(this.indexOfFirstFoundEmptyField, this.indexOfFirstFoundFigure)
-    let slotEnd   = max(this.indexOfLastEmptyFieldFound, this.indexOfLastFigureFound)
+    let slotStart = Math.min(this.indexOfFirstFoundEmptyField, this.indexOfFirstFoundFigure)
+    let slotEnd   = Math.max(this.indexOfLastEmptyFieldFound, this.indexOfLastFigureFound)
     if (slotEnd - slotStart < this.numberOfFiguresInRowNeededToWin)  return false;
     // debugger;
     return true;
