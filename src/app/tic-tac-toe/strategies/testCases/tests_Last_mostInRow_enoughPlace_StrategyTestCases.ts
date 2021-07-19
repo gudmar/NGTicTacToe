@@ -245,7 +245,7 @@ let testCase160 = {
 };
 
 let testCase170 = {
-    name: '170) 0 _ 0 _ 0 in 4 row should be chosen',
+    name: '170) 0 _ 0 _ 0 in 4 row should be chosen: diagonal top left',
     input: [[0, 0, 1, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 1, 0, 0],
@@ -258,8 +258,98 @@ let testCase170 = {
         nextMoveProposals: [[4, 2], [6, 4]]
     }
 };
-
+let testCase180 = {
+    name: '180) diagonal top left most circles: row with one circle chosen as not enough place in diagonal',
+    input: [[0, 0, 0, 1, 0, 0, 0],
+            [0, 0, 0, 0, 1, 0, 0],
+            [0, 0, 0, 0, 0, 1, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0]],
+    expectedOutput: {
+        foundElements: [[4,1]],
+        nextMoveProposals: [[1,1],[2,1],[3,1],[5,1],[6,1],[7,1]]
+    }
+};
+let testCase190 = {
+    name: '190) 0 _ 0 _ 0 in 4 row should be chosen: diagonal top left, other diagonal has 4 circles, but not enough place, not chosen',
+    input: [[0, 0, 1, 1, 0, 0, 0],
+            [0, 0, 0, 0, 1, 0, 0],
+            [0, 0, 0, 0, 1, 1, 0],
+            [0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0]],
+    expectedOutput: {
+        foundElements: [[3, 1], [5, 3], [7, 5]],
+        nextMoveProposals: [[4, 2], [6, 4]]
+    }
+};
+let testCase200 = {
+    name: '200) X 0 _ 0 _ 0 X in left bottom diagonal',
+    input: [[0, 0, 0, 1, 0, 0, 2],
+            [0, 0, 1, 0, 0, 1, 0],
+            [0, 1, 0, 0, 0, 0, 0],
+            [1, 0, 0, 1, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 1, 0, 0, 0, 0, 0],
+            [2, 0, 0, 0, 0, 0, 0]],
+    expectedOutput: {
+        foundElements: [[2, 6], [4, 4], [6, 2]],
+        nextMoveProposals: [[3, 5], [5, 3]]
+    }
+};
+let testCase210 = {
+    name: '210) X 0 _ 0 _ 0 X in left bottom diagonal',
+    input: [[0, 0, 0, 1, 0, 0, 2],
+            [0, 0, 1, 0, 0, 1, 0],
+            [0, 1, 0, 0, 0, 0, 0],
+            [1, 0, 0, 1, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 1, 0, 0, 0, 0, 0],
+            [2, 0, 1, 1, 1, 1, 2]],
+    expectedOutput: {
+        foundElements: [[3, 7], [4, 7], [5, 7], [6, 7]],
+        nextMoveProposals: [[2, 7]]
+    }
+};
+let testCase220 = {
+    name: '220) Figures not forming shape, in corners of board - should find only first one',
+    input: [[1, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0, 0, 1]],
+    expectedOutput: {
+        foundElements: [[1,1]],
+        nextMoveProposals: [[2,1],[3,1],[4,1],[5,1]]
+    }
+};
+let testCase230 = {
+    name: '230) More patterns on bigger board: first shold be found',
+    input: [[0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 2, 2, 2, 2, 0, 1, 1, 1, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+            [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [0, 2, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0]],
+    expectedOutput: {
+        foundElements: [[7,7], [8, 8], [9, 9], [10, 10]],
+        nextMoveProposals: [[6, 6], [11, 11]]
+    }
+};
 export let testCasesCircle = [testCase0, testCase10, testCase20, testCase30, testCase40, testCase50, 
     testCase60, testCase70, testCase80, testCase90, testCase100, testCase110, testCase120, testCase130, testCase140, testCase150,
-    testCase160, testCase170]
-// export let testCasesCircle = [testCase170]
+    testCase160, testCase170, testCase180, testCase190, testCase200, testCase210, testCase220, testCase230]
+// export let testCasesCircle = [testCase230]

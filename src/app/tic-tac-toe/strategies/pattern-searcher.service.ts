@@ -137,22 +137,22 @@ export class PatternSearcherService {
   
 
   findMaxPatternInAllCols(figure: FigureNotEmpty, patternFinder: PatternSearcher){
-    return this.findMaxPatternInAllSlices(figure, patternFinder, this.getPatternOutOfSingleColumn.bind(this))
+    return this.findMaxPatternInColumnRowSlices(figure, patternFinder, this.getPatternOutOfSingleColumn.bind(this))
   }
 
   findMaxPatternInAllRows(figure: FigureNotEmpty, patternFinder: PatternSearcher){
-    return this.findMaxPatternInAllSlices(figure, patternFinder, this.getPatternOutOfSingleRow.bind(this))
+    return this.findMaxPatternInColumnRowSlices(figure, patternFinder, this.getPatternOutOfSingleRow.bind(this))
   }
 
-  findMaxPatternInAllTopLeftDiagonals(figure: FigureNotEmpty, patternFinder: PatternSearcher){
-    return this.findMaxPatternInAllSlices(figure, patternFinder, this.checkAllLeftTopDiagonalsForPattern.bind(this))
-  }
+  // findMaxPatternInAllTopLeftDiagonals(figure: FigureNotEmpty, patternFinder: PatternSearcher){
+  //   return this.findMaxPatternInColumnRowSlices(figure, patternFinder, this.checkAllLeftTopDiagonalsForPattern.bind(this))
+  // }
 
-  findMaxPatternInAllBottomLeftDiagonals(figure: FigureNotEmpty, patternFinder: PatternSearcher){
-    return this.findMaxPatternInAllSlices(figure, patternFinder, this.checkLeftTopDiagonalForWinner.bind(this))
-  }
+  // findMaxPatternInAllBottomLeftDiagonals(figure: FigureNotEmpty, patternFinder: PatternSearcher){
+  //   return this.findMaxPatternInColumnRowSlices(figure, patternFinder, this.checkLeftBottomDiagonalForPattern.bind(this))
+  // }
 
-  findMaxPatternInAllSlices(figure: FigureNotEmpty, patternFinder:PatternSearcher, patternGetterFunction: Function) {
+  findMaxPatternInColumnRowSlices(figure: FigureNotEmpty, patternFinder:PatternSearcher, patternGetterFunction: Function) {
     let maxFiguresSollutionMemory = this.getEmptyPattern();
     for (let _row = 1; _row <= this.context.nrOfRows; _row++){
       let calculatedPattern = patternGetterFunction(figure, patternFinder, _row)
@@ -161,6 +161,31 @@ export class PatternSearcherService {
         let nrOfFiguresInBiggestColutionSoFar = maxFiguresSollutionMemory.foundElements.length;
         if (nrOfFiguresInBiggestColutionSoFar < nrOfFiguresInCurrentSolution) maxFiguresSollutionMemory = calculatedPattern;
       }
+    }
+    return maxFiguresSollutionMemory;
+  }
+
+  findMaxPatternInAllTopLeftDiagonals(figure: FigureNotEmpty, patternFinder:PatternSearcher) {
+    let maxFiguresSollutionMemory = this.getEmptyPattern();
+    let firstDiagonalOffset = - this.context.boardSize + 2;
+    let lastDiagonalOffset = this.context.boardSize;
+    for (let diagonalNr = firstDiagonalOffset; diagonalNr <= lastDiagonalOffset; diagonalNr++){
+      let nrOfFiguresInBiggestColutionSoFar = maxFiguresSollutionMemory.foundElements.length;
+      let calculatedPattern = this.checkLeftTopDiagonalForPattern(figure, patternFinder, diagonalNr);
+      let nrOfFiguresInCurrentSolution = calculatedPattern.foundElements.length;
+      if (nrOfFiguresInBiggestColutionSoFar < nrOfFiguresInCurrentSolution) maxFiguresSollutionMemory = calculatedPattern;
+    }
+    return maxFiguresSollutionMemory;
+  }
+  findMaxPatternInAllBottomLeftDiagonals(figure: FigureNotEmpty, patternFinder:PatternSearcher) {
+    let maxFiguresSollutionMemory = this.getEmptyPattern();
+    let firstDiagonalOffset = 1;
+    let lastDiagonalOffset = this.context.boardSize * 2 - 1; // number of all diagonals in square;
+    for (let diagonalNr = firstDiagonalOffset; diagonalNr <= lastDiagonalOffset; diagonalNr++){
+      let nrOfFiguresInBiggestColutionSoFar = maxFiguresSollutionMemory.foundElements.length;
+      let calculatedPattern = this.checkLeftBottomDiagonalForPattern(figure, patternFinder, diagonalNr);
+      let nrOfFiguresInCurrentSolution = calculatedPattern.foundElements.length;
+      if (nrOfFiguresInBiggestColutionSoFar < nrOfFiguresInCurrentSolution) maxFiguresSollutionMemory = calculatedPattern;
     }
     return maxFiguresSollutionMemory;
   }
@@ -205,7 +230,7 @@ export class PatternSearcherService {
     let firstDiagonalOffset = 1;
     let lastDiagonalOffset = this.context.boardSize * 2 - 1; // number of all diagonals in square;
     for (let diagonalNr = firstDiagonalOffset; diagonalNr <= lastDiagonalOffset; diagonalNr++){
-      let calculatedPattern = this.checkLeftTopDiagonalForWinner(figure, patternFinder, diagonalNr);
+      let calculatedPattern = this.checkLeftBottomDiagonalForPattern(figure, patternFinder, diagonalNr);
       if (calculatedPattern.foundElements.length > 0) return calculatedPattern;
     }
     return this.getEmptyPattern();
@@ -241,7 +266,7 @@ export class PatternSearcherService {
     return this.findPatternInCords(cords, patternFinder, figure)
   }
 
-  checkLeftTopDiagonalForWinner(figure:FigureNotEmpty, patternFinder: PatternSearcher, diagonalStartColumn: number){
+  checkLeftBottomDiagonalForPattern(figure:FigureNotEmpty, patternFinder: PatternSearcher, diagonalStartColumn: number){
     // Left Bottom diagonal starts in left bottom board corner
     let cords = [];
     for(let i = 0; i <= this.context.boardSize; i++){
