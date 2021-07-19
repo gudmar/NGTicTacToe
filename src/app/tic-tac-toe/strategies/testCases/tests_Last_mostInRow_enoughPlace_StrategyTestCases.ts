@@ -349,7 +349,29 @@ let testCase230 = {
         nextMoveProposals: [[6, 6], [11, 11]]
     }
 };
+
+let testCase240 = {
+    name: '240) More patterns on bigger board: first shold be found',
+    input: [[0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 2, 2, 2, 2, 0, 1, 1, 1, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+            [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [0, 2, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0]],
+    expectedOutput: {
+        foundElements: [[9, 11], [10, 10], [11, 9], [12, 8]],
+        nextMoveProposals: [[8, 12], [13, 7]]
+    }
+};
 export let testCasesCircle = [testCase0, testCase10, testCase20, testCase30, testCase40, testCase50, 
     testCase60, testCase70, testCase80, testCase90, testCase100, testCase110, testCase120, testCase130, testCase140, testCase150,
-    testCase160, testCase170, testCase180, testCase190, testCase200, testCase210, testCase220, testCase230]
+    testCase160, testCase170, testCase180, testCase190, testCase200, testCase210, testCase220, testCase230, testCase240]
 // export let testCasesCircle = [testCase230]
