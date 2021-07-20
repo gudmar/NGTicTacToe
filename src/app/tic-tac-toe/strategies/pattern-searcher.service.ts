@@ -5,6 +5,7 @@ import { Strategy00000Service } from './strategy-0--0000-.service'
 import { Strategy1_00_00Service } from './strategy1-00-00.service'
 import { Strategy_20_XX_XX_Service} from './strategy-20-xx-xx.service'
 import { GeneralStrategyService } from './general-strategy.service'
+import { StrategyEmptyBoardService } from './strategy-empty-board.service'
 import {StratgyLastMostInRowEnoughPlace, SetNrOfFiguresNeededToWinn} from './stratgy-last-most-in-row-enough-place.service'
 // import { Strategy2XXXService } from "./strategy-30-xxx-.service";
 import {Strategy_3__XX_X_Service} from "./strategy-3--xx-x-.service"
@@ -21,7 +22,8 @@ type PatternSearcher = Strategy00000Service |
                        Strategy_3__XX_X_Service | 
                        GeneralStrategyService | 
                        Strategy3 |  
-                       StratgyLastMostInRowEnoughPlace;
+                       StratgyLastMostInRowEnoughPlace |
+                       StrategyEmptyBoardService;
 
 class ArrayVectorConverter {
 
