@@ -169,5 +169,25 @@ export class StratgyLastMostInRowEnoughPlace {
   }
 
 
+
+  
+
+  countOwnFigures(figure: FigureNotEmpty, boardDescriptor: CellDescriptor[]){
+    return this.countFigures(figure, boardDescriptor)
+  }
+
+  countOponentFigures(figure: FigureNotEmpty, boardDescriptor: CellDescriptor[]){
+    return this.countFigures(<FigureNotEmpty>this.opositeFigure(figure), boardDescriptor)
+  }
+
+  countFigures(figure: FigureNotEmpty, boardDescriptor: CellDescriptor[]){
+    let nrOfFigures = 0;
+    let figureCounter = function(item: CellDescriptor, index: number){
+      if (item.figure == figure) nrOfFigures++
+    }
+    boardDescriptor.forEach(figureCounter);
+    return nrOfFigures;
+  }
+
 }
 
