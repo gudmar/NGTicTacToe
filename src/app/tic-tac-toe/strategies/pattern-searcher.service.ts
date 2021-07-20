@@ -21,7 +21,7 @@ type PatternSearcher = Strategy00000Service |
                        Strategy1_00_00Service | 
                        Strategy_3__XX_X_Service | 
                        GeneralStrategyService | 
-                       Strategy3 |  
+                      //  Strategy3 |  
                        StratgyLastMostInRowEnoughPlace |
                        StrategyEmptyBoardService;
 
@@ -59,6 +59,23 @@ class ArrayVectorConverter {
     let boardSize = this.getBoardSize(boardDescriptor)
     return (rowNr - 1) * boardSize + (colNr - 1)
   }
+
+  toString(boardDescriptor: CellDescriptor[]):string[]{
+    let output: string[] = [];
+    boardDescriptor.forEach((value:CellDescriptor, index: number, arr: CellDescriptor[]) => {
+      output.push(value.figure)
+    })
+    return output;
+  }
+
+  // countFigures(figure: FigureNotEmpty, boardDescriptor: CellDescriptor[]){
+  //   let nrOfFigures = 0;
+  //   let figureCounter = function(item: CellDescriptor, index: number){
+  //     if (item.figure == figure) nrOfFigures++
+  //   }
+  //   boardDescriptor.forEach(figureCounter);
+  //   return nrOfFigures;
+  // }
 }
 
 
@@ -84,6 +101,10 @@ export class PatternSearcherService {
     if (patternSearchingClass == StratgyLastMostInRowEnoughPlace) {
       return this.getCordinanceOfPatternWithMaximumNrOfFigures(figure, StratgyLastMostInRowEnoughPlace_nrToWinnInjected)
     }
+
+    if (patternSearchingClass == StrategyEmptyBoardService){
+      return this.getCordinanceForEmptyBoard(figure, )
+    }
     return this.getCordinanceOfPattern(figure, patternSearchingClass)
   }
 
@@ -101,6 +122,20 @@ export class PatternSearcherService {
     return this.getEmptyPattern();
   }
 
+  getCordinanceForEmptyBoard(figure:FigureNotEmpty){
+    let emptyBoardSolutionSercher = new StrategyEmptyBoardService();
+    let opositeFigure = function(figure: FigureNotEmpty) {
+      if (figure == "Circle") return "Cross";
+      return "Circle"
+    }
+    let nrOfOwnFigures = emptyBoardSolutionSercher.countOwnFigures(figure, this.context.board);
+    let nrOfOponentFigures = emptyBoardSolutionSercher.countOponentFigures(figure, this.context.board);
+    if (nrOfOwnFigures > 0) return this.getEmptyPattern();
+    if (nrOfOponentFigures > 1) return this.getEmptyPattern();
+
+    return emptyBoardSolutionSercher.getPatternForEmptyBoard(figure, this.AVConverter.toString(this.context.board));
+  }
+  
   getCordinanceOfPatternWithMaximumNrOfFigures(figure: FigureNotEmpty, patternSearchingClass: { new(): PatternSearcher }){
     let that = this;
     let patternFinder = new patternSearchingClass();
@@ -302,7 +337,6 @@ export class PatternSearcherService {
   }
 
   getEmptyPattern():PatternDescriptor{
-
     return {
       foundElements: [],
       nextMoveProposals: [],

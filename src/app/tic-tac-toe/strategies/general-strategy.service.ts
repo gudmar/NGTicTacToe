@@ -281,12 +281,6 @@ export class GeneralStrategyService {
   
   }
 
-  opositeFigure(figure: Figure){
-    if (figure == "Circle") return "Cross";
-    if (figure == "Cross")  return "Circle";
-    return "";
-  }
-
   isThereAMovePossible(foundPatternIndexes: number[]): boolean{
     // Not needed really
     return false
@@ -345,5 +339,37 @@ export class GeneralStrategyService {
       foundElements: foundElementCords,
       nextMoveProposals: foundElementCords.length > 0 ? nextMoveProposals : [],
     }
+
+  }
+
+
+  countOwnFigures(figure: FigureNotEmpty, boardDescriptor: CellDescriptor[]){
+    return this.countFigures(figure, boardDescriptor)
+  }
+
+  countOponentFigures(figure: FigureNotEmpty, boardDescriptor: CellDescriptor[]){
+    return this.countFigures(<FigureNotEmpty>this.opositeFigure(figure), boardDescriptor)
+  }
+
+  countFigures(figure: FigureNotEmpty, boardDescriptor: CellDescriptor[]){
+    let nrOfFigures = 0;
+    let figureCounter = function(item: CellDescriptor, index: number){
+      if (item.figure == figure) nrOfFigures++
+    }
+    boardDescriptor.forEach(figureCounter);
+    return nrOfFigures;
+  }
+
+  getEmptyPattern():SlicedPatternDescriptor{
+    return {
+      foundElements: [],
+      nextMoveProposals: [],
+    }
+  }
+
+  opositeFigure(figure: Figure){
+    if (figure == "Circle") return "Cross";
+    if (figure == "Cross")  return "Circle";
+    return "";
   }
 }
