@@ -68,14 +68,6 @@ class ArrayVectorConverter {
     return output;
   }
 
-  // countFigures(figure: FigureNotEmpty, boardDescriptor: CellDescriptor[]){
-  //   let nrOfFigures = 0;
-  //   let figureCounter = function(item: CellDescriptor, index: number){
-  //     if (item.figure == figure) nrOfFigures++
-  //   }
-  //   boardDescriptor.forEach(figureCounter);
-  //   return nrOfFigures;
-  // }
 }
 
 
@@ -179,23 +171,6 @@ export class PatternSearcherService {
     if (isMiddleBoardFieldFree) return getMiddleOfBoardResult();
     
     return getLeftBottomDiagonalResult();
-
-
-
-    // let emptyBoardSolutionSercher = new StrategyEmptyBoardService();
-    // let opositeFigure = function(figure: FigureNotEmpty) {
-    //   if (figure == "Circle") return "Cross";
-    //   return "Circle"
-    // }
-    // let nrOfOwnFigures = emptyBoardSolutionSercher.countOwnFigures(figure, this.context.board);
-    // let nrOfOponentFigures = emptyBoardSolutionSercher.countOponentFigures(figure, this.context.board);
-    // if (nrOfOwnFigures > 0) return this.getEmptyPattern();
-    // if (nrOfOponentFigures > 1) return this.getEmptyPattern();
-
-    // return emptyBoardSolutionSercher.getPatternForEmptyBoard(figure, this.AVConverter.toString(this.context.board));
-
-
-
   }
   
   getCordinanceOfPatternWithMaximumNrOfFigures(figure: FigureNotEmpty, patternSearchingClass: { new(): PatternSearcher }){
@@ -327,51 +302,51 @@ export class PatternSearcherService {
   }
 
   checkLeftTopDiagonalForPattern(figure:FigureNotEmpty, patternFinder: PatternSearcher, diagonalStartColumn: number){
-    let getCordFunction= function(iteration: number, startPosition: number){
+    let getCordFunction= function(iteration: number){
       return {
         xCord: iteration + diagonalStartColumn,
         yCord: iteration + 1
       }
     }
-    return this.checkDirectionForPattern(figure, patternFinder, diagonalStartColumn, getCordFunction)
+    return this.checkDirectionForPattern(figure, patternFinder, getCordFunction)
   }
 
   checkLeftBottomDiagonalForPattern(figure:FigureNotEmpty, patternFinder: PatternSearcher, diagonalStartColumn: number){
-    let getCordFunction= function(iteration: number, startPosition: number){
+    let getCordFunction= function(iteration: number){
       return {
         xCord: diagonalStartColumn - iteration,
         yCord: iteration + 1
       }
     }
-    return this.checkDirectionForPattern(figure, patternFinder, diagonalStartColumn, getCordFunction)
+    return this.checkDirectionForPattern(figure, patternFinder, getCordFunction)
   }
 
 
   getPatternOutOfSingleRow(figure:FigureNotEmpty, patternFinder: PatternSearcher, rowNr:number){
-    let getCordFunction= function(iteration: number, startPosition: number){
+    let getCordFunction= function(iteration: number){
       return {
         xCord: iteration + 1,
         yCord: rowNr
       }
     }
-      return this.checkDirectionForPattern(figure, patternFinder, rowNr, getCordFunction)
+      return this.checkDirectionForPattern(figure, patternFinder, getCordFunction)
   }
 
   getPatternOutOfSingleColumn(figure:FigureNotEmpty, patternFinder: PatternSearcher, colNr:number){
-    let getCordFunction= function(iteration: number, startPosition: number){
+    let getCordFunction= function(iteration: number){
       return {
         xCord: colNr,
         yCord: iteration + 1
       }
     }
-      return this.checkDirectionForPattern(figure, patternFinder, colNr, getCordFunction)
+      return this.checkDirectionForPattern(figure, patternFinder, getCordFunction)
   }
 
-  checkDirectionForPattern(figure: FigureNotEmpty, patternFinder: PatternSearcher, startPosition: number, getCordFunction: Function){
+  checkDirectionForPattern(figure: FigureNotEmpty, patternFinder: PatternSearcher, getCordFunction: Function){
     console.warn('Whad does startPosition do? Is it used?')
     let cords = [];
     for(let i = 0; i <= this.context.boardSize; i++){
-      let {xCord, yCord} = getCordFunction(i, startPosition)
+      let {xCord, yCord} = getCordFunction(i)
       if (this.doesCordBelongToBoard([xCord, yCord])) {
         cords.push([xCord, yCord]);
       }
