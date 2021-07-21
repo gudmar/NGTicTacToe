@@ -37,7 +37,7 @@ let testCase10 = {
 
 let testCase20 = {
     name: '20) Board with some own figures elements given: empty array chosen',
-    input: [[0, 0, 0, 0, 0, 0, 0],
+    input: [[0, 1, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0],
@@ -61,7 +61,7 @@ let testCase30 = {
             [0, 0, 0, 0, 0, 0, 0]],
     expectedOutput: {
         foundElements: [],
-        nextMoveProposals: [[3, 4]]
+        nextMoveProposals: [[3, 3]]
     }
 };
 let testCase40 = {
@@ -82,7 +82,7 @@ let testCase40 = {
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
     expectedOutput: {
         foundElements: [],
-        nextMoveProposals: [[6, 7]]
+        nextMoveProposals: [[6, 6]]
     }
 };
 let testCase50 = {
@@ -90,7 +90,7 @@ let testCase50 = {
     input: [[0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 1, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
             [0, 0, 2, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0]],
@@ -127,7 +127,8 @@ let testCase70 = {
             [0, 0, 0]],
     expectedOutput: {
         foundElements: [],
-        nextMoveProposals: [[1, 3]]
+        nextMoveProposals: [[1, 1]]
     }
 };
 export let testCasesCircle = [testCase0, testCase10, testCase20, testCase30, testCase40, testCase50, testCase60, testCase70]
+// export let testCasesCircle = [testCase30]
