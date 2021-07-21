@@ -16,74 +16,101 @@ export class StrategyEmptyBoardService {
 
   constructor() { }
 
-  getPattern(figure: FigureNotEmpty, nrOfElementsInRowToWin: number, boardSlice: string[]): SlicedPatternDescriptor{
-  //   let ownFigures = this.getFigureIndexes(figure, boardSlice);
-  //   let oponentFigures = this.getFigureIndexes(<FigureNotEmpty>this.opositeFigure(figure), boardSlice)
-  //   if (ownFigures.length > 0) return this.getEmptyPattern();
-  //   if (oponentFigures.length > 1) return this.getEmptyPattern();
-  //   if (oponentFigures.length == 0) return this.getNextMoveProposal(boardSlice);
-  //   if (oponentFigures.length == 1) return this.getNextMoveProposals(boardSlice);
-  // return this.getEmptyPattern()
-  return {
-    foundElements: [],
-    nextMoveProposals: [],
-  }
+  countOwnFigures(figure: FigureNotEmpty,boardSlice: string[]) {
+    return this.countFigures(figure, boardSlice)
   }
 
-  getPatternForEmptyBoard(figure: FigureNotEmpty, boardModel: string[]): PatternDescriptor {
-    let boardSize = this.getBoardSize(boardModel);
-    let opositeFigure = function (figure: FigureNotEmpty) { return figure == "Circle" ? "Cross" : "Circle" }
-    let nrOfOwnFigureCounter = function () {
-      let output = 0;
-      for (let item of boardModel) {
-        if (figure == item) output++;
-      }
-      return output;
+  countOponentFigures(figure: FigureNotEmpty, boardSlice: string[]) {
+    return this.countFigures(<FigureNotEmpty>this.opositeFigure(figure), boardSlice)
+  }
+
+  countFigures(figure: FigureNotEmpty, boardSlice: string[]) {
+    let nrOfFigures = 0;
+    let figureCounter = function (item: string, index: number) {
+      if (item == figure) nrOfFigures++
     }
-    let nrOfOponentFigureCounter = function () {
-      let output = 0;
-      for (let item of boardModel) {
-        if (opositeFigure(figure) == item) output++;
-      }
-      return output;
-    }.bind(this)
-    if (nrOfOwnFigureCounter() > 0) return this.getEmptyPattern();
-    if (nrOfOponentFigureCounter() > 1) return this.getEmptyPattern();
-    if (this.isMiddlePositionFree(boardModel)) {
-      return {
-        foundElements: [],
-        nextMoveProposals: [[Math.floor(boardSize / 2), Math.floor(boardSize / 2)]],
-      }
-    }
+    boardSlice.forEach(figureCounter);
+    return nrOfFigures;
+  }
+
+  isMiddlePositionOfSliceFree(boardSlice: string[]){
+    let middleIndex = Math.ceil(boardSlice.length / 2) - 1;
+    return boardSlice[middleIndex] == "" ? true : false;
+  }
+
+  getPattern(figure: FigureNotEmpty, nrOfElementsInRowToWin: number, boardSlice: string[]): any{
+    // let ownFigures = this.getFigureIndexes(figure, boardSlice);
+    // let oponentFigures = this.getFigureIndexes(<FigureNotEmpty>this.opositeFigure(figure), boardSlice)
+    // if (ownFigures.length > 0) return this.getEmptyPattern();
+    // if (oponentFigures.length > 1) return this.getEmptyPattern();
+    // if (oponentFigures.length == 0) return this.getNextMoveProposal(boardSlice);
+    // if (oponentFigures.length == 1) return this.getNextMoveProposals(boardSlice);
     return {
-      foundElements: [],
-      nextMoveProposals: [[Math.floor(boardSize / 2) - 1, Math.floor(boardSize / 2) + 1]],    
+      ownFigures: this.countOwnFigures(figure, boardSlice),
+      oponentFigures: this.countOponentFigures(figure, boardSlice),
+      isMiddlePositionFree: this.isMiddlePositionOfSliceFree(boardSlice)
     }
+  // return this.getEmptyPattern()
+  // return {
+  //   foundElements: [],
+  //   nextMoveProposals: [],
+  // }
   }
 
-  isMiddlePositionFree(boardModel: string[]) {
-    let boardSize = this.getBoardSize(boardModel);
-    let midX = Math.floor(boardSize / 2);
-    let midY = midX;
-    if (boardModel[this.xy2Index(midX, midY, boardSize)] == "") return true;
-    return false;
-  }
+  // getPatternForEmptyBoard(figure: FigureNotEmpty, boardModel: string[]): PatternDescriptor {
+  //   let boardSize = this.getBoardSize(boardModel);
+  //   let opositeFigure = function (figure: FigureNotEmpty) { return figure == "Circle" ? "Cross" : "Circle" }
+  //   let nrOfOwnFigureCounter = function () {
+  //     let output = 0;
+  //     for (let item of boardModel) {
+  //       if (figure == item) output++;
+  //     }
+  //     return output;
+  //   }
+  //   let nrOfOponentFigureCounter = function () {
+  //     let output = 0;
+  //     for (let item of boardModel) {
+  //       if (opositeFigure(figure) == item) output++;
+  //     }
+  //     return output;
+  //   }.bind(this)
+  //   if (nrOfOwnFigureCounter() > 0) return this.getEmptyPattern();
+  //   if (nrOfOponentFigureCounter() > 1) return this.getEmptyPattern();
+  //   if (this.isMiddlePositionFree(boardModel)) {
+  //     return {
+  //       foundElements: [],
+  //       nextMoveProposals: [[Math.floor(boardSize / 2), Math.floor(boardSize / 2)]],
+  //     }
+  //   }
+  //   return {
+  //     foundElements: [],
+  //     nextMoveProposals: [[Math.floor(boardSize / 2) - 1, Math.floor(boardSize / 2) + 1]],    
+  //   }
+  // }
 
-  getBoardSize(boardModel: string[]) {
-    return Math.sqrt(boardModel.length + 1)
-  }
+  // isMiddlePositionFree(boardModel: string[]) {
+  //   let boardSize = this.getBoardSize(boardModel);
+  //   let midX = Math.floor(boardSize / 2);
+  //   let midY = midX;
+  //   if (boardModel[this.xy2Index(midX, midY, boardSize)] == "") return true;
+  //   return false;
+  // }
 
-  xy2Index(x: number, y: number, boardSize: number) {
-    return boardSize * y + x - 1;
-  }
+  // getBoardSize(boardModel: string[]) {
+  //   return Math.sqrt(boardModel.length + 1)
+  // }
 
-  xFromIndex(index: number, boardSize: number): number {
-    return (index + 1) % boardSize;
-  }
+  // xy2Index(x: number, y: number, boardSize: number) {
+  //   return boardSize * y + x - 1;
+  // }
 
-  yFromIndex(index: number, boardSize: number): number {
-    return Math.floor((index + 1) / boardSize);
-  }
+  // xFromIndex(index: number, boardSize: number): number {
+  //   return (index + 1) % boardSize;
+  // }
+
+  // yFromIndex(index: number, boardSize: number): number {
+  //   return Math.floor((index + 1) / boardSize);
+  // }
 
 
 
@@ -113,24 +140,24 @@ export class StrategyEmptyBoardService {
   //   return figureIndexes
   // }
 
-  countOwnFigures(figure: FigureNotEmpty, boardDescriptor: CellDescriptor[]) {
-    return this.countFigures(figure, boardDescriptor)
-  }
+  // countOwnFigures(figure: FigureNotEmpty, boardDescriptor: CellDescriptor[]) {
+  //   return this.countFigures(figure, boardDescriptor)
+  // }
 
-  countOponentFigures(figure: FigureNotEmpty, boardDescriptor: CellDescriptor[]) {
-    return this.countFigures(<FigureNotEmpty>this.opositeFigure(figure), boardDescriptor)
-  }
+  // countOponentFigures(figure: FigureNotEmpty, boardDescriptor: CellDescriptor[]) {
+  //   return this.countFigures(<FigureNotEmpty>this.opositeFigure(figure), boardDescriptor)
+  // }
 
-  countFigures(figure: FigureNotEmpty, boardDescriptor: CellDescriptor[]) {
-    let nrOfFigures = 0;
-    let figureCounter = function (item: CellDescriptor, index: number) {
-      if (item.figure == figure) nrOfFigures++
-    }
-    boardDescriptor.forEach(figureCounter);
-    return nrOfFigures;
-  }
+  // countFigures(figure: FigureNotEmpty, boardDescriptor: CellDescriptor[]) {
+  //   let nrOfFigures = 0;
+  //   let figureCounter = function (item: CellDescriptor, index: number) {
+  //     if (item.figure == figure) nrOfFigures++
+  //   }
+  //   boardDescriptor.forEach(figureCounter);
+  //   return nrOfFigures;
+  // }
 
-  getEmptyPattern(): PatternDescriptor {
+  getEmptyPattern(): SlicedPatternDescriptor {
     return {
       foundElements: [],
       nextMoveProposals: [],

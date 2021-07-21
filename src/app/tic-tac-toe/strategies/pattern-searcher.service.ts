@@ -103,7 +103,7 @@ export class PatternSearcherService {
     }
 
     if (patternSearchingClass == StrategyEmptyBoardService){
-      return this.getCordinanceForEmptyBoard(figure, )
+      return this.getCordinanceForEmptyBoard(figure, StrategyEmptyBoardService)
     }
     return this.getCordinanceOfPattern(figure, patternSearchingClass)
   }
@@ -122,18 +122,80 @@ export class PatternSearcherService {
     return this.getEmptyPattern();
   }
 
-  getCordinanceForEmptyBoard(figure:FigureNotEmpty){
-    let emptyBoardSolutionSercher = new StrategyEmptyBoardService();
-    let opositeFigure = function(figure: FigureNotEmpty) {
-      if (figure == "Circle") return "Cross";
-      return "Circle"
+  getCordinanceForEmptyBoard(figure:FigureNotEmpty,  patternSearchingClass: { new(): PatternSearcher }){
+    let that = this;
+    let nrOfOwnFigures = 0;
+    let nrOfOponentFigures = 0;
+    let patternFinder = new patternSearchingClass()
+    let getSingleRowCord = function(iteration:number, rowNr:number){
+      return [iteration + 1, rowNr]
     }
-    let nrOfOwnFigures = emptyBoardSolutionSercher.countOwnFigures(figure, this.context.board);
-    let nrOfOponentFigures = emptyBoardSolutionSercher.countOponentFigures(figure, this.context.board);
-    if (nrOfOwnFigures > 0) return this.getEmptyPattern();
-    if (nrOfOponentFigures > 1) return this.getEmptyPattern();
+    let getRowCords = function(rowNr: number, boardSize: number){
+      let cords = [];
+      for (let iter = 0; iter < boardSize; iter++){
+        cords.push(getSingleRowCord(iter, rowNr))
+      }
+      return cords
+    }
+    let countFigures = function(figure: FigureNotEmpty, patternFinder: PatternSearcher){
+      let nrOfRows = that.context.boardSize;
+      for (let row = 1; row <= nrOfRows; row++){
+        let boardSlice = that.AVConverter.cords2simpleArray(that.context.board, getRowCords(row, that.context.boardSize))
+        let {ownFigures, oponentFigures} = patternFinder.getPattern(figure, 0, boardSlice)
+        nrOfOponentFigures = nrOfOponentFigures + oponentFigures;
+        nrOfOwnFigures = nrOfOwnFigures + ownFigures;
+      }
+    }
+    let getMiddleOfBoardIndex = function(boardSize: number){
+      return Math.ceil(boardSize / 2);
+    }
+    let getMiddleOfBoardResult = function(){
+      let middleOfBoardIndex = getMiddleOfBoardIndex(that.context.boardSize)
+      return {
+        foundElements: [],
+        nextMoveProposals: [[middleOfBoardIndex, middleOfBoardIndex]]
+      }
+    }
+    let getLeftBottomDiagonalResult = function() {
+      let middleOfBoardResult = getMiddleOfBoardResult();
+      middleOfBoardResult.nextMoveProposals[0][0] = middleOfBoardResult.nextMoveProposals[0][0] - 1;
+      middleOfBoardResult.nextMoveProposals[0][1] = middleOfBoardResult.nextMoveProposals[0][1] - 1;
+      return middleOfBoardResult;
+    }
 
-    return emptyBoardSolutionSercher.getPatternForEmptyBoard(figure, this.AVConverter.toString(this.context.board));
+    let checkIfMiddleBoardFieldIsFree = function(patternFinder: PatternSearcher){
+      let cords = getRowCords(getMiddleOfBoardIndex(that.context.boardSize), that.context.boardSize)
+      let boardSlice = that.AVConverter.cords2simpleArray(
+        that.context.board, 
+        cords
+      )
+      let {isMiddlePositionFree} = patternFinder.getPattern(figure, 0, boardSlice)
+      return isMiddlePositionFree;
+    }
+    countFigures(figure, patternFinder);
+    let isMiddleBoardFieldFree = checkIfMiddleBoardFieldIsFree(patternFinder);
+    if (nrOfOwnFigures > 0) return this.getEmptyPattern();
+    if (nrOfOponentFigures > 1) return this.getEmptyPattern();    
+    if (isMiddleBoardFieldFree) return getMiddleOfBoardResult();
+    
+    return getLeftBottomDiagonalResult();
+
+
+
+    // let emptyBoardSolutionSercher = new StrategyEmptyBoardService();
+    // let opositeFigure = function(figure: FigureNotEmpty) {
+    //   if (figure == "Circle") return "Cross";
+    //   return "Circle"
+    // }
+    // let nrOfOwnFigures = emptyBoardSolutionSercher.countOwnFigures(figure, this.context.board);
+    // let nrOfOponentFigures = emptyBoardSolutionSercher.countOponentFigures(figure, this.context.board);
+    // if (nrOfOwnFigures > 0) return this.getEmptyPattern();
+    // if (nrOfOponentFigures > 1) return this.getEmptyPattern();
+
+    // return emptyBoardSolutionSercher.getPatternForEmptyBoard(figure, this.AVConverter.toString(this.context.board));
+
+
+
   }
   
   getCordinanceOfPatternWithMaximumNrOfFigures(figure: FigureNotEmpty, patternSearchingClass: { new(): PatternSearcher }){
@@ -306,6 +368,7 @@ export class PatternSearcherService {
   }
 
   checkDirectionForPattern(figure: FigureNotEmpty, patternFinder: PatternSearcher, startPosition: number, getCordFunction: Function){
+    console.warn('Whad does startPosition do? Is it used?')
     let cords = [];
     for(let i = 0; i <= this.context.boardSize; i++){
       let {xCord, yCord} = getCordFunction(i, startPosition)
