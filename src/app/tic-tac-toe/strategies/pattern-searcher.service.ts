@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BoardHandlerServiceService } from '../board-handler-service.service'
 import { CellCords, FigureNotEmpty, Figure, PatternDescriptor, CellDescriptor, StrategyParameters } from '../../app.types.d'
+import { StrategyFindFirstPatternService } from './strategy-find-first-pattern.service'
 import { Strategy00000Service } from './strategy-0--0000-.service'
 import { Strategy1_00_00Service } from './strategy1-00-00.service'
 import { Strategy_20_XX_XX_Service} from './strategy-20-xx-xx.service'
@@ -15,6 +16,7 @@ import { ThrowStmt, ThisReceiver } from '@angular/compiler';
 import {Strategy3} from './general-strategy.service.spec'
 import { fileURLToPath } from 'url';
 import { start } from 'repl';
+import { BoardSimplifierService } from './board-simplifier.service';
 
 
 type PatternSearcher = Strategy00000Service | 
@@ -25,50 +27,7 @@ type PatternSearcher = Strategy00000Service |
                        StratgyLastMostInRowEnoughPlace |
                        StrategyEmptyBoardService;
 
-class ArrayVectorConverter {
 
-  constructor(){}
-
-  cords2simpleArray(boardDescriptor: CellDescriptor[], cordsToSearchPatternIn:number[][]) : string[]{
-    let that = this;
-    return cordsToSearchPatternIn.map((element:number[], index:number) => {
-      return boardDescriptor[that.Cords2Index(element, boardDescriptor)].figure
-    })
-  }
-
-  simpleArrayIndex2Cords(simpleArrayIndexes: number[], cordsToSearchPatternIn: number[][]){
-    return simpleArrayIndexes.map((singleIndexElement) => {
-      return cordsToSearchPatternIn[singleIndexElement]
-    })
-  }
-
-  getBoardSize(boardDescriptor: CellDescriptor[]): number{
-    return Math.sqrt(boardDescriptor.length)
-  }
-
-  index2Cords(index: number, boardDescriptor: CellDescriptor[]):number[]{
-    let boardSize = this.getBoardSize(boardDescriptor);
-    let rows: number = Math.floor(index / boardSize) + 1;
-    let cols: number = index % boardSize + 1;
-    return [cols, rows]
-  }
-
-  Cords2Index(cords: number[], boardDescriptor: CellDescriptor[]){
-    let rowNr:number = cords[1];
-    let colNr:number = cords[0];
-    let boardSize = this.getBoardSize(boardDescriptor)
-    return (rowNr - 1) * boardSize + (colNr - 1)
-  }
-
-  toString(boardDescriptor: CellDescriptor[]):string[]{
-    let output: string[] = [];
-    boardDescriptor.forEach((value:CellDescriptor, index: number, arr: CellDescriptor[]) => {
-      output.push(value.figure)
-    })
-    return output;
-  }
-
-}
 
 
 @Injectable({
@@ -76,11 +35,11 @@ class ArrayVectorConverter {
 })
 export class PatternSearcherService {
   context:BoardHandlerServiceService;
-  AVConverter: ArrayVectorConverter;
+  AVConverter: BoardSimplifierService;
   
   constructor(context:BoardHandlerServiceService){
     this.context = context;
-    this.AVConverter = new ArrayVectorConverter();
+    this.AVConverter = new BoardSimplifierService();
   }
 
   getCalculatedStrategy(figure:FigureNotEmpty, patternSearchingClass: { new(): PatternSearcher }){
