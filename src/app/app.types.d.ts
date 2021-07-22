@@ -72,3 +72,4 @@ export interface StrategyParameters {
 
 type StrategyKeys = 'expectedNrOfGaps' | 'maxGapSize' | 'shouldBeforePatternFieldBeEmpty' | 
       'shouldAfterPatternFieldBeEmpty' | 'nrOfSearchedFigures' | 'canThereBeASearchedFigureAfterOfBeforePattern'
+
