@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { StrategyEmptyBoardService } from './strategy-empty-board.service';
+import { SingleRowEmptyBoardSearcher } from './strategy-empty-board.service';
 
 import { BoardHandlerServiceService } from '../board-handler-service.service';
 import { runTestSuit } from '../../shared/tests/jasmine_runTestsFromArray'
@@ -32,7 +32,7 @@ let testedFunction = function(figureToFind:FigureNotEmpty){
       let nrOfFiguresInRowToWinn = 5;
       boardHandlerService.parametrize_ForTests(boardInput, 5);
       let patternSearcher = new PatternSearcherService(boardHandlerService);
-      let sollution = patternSearcher.getCalculatedStrategy(figureToFind, StrategyEmptyBoardService);
+      let sollution = patternSearcher.getCalculatedStrategy(figureToFind, SingleRowEmptyBoardSearcher);
       let foundPattern = sollution.foundElements;
       let proposedMoves = sollution.nextMoveProposals;
       let expOutput = <PatternDescriptor>singleTestCase.expectedOutput;

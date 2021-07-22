@@ -323,7 +323,7 @@ export class GeneralStrategyService {
     return [];
   }
 
-    getPattern(figure: FigureNotEmpty, nrOfElementsInRowToWin: number, boardSlice: string[]):SlicedPatternDescriptor{
+getPattern(figure: FigureNotEmpty, nrOfElementsInRowToWin: number, boardSlice: string[]):SlicedPatternDescriptor{
     this.inputArraySlice = boardSlice;
     this.nrOfElementsInRowToWin = nrOfElementsInRowToWin;
     this.figure = figure;
