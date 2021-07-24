@@ -33,9 +33,8 @@ export class StrategyMaxNumberOfFreeFieldsService  {
       currentIndex++;
     }
     // debugger;
-    if (this.maxNrOfFoundFigures == 0 && this.nrOfFoundFiguresSoFar > 0) this.breakCurrentSolution(currentIndex);
-    console.log(currentIndex)
-    console.log(this.listOfFoundFiguresInOptimalSolution)
+    if (this.maxNrOfFoundFigures < this.nrOfFoundFiguresSoFar) this.breakCurrentSolution(currentIndex);
+    
     // debugger
     let temp = [...this.listOfFoundFiguresInOptimalSolution];
     let tempMaxNr = this.maxNrOfFoundFigures;
