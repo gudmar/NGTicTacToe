@@ -55,7 +55,6 @@ export class StratgyLastMostInRowEnoughPlace {
     let currentIndex = 0;
     this.sliceOfBoardArray = sliceOfBoardArray;
     let isPatternFound = false;
-    console.log(`Slice array: ${sliceOfBoardArray.length}`)
     for (let element of sliceOfBoardArray){
       if (element == figure) this.rememberFigure(currentIndex);
       if (element == "") this.rememberEmptyField(currentIndex);

@@ -38,7 +38,6 @@ export abstract class StrategyToolkitService {
   }
 
   checkDirectionForPattern(figure: FigureNotEmpty, patternFinder: PatternSearcher, getCordFunction: Function){
-    console.warn('Whad does startPosition do? Is it used?')
     let cords = [];
     for(let i = 0; i <= this.context.boardSize; i++){
       let {xCord, yCord} = getCordFunction(i)
