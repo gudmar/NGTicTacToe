@@ -28,15 +28,11 @@ export class StrategyEmptyBoardMoveSearcher extends StrategyToolkitService{
     this.context = context;
     this.AVConverter = new BoardSimplifierService();
 
-    // console.log(context)
   }
 
   getMoveProposalsForEmptyBoard(ownFigure: FigureNotEmpty){
     this.countFigures(ownFigure)
     let isMiddleBoardFieldFree = this.checkIfMiddleBoardFieldIsFree(ownFigure);
-    // console.log(this.context)
-    // console.log(ownFigure)
-    // debugger;
     if (this.nrOfOwnFigures > 0) return this.getEmptyPattern();
     if (this.nrOfOponentFigures > 1) return this.getEmptyPattern();    
     if (isMiddleBoardFieldFree) return this.getMiddleOfBoardResult();
@@ -76,7 +72,6 @@ export class StrategyEmptyBoardMoveSearcher extends StrategyToolkitService{
 
   getMiddleOfBoardResult(){
     let middleOfBoardIndex = this.getMiddleOfBoardIndex(this.context.boardSize)
-    // debugger
     return {
       foundElements: [],
       nextMoveProposals: [[middleOfBoardIndex, middleOfBoardIndex]]

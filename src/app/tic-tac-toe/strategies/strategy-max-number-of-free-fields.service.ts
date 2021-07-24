@@ -32,18 +32,14 @@ export class StrategyMaxNumberOfFreeFieldsService  {
       if (field == "Circle" || field == "Cross") this.breakCurrentSolution(currentIndex)
       currentIndex++;
     }
-    // debugger;
     if (this.maxNrOfFoundFigures < this.nrOfFoundFiguresSoFar) this.breakCurrentSolution(currentIndex);
     
-    // debugger
-    let temp = [...this.listOfFoundFiguresInOptimalSolution];
-    let tempMaxNr = this.maxNrOfFoundFigures;
+    let temporaryListOfFoundFiguresInOptimalSolution = [...this.listOfFoundFiguresInOptimalSolution];
+    let temporaryMaxNumberOfFoundFigures = this.maxNrOfFoundFigures;
     this.clearState();
     
-    // if (this.maxNrOfFoundFigures > 0) {
-    if (tempMaxNr > 0){
-      return this.getPatterFromArrays(temp, temp)
-      return this.getPatterFromArrays(this.listOfFoundFiguresInOptimalSolution, this.listOfFoundFiguresInOptimalSolution)
+    if (temporaryMaxNumberOfFoundFigures > 0){
+      return this.getPatterFromArrays(temporaryListOfFoundFiguresInOptimalSolution, temporaryListOfFoundFiguresInOptimalSolution)
     }
     return this.getPatterFromArrays([], []);
   }

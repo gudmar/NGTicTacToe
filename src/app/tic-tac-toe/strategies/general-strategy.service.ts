@@ -15,7 +15,6 @@ export function Parametrize(parameters: StrategyParameters){
       return parameters[key]
     }
     return class extends constructor {
-      // nrOfElementsInRowToWin = parameters.nrOfElementsInRowToWin;
       expectedNrOfGaps = parameters.expectedNrOfGaps;
       maxGapSize = parameters.maxGapSize != undefined ? parameters.maxGapSize : 0;
       shouldAfterPatternFieldBeEmpty = parameters.shouldAfterPatternFieldBeEmpty;
@@ -41,7 +40,6 @@ export class GeneralStrategyService {
   figure: FigureNotEmpty = 'Circle';
   nrOfGaps: number = 0;
   gapIndexes: number[] = [];
-  // boardSize: number = 0;
 
   isInGapMeasurementMode: boolean = false;
   currentGapSize: number = 0;
@@ -55,15 +53,6 @@ export class GeneralStrategyService {
   nrOfSearchedFigures: number = 0;
   maxFoundGapSize: number = 0;
   canThereBeASearchedFigureAfterOfBeforePattern: boolean = false;
-
-  // parametrize(parameters: StrategyParameters):void{
-  //   this.nrOfElementsInRowToWin = parameters.nrOfElementsInRowToWin;
-  //   this.expectedNrOfGaps = parameters.expectedNrOfGaps;
-  //   this.maxGapSize = parameters.maxGapSize != undefined ? parameters.maxGapSize : 0;
-  //   this.shouldAfterPatternFieldBeEmpty = parameters.shouldAfterPatternFieldBeEmpty;
-  //   this.shouldBeforePatternFieldBeEmpty= parameters.shouldBeforePatternFieldBeEmpty;
-  //   this.nrOfSearchedFigures = parameters.nrOfSearchedFigures;
-  // }
 
   constructor() {}
   
@@ -104,24 +93,13 @@ export class GeneralStrategyService {
       case "": {
         if (this.currentGapSize > this.maxFoundGapSize) this.maxFoundGapSize = this.currentGapSize;
         if (this.nrOfFoundInRow == 0) return undefined;
-        // if (this.isInGapMeasurementMode) this.currentGapSize++
         if (!this.isInGapMeasurementMode) this.nrOfGaps++
         this.isInGapMeasurementMode = true;
         if (this.isInGapMeasurementMode) this.currentGapSize++
-
-        // if (this.nrOfGaps > this.expectedNrOfGaps) { 
-        //   // this.resetMemory();
-        //   return undefined;
-        // }
-        // if (this.currentGapSize > this.maxGapSize) {
-        //   // this.resetMemory();
-        //   return undefined;
-        // }
         this.gapIndexes.push(elementIndex);
 
       }
     }
-    // debugger;    
   }
 
   resetMemoryIfPatternCannotBeFound(currentElementIndex: number){
@@ -130,16 +108,12 @@ export class GeneralStrategyService {
     if (currentElementIndex == this.inputArraySlice.length && this.nrOfFoundInRow < this.nrOfSearchedFigures) this.resetMemory();
     if (this.currentGapSize > this.maxGapSize) this.resetMemory();
     if (!this.areFoundPatternConditionsMade()) this.resetMemory();
-    // if (this.nrOfFoundInRow > this.nrOfSearchedFigures) this.resetMemory();
-    // if (this.nrOfGaps > this.expectedNrOfGaps) this.resetMemory();
-    // if (this.currentGapSize > this.maxGapSize) this.resetMemory();
   }
 
 
   areFoundPatternConditionsMade(){
     if (this.nrOfFoundInRow > this.nrOfSearchedFigures) return false;
     if (this.nrOfGaps > this.expectedNrOfGaps) return false;
-    // if (this.maxGapSize > this.currentGapSize) return false;
     if (this.maxFoundGapSize > this.maxGapSize) return false;
     return true;
   }
@@ -155,8 +129,6 @@ export class GeneralStrategyService {
           if (this.isFieldAfterTheSameFigure() && !this.canThereBeASearchedFigureAfterOfBeforePattern) return false
           if (this.isFieldBeforeTheSameFigure() && !this.canThereBeASearchedFigureAfterOfBeforePattern) return false
           if (this.shouldBeforeOrAfterPatternFieldBeEmpty) {
-            // let a = this.isFieldAfterPatternFree()
-            // let b = this.isFieldBeforePatternFree()
             if (!this.isFieldAfterPatternFree() && !this.isFieldBeforePatternFree()) return false
           }
           return true;
@@ -164,12 +136,9 @@ export class GeneralStrategyService {
         if ((this.nrOfFoundInRow >= this.nrOfSearchedFigures) && (this.nrOfGaps < this.expectedNrOfGaps)) {
           return false;
         }
-        // if (this.nrOfGaps != this.expectedNrOfGaps) return false;
-        // if (this.currentGapSize > this.maxGapSize) return false;
         if (this.nrOfFoundInRow > this.nrOfSearchedFigures) {
           return false;
         }
-        // as this is already the other pattern implementation (0Strategy)
         break;
       };
       case this.opositeFigure(this.figure): {
@@ -202,7 +171,6 @@ export class GeneralStrategyService {
     let nrOfFreeFields = 0;
     let noMoreFreeFields = false;
     for(let i = firstIndex - 1; i >=0; i--){
-      // debugger;
       if (this.inputArraySlice[i] != '') noMoreFreeFields = true;
       if (this.inputArraySlice[i] == '' && ! noMoreFreeFields) nrOfFreeFields++;
     }
@@ -214,7 +182,6 @@ export class GeneralStrategyService {
     let nrOfFreeFields = 0;
     let noMoreFreeFields = false;
     for(let i = lastIndex + 1; i < this.inputArraySlice.length; i++){
-      // debugger
       if (this.inputArraySlice[i] != '') noMoreFreeFields = true;
       if (this.inputArraySlice[i] == '' && ! noMoreFreeFields) nrOfFreeFields++;
     }
@@ -237,16 +204,10 @@ export class GeneralStrategyService {
 
 
   isFieldBeforePatternFree(){
-    // let firstIndex = Math.min(...this.foundIndexMemory);
-    // if (this.isIndexInArrayBoundires(firstIndex - 1) && this.isFieldUnderIndexFree(firstIndex - 1)) return true;
-    // return false
     return this.countNrOfFreeFieldsBeforeFoundPattern() >= 1;
   }
 
   isFieldAfterPatternFree(){
-    // let lastIndex = Math.max(...this.foundIndexMemory);
-    // if (this.isIndexInArrayBoundires(lastIndex + 1) && this.isFieldUnderIndexFree(lastIndex + 1)) return true;
-    // return false
     return this.countNrOfFreeFieldsAfterFoundPattern() >= 1;
   }
 
@@ -289,8 +250,6 @@ export class GeneralStrategyService {
   getListOfIndexesOfProposedMoves(foundPatternIndexes: number[]):number[]{
     if (this.gapIndexes.length == 0) {
       let beforeAfterPatternFreeFields = []
-      // let fieldBeforePatternIndex = this.getFirstPatternFieldIndex() - 1;
-      // let fieldAfterPatternIndex = this.getLastPatternFieldIndex() + 1;
       if (this.isFieldAfterPatternFree()) beforeAfterPatternFreeFields.push(this.getLastPatternFieldIndex() + 1)
       if (this.isFieldBeforePatternFree()) beforeAfterPatternFreeFields.push(this.getFirstPatternFieldIndex() - 1)
       return beforeAfterPatternFreeFields;
@@ -330,11 +289,7 @@ getPattern(figure: FigureNotEmpty, nrOfElementsInRowToWin: number, boardSlice: s
     let foundPatternIndexes = this.getFoundPatternIndexes();
     let foundElementCords = foundPatternIndexes
     let nextMoveProposals = this.getListOfIndexesOfProposedMoves(foundPatternIndexes)
-    // console.log(`%cPattern output: `, 'background-color: black; color: white; padding: 5px; border-radius: 4px')
-    // console.log(foundElementCords)
-    // console.log(nextMoveProposals)
     this.resetMemory();
-    // debugger;
     return {
       foundElements: foundElementCords,
       nextMoveProposals: foundElementCords.length > 0 ? nextMoveProposals : [],

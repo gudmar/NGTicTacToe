@@ -23,10 +23,6 @@ let testValidator = new TestCaseValidatorService()
 let boardTranslator = new ArrayToBoardTranslatorService(testValidator)
 
 
-// foundElements: [[2, 1], [2, 1], [3, 1]],
-// nextMoveProposals: [[1, 1], [1, 5]]
-
-
 
 let testedFunction = function(figureToFind:FigureNotEmpty){
   return function(singleTestCase:TestCase){
@@ -48,6 +44,6 @@ let testedFunction = function(figureToFind:FigureNotEmpty){
 }
 
 
-// runTestSuit(testedFunction('Circle'), 'Find strategy 0 XXXX pattern: circle test instances', testSuitePattern_0_Circle);
-// runTestSuit(testedFunction('Cross'), 'Find strategy 0 XXXX pattern: cross test instances', testSuitePattern_0_Cross);
+runTestSuit(testedFunction('Circle'), 'Find strategy 0 XXXX pattern: circle test instances', testSuitePattern_0_Circle);
+runTestSuit(testedFunction('Cross'), 'Find strategy 0 XXXX pattern: cross test instances', testSuitePattern_0_Cross);
 
