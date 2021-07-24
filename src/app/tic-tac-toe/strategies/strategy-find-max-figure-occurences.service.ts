@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FigureNotEmpty, PatternDescriptor } from '../../app.types'
+import { Figure, PatternDescriptor } from '../../app.types'
 import { StrategyToolkitService } from './strategy-toolkit.service';
 import { BoardHandlerServiceService } from '../board-handler-service.service';
 
@@ -15,7 +15,7 @@ export class StrategyFindMaxFigureOccurencesService extends StrategyToolkitServi
   }
 
 
-  getCordinanceOfPatternWithMaximumNrOfFigures(figure: FigureNotEmpty, patternSearchingClass: { new(): PatternSearcher }){
+  getCordinanceOfPatternWithMaximumNrOfFigures(figure: Figure, patternSearchingClass: { new(): PatternSearcher }){
     let that = this;
     let patternFinder = new patternSearchingClass();
     let rows = this.findMaxPatternInAllRows(figure, patternFinder);
@@ -37,16 +37,16 @@ export class StrategyFindMaxFigureOccurencesService extends StrategyToolkitServi
     return getSolutionWithMostFigures([rows, cols, leftTopDiagonal, leftBottomDiagonal])
   }
 
-  findMaxPatternInAllCols(figure: FigureNotEmpty, patternFinder: PatternSearcher){
+  findMaxPatternInAllCols(figure: Figure, patternFinder: PatternSearcher){
     return this.findMaxPatternInColumnRowSlices(figure, patternFinder, this.getPatternOutOfSingleColumn.bind(this))
   }
 
-  findMaxPatternInAllRows(figure: FigureNotEmpty, patternFinder: PatternSearcher){
+  findMaxPatternInAllRows(figure: Figure, patternFinder: PatternSearcher){
     return this.findMaxPatternInColumnRowSlices(figure, patternFinder, this.getPatternOutOfSingleRow.bind(this))
   }
 
 
-  findMaxPatternInAllTopLeftDiagonals(figure: FigureNotEmpty, patternFinder:PatternSearcher){
+  findMaxPatternInAllTopLeftDiagonals(figure: Figure, patternFinder:PatternSearcher){
     return this.findMaxPatternInDiagonalsGeneral(figure, 
       patternFinder, 
       this.checkLeftTopDiagonalForPattern.bind(this), 
@@ -57,7 +57,7 @@ export class StrategyFindMaxFigureOccurencesService extends StrategyToolkitServi
     )
   }
 
-  findMaxPatternInAllBottomLeftDiagonals(figure: FigureNotEmpty, patternFinder:PatternSearcher){
+  findMaxPatternInAllBottomLeftDiagonals(figure: Figure, patternFinder:PatternSearcher){
     return this.findMaxPatternInDiagonalsGeneral(figure, 
       patternFinder, 
       this.checkLeftBottomDiagonalForPattern.bind(this), 
@@ -68,7 +68,7 @@ export class StrategyFindMaxFigureOccurencesService extends StrategyToolkitServi
     )
   }
 
-  findMaxPatternInColumnRowSlices(figure: FigureNotEmpty, patternFinder:PatternSearcher, patternGetterFunction: Function) {
+  findMaxPatternInColumnRowSlices(figure: Figure, patternFinder:PatternSearcher, patternGetterFunction: Function) {
     let maxFiguresSollutionMemory = this.getEmptyPattern();
     for (let _row = 1; _row <= this.context.nrOfRows; _row++){
       let calculatedPattern = patternGetterFunction(figure, patternFinder, _row)
@@ -83,7 +83,7 @@ export class StrategyFindMaxFigureOccurencesService extends StrategyToolkitServi
 
 
   findMaxPatternInDiagonalsGeneral(
-    figure: FigureNotEmpty, 
+    figure: Figure, 
     patternFinder:PatternSearcher, 
     patternSlicerFunction: Function,
     diagonalOffset: {firstDiagonalOffset: number, lastDiagonalOffset: number},

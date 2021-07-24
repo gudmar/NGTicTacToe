@@ -32,7 +32,7 @@ let testedFunction = function(figureToFind:FigureNotEmpty){
       let nrOfFiguresInRowToWinn = 5;
       boardHandlerService.parametrize_ForTests(boardInput, 5);
       let patternSearcher = new PatternSearcherService(boardHandlerService);
-      let sollution = patternSearcher.getCalculatedStrategy(figureToFind, SingleRowEmptyBoardSearcher);
+      let sollution = patternSearcher.getCalculatedStrategy(figureToFind, 'strategy:empty');
       let foundPattern = sollution.foundElements;
       let proposedMoves = sollution.nextMoveProposals;
       let expOutput = <PatternDescriptor>singleTestCase.expectedOutput;
