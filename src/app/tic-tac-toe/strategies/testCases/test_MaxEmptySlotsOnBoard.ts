@@ -125,4 +125,4 @@ let testCase60 = {
 };
 
 
-export let  testCases = [testCase0]
+export let  testCases = [testCase0, testCase10, testCase20, testCase30,]
