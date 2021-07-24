@@ -92,7 +92,6 @@ export class StratgyLastMostInRowEnoughPlace {
   getCurrentPatternFromMemory(){
     let foundElements = this.listOfFigureIndexes;
     let nextMoveProposals = this.listOfEmptyFields.filter(this.isMoveProposalInConstraines.bind(this))
-    // if (nextMoveProposals.length == 0) return this.getEmptyPattern();
     return {
       foundElements: foundElements,
       nextMoveProposals: nextMoveProposals,
@@ -166,10 +165,6 @@ export class StratgyLastMostInRowEnoughPlace {
     if (figure == "Cross")  return "Circle";
     return "";
   }
-
-
-
-  
 
   countOwnFigures(figure: FigureNotEmpty, boardDescriptor: CellDescriptor[]){
     return this.countFigures(figure, boardDescriptor)

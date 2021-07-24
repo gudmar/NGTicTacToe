@@ -22,12 +22,6 @@ let testValidator = new TestCaseValidatorService()
 let boardTranslator = new ArrayToBoardTranslatorService(testValidator)
 
 
-// @SetNrOfFiguresNeededToWinn(5)
-//   export class StratgyLastMostInRowEnoughPlace_5 extends StratgyLastMostInRowEnoughPlace {
-// }
-
-
-
 
 let testedFunction = function(figureToFind:FigureNotEmpty){
   return function(singleTestCase:TestCase){
@@ -50,4 +44,3 @@ let testedFunction = function(figureToFind:FigureNotEmpty){
 
 
 runTestSuit(testedFunction('Circle'), 'Testing strategy: find max number of free fields in row', testCases);
-// runTestSuit(testedFunction('Cross'), 'Tests for final strategy: most elements in row, enough space', testCasesCross);

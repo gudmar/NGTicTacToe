@@ -10,13 +10,9 @@ type PatternSearcher = any;
   providedIn: 'root'
 })
 export class StrategyFindFirstPatternService extends StrategyToolkitService {
-  // context:BoardHandlerServiceService;
-  // AVConverter: BoardSimplifierService;
   
   constructor(context:BoardHandlerServiceService){
     super(context)
-    // this.context = context;
-    // this.AVConverter = new BoardSimplifierService();
   }
 
   getCordinanceOfFirstFoundPattern(figure:FigureNotEmpty, patternSearchingClass: { new(): PatternSearcher }){

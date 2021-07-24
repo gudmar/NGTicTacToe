@@ -11,7 +11,6 @@ import { GeneralStrategyService } from './general-strategy.service'
 import { StrategyEmptyBoardMoveSearcher,SingleRowEmptyBoardSearcher } from './strategy-empty-board.service'
 import {StratgyLastMostInRowEnoughPlace, SetNrOfFiguresNeededToWinn} from './stratgy-last-most-in-row-enough-place.service';
 import { StrategyMaxNumberOfFreeFieldsService } from './strategy-max-number-of-free-fields.service'
-// import { Strategy2XXXService } from "./strategy-30-xxx-.service";
 import {Strategy_3__XX_X_Service} from "./strategy-3--xx-x-.service"
 import { ConcatSource } from 'webpack-sources';
 import { ThrowStmt, ThisReceiver } from '@angular/compiler';
@@ -65,10 +64,7 @@ export class PatternSearcherService {
 
   getCalculatedStrategy(figure:FigureNotEmpty, command: string){
     let translatedClass = this.commandToPatternTranslator(command)
-    // debugger;
     let patternSearchingClass = translatedClass;
-    // console.log(patternSearchingClass)
-
 
     @SetNrOfFiguresNeededToWinn(5)
     class StratgyLastMostInRowEnoughPlace_nrToWinnInjected extends StratgyLastMostInRowEnoughPlace{
@@ -79,30 +75,14 @@ export class PatternSearcherService {
       return this.maxFigureOccurencesFinder.getCordinanceOfPatternWithMaximumNrOfFigures(figure, StratgyLastMostInRowEnoughPlace_nrToWinnInjected)
     }
     if (patternSearchingClass == StrategyMaxNumberOfFreeFieldsService){
-      console.log('I shuld run strategyMaxNrOfFreeFieldsService')
       return this.maxFigureOccurencesFinder.getCordinanceOfPatternWithMaximumNrOfFigures(figure, patternSearchingClass)
     }
 
     if (patternSearchingClass == StrategyEmptyBoardMoveSearcher){
       return this.moveProposalInEmptyBoardFinder.getMoveProposalsForEmptyBoard(figure)
-      // return this.getCordinanceForEmptyBoard(figure, StrategyEmptyBoardService)
     }
     return this.firstPatternFinder.getCordinanceOfFirstFoundPattern(figure, patternSearchingClass.bind(this, this.context))
   }
-
-
-
-  
-  
-  // doesCordBelongToBoard(cord: CellCords) {
-  //   let xCord = <number>cord[0];
-  //   let yCord = <number>cord[1];
-  //   if (xCord < 1) return false;
-  //   if (xCord > this.context.boardSize) return false;
-  //   if (yCord < 1) return false;
-  //   if (yCord > this.context.boardSize) return false;
-  //   return true;
-  // }
 
   getEmptyPattern():PatternDescriptor{
     return {
