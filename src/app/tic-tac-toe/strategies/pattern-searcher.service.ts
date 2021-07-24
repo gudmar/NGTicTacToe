@@ -9,7 +9,8 @@ import { Strategy_20_XX_XX_Service} from './strategy-20-xx-xx.service'
 import { Strategy_30_Strat__XXX_Service } from './strategy-30-xxx-.service'
 import { GeneralStrategyService } from './general-strategy.service'
 import { StrategyEmptyBoardMoveSearcher,SingleRowEmptyBoardSearcher } from './strategy-empty-board.service'
-import {StratgyLastMostInRowEnoughPlace, SetNrOfFiguresNeededToWinn} from './stratgy-last-most-in-row-enough-place.service'
+import {StratgyLastMostInRowEnoughPlace, SetNrOfFiguresNeededToWinn} from './stratgy-last-most-in-row-enough-place.service';
+import { StrategyMaxNumberOfFreeFieldsService } from './strategy-max-number-of-free-fields.service'
 // import { Strategy2XXXService } from "./strategy-30-xxx-.service";
 import {Strategy_3__XX_X_Service} from "./strategy-3--xx-x-.service"
 import { ConcatSource } from 'webpack-sources';
@@ -26,7 +27,8 @@ type PatternSearcher = Strategy00000Service |
                        Strategy_3__XX_X_Service | 
                        GeneralStrategyService | 
                        StratgyLastMostInRowEnoughPlace |
-                       SingleRowEmptyBoardSearcher;
+                       SingleRowEmptyBoardSearcher | 
+                       StrategyMaxNumberOfFreeFieldsService;
 
 
 @Injectable({
@@ -45,7 +47,8 @@ export class PatternSearcherService {
     'strategy:-XX-XX': Strategy_20_XX_XX_Service,
     'strategy:-XXX-': Strategy_30_Strat__XXX_Service,
     'strategy:empty': StrategyEmptyBoardMoveSearcher,
-    'strategy:last': StratgyLastMostInRowEnoughPlace
+    'strategy:last': StratgyLastMostInRowEnoughPlace,
+    'strategy:empty-area': StrategyMaxNumberOfFreeFieldsService
   }
   
   constructor(context:BoardHandlerServiceService){
@@ -72,8 +75,12 @@ export class PatternSearcherService {
     }
 
     let nrOfFiguresNeededToWinn = this.context.nrOfFiguresNeededToWinn;
-    if (patternSearchingClass == StratgyLastMostInRowEnoughPlace) {
+    if (patternSearchingClass == StratgyLastMostInRowEnoughPlace ) {
       return this.maxFigureOccurencesFinder.getCordinanceOfPatternWithMaximumNrOfFigures(figure, StratgyLastMostInRowEnoughPlace_nrToWinnInjected)
+    }
+    if (patternSearchingClass == StrategyMaxNumberOfFreeFieldsService){
+      console.log('I shuld run strategyMaxNrOfFreeFieldsService')
+      return this.maxFigureOccurencesFinder.getCordinanceOfPatternWithMaximumNrOfFigures(figure, patternSearchingClass)
     }
 
     if (patternSearchingClass == StrategyEmptyBoardMoveSearcher){
