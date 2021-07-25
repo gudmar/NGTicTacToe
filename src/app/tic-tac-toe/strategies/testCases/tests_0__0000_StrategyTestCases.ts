@@ -403,12 +403,26 @@ let testCase26 = {
     }
 };
 
+        // ADDITIONAL TEST CASES FOR 3X3 AS it is a boundry case
+
+let testCase33_0 = {
+    name: '33_0) O O _',
+    input: [[ 1, 0, 0],
+            [ 0, 1, 0],
+            [ 0, 0, 0]],
+    expectedOutput: {
+        foundElements: [[1, 1], [2, 2]],
+        nextMoveProposals: [[3, 3]]
+    }
+};
+
 export let  testSuitePattern_0_Circle = [testCase1, testCase2, testCase3, testCase4, testCase5, testCase6, testCase7, testCase8, testCase9, 
             testCase10, testCase11, testCase12, testCase13, testCase14, testCase15, testCase16, testCase17, testCase18, testCase19, testCase20,
-            testCase21, testCase22, testCase23, testCase24, testCase25, testCase26];
+            testCase21, testCase22, testCase23, testCase24, testCase25, testCase26,
+            testCase33_0];
 
 // export let  testSuitePattern_0_Circle = [testCase1, testCase5, testCase6, testCase7, testCase8, testCase9, testCase7a] //, testCase6, testCase7, testCase8, testCase9]
-// export let  testSuitePattern_0_Circle = [testCase10]
+// export let  testSuitePattern_0_Circle = [testCase33_0]
 
 
 let testCase1a = {

@@ -32,7 +32,8 @@ let parametersFor_3_Strat_XX_X_ = {
   shouldAfterPatternFieldBeEmpty: false,
   shouldBeforePatternFieldBeEmpty: false,
   shouldBeforeOrAfterPatternFieldBeEmpty: true,
-  nrOfSearchedFigures: 3
+  // nrOfSearchedFigures: 3
+  nrOfMissingFigures: 2
 }
 
 @Parametrize(parametersFor_3_Strat_XX_X_)

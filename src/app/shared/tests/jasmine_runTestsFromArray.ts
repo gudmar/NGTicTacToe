@@ -1,4 +1,4 @@
-import 'jasmine'
+// import 'jasmine'
 import { TestBed } from '@angular/core/testing';
 import { TestCase } from '../../app.types'
 import { BoardHandlerServiceService } from '../../tic-tac-toe/board-handler-service.service';
@@ -11,7 +11,9 @@ export function runTestSuit(testedFunction: Function, testSuiteName: string, arr
         jasmine.addMatchers(customMatchers);
       });
       for (let test of arrayOfTestcases) {
-        testedFunction(test);
+        let boardSize = test.input.length;
+        let nrOfFiguresToWinn = boardSize == 3 ? 3 : 5;
+        testedFunction(test, nrOfFiguresToWinn);
       }
     });
   }
