@@ -17,7 +17,8 @@ let parametersFor_0_Strat_0000_ = {
   shouldAfterPatternFieldBeEmpty: false,
   shouldBeforePatternFieldBeEmpty: false,
   shouldBeforeOrAfterPatternFieldBeEmpty: true,
-  nrOfSearchedFigures: 4
+  nrOfMissingFigures: 1
+  // nrOfSearchedFigures: 4
 }
 
 @Parametrize(parametersFor_0_Strat_0000_)

@@ -17,6 +17,7 @@ export class StrategyFindFirstPatternService extends StrategyToolkitService {
 
   getCordinanceOfFirstFoundPattern(figure:FigureNotEmpty, patternSearchingClass: { new(): PatternSearcher }){
     let patternFinder = new patternSearchingClass();
+    patternFinder.setNrOfFiguresInRowToWin(this.context.nrOfFiguresNeededToWinn);
     let patternInAllRows = this.checkAllRowsForPattern(figure, patternFinder);
     let patternInAllColumns = this.checkAllColsForPattern(figure, patternFinder);
     let patternInAllLeftTopDiagonals = this.checkAllLeftTopDiagonalsForPattern(figure, patternFinder);

@@ -7,11 +7,11 @@ import { ConstantPool, ThrowStmt } from '@angular/compiler';
 
 
 //  Decorator for customizing strategy
-export function Parametrize(parameters: StrategyParameters){
+export function Parametrize(parameters: any){
   return function <T extends { new(...args: any[]): {}}>(constructor: T){
     let getDefaultOrValue = function(key: StrategyKeys, _default: any){
       if (!Object.keys(parameters).includes(key)) return _default;
-      if (parameters[key] as any == undefined || parameters[key] == null) return _default;
+      if (parameters[key] as any == undefined || parameters[key] as any == null) return _default;
       return parameters[key]
     }
     return class extends constructor {
@@ -20,7 +20,8 @@ export function Parametrize(parameters: StrategyParameters){
       shouldAfterPatternFieldBeEmpty = parameters.shouldAfterPatternFieldBeEmpty;
       shouldBeforePatternFieldBeEmpty= parameters.shouldBeforePatternFieldBeEmpty;
       shouldBeforeOrAfterPatternFieldBeEmpty = parameters.shouldBeforeOrAfterPatternFieldBeEmpty;
-      nrOfSearchedFigures = parameters.nrOfSearchedFigures;
+      // nrOfSearchedFigures = parameters.nrOfSearchedFigures;
+      nrOfMissingFigures = parameters.nrOfMissingFigures; // nrOfFiguresToWin - nrOfSearchedFigures
       canThereBeASearchedFigureAfterOfBeforePattern = getDefaultOrValue('canThereBeASearchedFigureAfterOfBeforePattern', false)
     }
   }
@@ -51,10 +52,17 @@ export class GeneralStrategyService {
   shouldAfterPatternFieldBeEmpty: boolean = true;
   shouldBeforeOrAfterPatternFieldBeEmpty: boolean = false;
   nrOfSearchedFigures: number = 0;
+  nrOfMissingFigures: number = 0; // nrOfSerachdFigures = nrOfLemenetsInRowToWin - nrOfMissingFigures
   maxFoundGapSize: number = 0;
   canThereBeASearchedFigureAfterOfBeforePattern: boolean = false;
 
   constructor() {}
+
+  setNrOfFiguresInRowToWin(nrOfFiguresToWin: number){
+    this.nrOfElementsInRowToWin = nrOfFiguresToWin;
+    this.nrOfSearchedFigures = this.nrOfElementsInRowToWin - this.nrOfMissingFigures;
+
+  }
   
   clearThisInstanceMemory() {
     this.inputArraySlice = [];
