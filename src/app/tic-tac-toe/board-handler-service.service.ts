@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { CellDescriptor, Figure, CellCords } from '../app.types.d'
+import { CellDescriptor, Figure, CellCords, FigureNotEmpty } from '../app.types.d'
 import { WinnerSearcherService } from './winner-searcher.service'
 import { ConcatSource } from 'webpack-sources';
+import { PatternSearcherService } from './strategies/pattern-searcher.service'
 // import { Z_PARTIAL_FLUSH } from 'zlib';
 // import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
@@ -18,6 +19,8 @@ function createArrayOfEmements<T>(arraySize: number, elementCreator: (index: num
   providedIn: 'root'
 })
 export class BoardHandlerServiceService {
+    isComputerOponent = true;
+    isGameOver = false;
     boardSize: number = 0;
     nrOfRows: number = this.boardSize;
     nrOfColumns: number = this.boardSize;
@@ -27,6 +30,9 @@ export class BoardHandlerServiceService {
     initialFigure: Figure = '';
     winnerChecker: WinnerSearcherService;
     winningFigure: Figure = '';
+    computersFigure: FigureNotEmpty = "Cross";
+    humanFigure: FigureNotEmpty = this.computersFigure == "Cross" ? "Circle" : "Cross";
+    nextMoveGetter: PatternSearcherService = new PatternSearcherService(this)
     constructor(){
       this.winnerChecker  = new WinnerSearcherService(this);
     }
@@ -41,6 +47,20 @@ export class BoardHandlerServiceService {
       this.initialFigure = this.nextFigure;
     }
 
+    makeNextMove(){
+      let nextMoveCords = this.nextMoveGetter.getNextMoveCords(this.computersFigure);
+      this.setSpecifiedFigureToRowCol(nextMoveCords[0], nextMoveCords[1], this.computersFigure)
+    }  
+
+    setSpecifiedFigureToRowCol(rowNr: number, colNr: number, figure: FigureNotEmpty){
+      let destinationIndex = rowNr * this.boardSize + colNr;
+      this.board[destinationIndex].figure = figure;
+      this.toggleNextFigure();
+      this.setCellToOccupied(destinationIndex);
+      this.showWinner();
+    }
+
+
     parametrize_ForTests(readyBoard: CellDescriptor[], nrOfFiguresNeededToWinn: number){
       this.board = readyBoard;
       this.nrOfFiguresNeededToWinn = nrOfFiguresNeededToWinn;
@@ -53,6 +73,7 @@ export class BoardHandlerServiceService {
       this.board = createArrayOfEmements<CellDescriptor>(this.nrOfColumns * this.nrOfRows, this.createSingleCellDescriptor.bind(this));
       this.winningFigure = '';
       this.nextFigure = this.initialFigure;
+      this.isGameOver = false;
     }
 
     setCellsToWinning(setOfCellCords: CellCords[]){
@@ -85,11 +106,15 @@ export class BoardHandlerServiceService {
         isPartOfWinningPlot: false,
         isOccupied: false,
         onclick: function(){
-          if (that.board[index].figure != '') return null;
-          that.setFigureToCell(index);
-          that.toggleNextFigure();
-          that.setCellToOccupied(index);
-          that.showWinner();
+          if (!that.isGameOver){
+            if (that.board[index].figure != '') return null;
+            that.setFigureToCell(index);
+            that.toggleNextFigure();
+            that.setCellToOccupied(index);
+            that.showWinner();
+            if (!that.isGameOver && that.isComputerOponent) that.makeNextMove();
+          }
+          console.log(that)
           return null;
         }
       }
@@ -106,11 +131,12 @@ export class BoardHandlerServiceService {
       if (winningCircleCords.length > 0) {
         this.winningFigure = "Circle";
         winningCords = winningCircleCords
+        this.isGameOver = true;
       } else if (winningCrossCords.length > 0){
         this.winningFigure = "Cross";
         winningCords = winningCrossCords
+        this.isGameOver = true;
       }
-
       this.setCellsToWinning(winningCords)
     }
   

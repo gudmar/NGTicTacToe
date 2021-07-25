@@ -1,7 +1,9 @@
 import { Component, Injectable, TemplateRef ,Input, Output, HostListener} from '@angular/core';
 import { BoardHandlerServiceService } from './board-handler-service.service'
+
 import { Receiver } from '../app.types'
 import { MediatorService} from '../shared/mediator.service'
+import { FigureNotEmpty } from '../app.types'
 
 
 @Component({
@@ -13,11 +15,13 @@ export class TicTacToeComponent {
   title = 'TicTacToe';
   _boardSize:number = 0;
   _nrOfFiguresInRowToWinn = 3;
+  ownFigure: FigureNotEmpty = "Cross";
+  
   @Input() set boardSize(val:number) {
     this.boardHandler.parametrize(val, this.nrOfFiguresInRowToWinn)
     this._boardSize = val;
     this.rowIds = this.createArrayOfNElements(this.boardSize);
-    this.colIds = this.createArrayOfNElements(this.boardSize);
+    this.colIds = this.createArrayOfNElements(this.boardSize);  
     this.boardHandler.restartGame()
   }
   get boardSize() {return this._boardSize}

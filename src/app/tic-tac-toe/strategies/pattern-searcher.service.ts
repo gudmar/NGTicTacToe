@@ -40,7 +40,7 @@ export class PatternSearcherService {
   maxFigureOccurencesFinder: StrategyFindMaxFigureOccurencesService;
   moveProposalInEmptyBoardFinder: StrategyEmptyBoardMoveSearcher;
   commands: {[propname: string] : any} = {
-    'strategy:OOOO': Strategy00000Service,
+    'strategy:0000': Strategy00000Service,
     'strategy:00-00': Strategy1_00_00Service,
     'strategy:-XX-X-': Strategy_3__XX_X_Service,
     'strategy:-XX-XX': Strategy_20_XX_XX_Service,
@@ -58,6 +58,33 @@ export class PatternSearcherService {
     this.moveProposalInEmptyBoardFinder = new StrategyEmptyBoardMoveSearcher(context)
   }
 
+  getNextMoveCords(ownFigure: FigureNotEmpty = "Cross", ):number[]{
+    let strategiesInOrder = [
+      {command: 'strategy:0000', figure: ownFigure},
+      {command: 'strategy:00-00', figure: ownFigure},
+      {command: 'strategy:-XX-XX', figure: ownFigure},
+      {command: 'strategy:-XX-X-', figure: ownFigure},
+      {command: 'strategy:-XXX-', figure: ownFigure},
+      {command: 'strategy:last', figure: ownFigure},
+      {command: 'strategy:empty', figure: ownFigure},
+      {command: 'strategy:empty-area', figure: ownFigure},
+    ]
+    for (let strategy of strategiesInOrder){
+      let proposedMoves = this.getCalculatedStrategy(strategy.figure, strategy.command);
+      if (proposedMoves.length > 0) return this.randomlySelectCords(proposedMoves)
+    }
+    return []; // This empty array means, that there is a widthdraw. No move at all is possible.
+  }
+
+  randomlySelectCords(listOfProposedMoves:number[][]): number[]{
+    let nrOfProposedMoves: number = listOfProposedMoves.length;
+    return listOfProposedMoves[PatternSearcherService.getRandomNumberFromInterval(0, nrOfProposedMoves)]
+  }
+
+  static getRandomNumberFromInterval(start: number, end: number){
+    return Math.floor(Math.random() * (end - start)) + start;
+  }
+
   commandToPatternTranslator(command: string){
     return this.commands[command]
   }
@@ -66,7 +93,7 @@ export class PatternSearcherService {
     let translatedClass = this.commandToPatternTranslator(command)
     let patternSearchingClass = translatedClass;
 
-    @SetNrOfFiguresNeededToWinn(5)
+    @SetNrOfFiguresNeededToWinn(this.context.nrOfFiguresNeededToWinn)
     class StratgyLastMostInRowEnoughPlace_nrToWinnInjected extends StratgyLastMostInRowEnoughPlace{
     }
 

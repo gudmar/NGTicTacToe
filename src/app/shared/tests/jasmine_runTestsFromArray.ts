@@ -1,3 +1,4 @@
+import 'jasmine'
 import { TestBed } from '@angular/core/testing';
 import { TestCase } from '../../app.types'
 import { BoardHandlerServiceService } from '../../tic-tac-toe/board-handler-service.service';
