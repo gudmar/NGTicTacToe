@@ -130,5 +130,15 @@ let testCase70 = {
         nextMoveProposals: [[1, 1]]
     }
 };
+// let testCase80 = {
+//     name: '80) Board 3x3: enymy element in the middle: own element is [1, 3]',
+//     input: [[0, 0, 0],
+//             [0, 1, 0],
+//             [0, 0, 0]],
+//     expectedOutput: {
+//         foundElements: [],
+//         nextMoveProposals: [[1, 1]]
+//     }    
+// }
 export let testCasesCircle = [testCase0, testCase10, testCase20, testCase30, testCase40, testCase50, testCase60, testCase70]
-// export let testCasesCircle = [testCase0]
+// export let testCasesCircle = [testCase30]

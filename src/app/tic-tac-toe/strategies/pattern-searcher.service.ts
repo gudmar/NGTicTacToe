@@ -59,19 +59,26 @@ export class PatternSearcherService {
   }
 
   getNextMoveCords(ownFigure: FigureNotEmpty = "Cross", ):number[]{
+    // console.log(JSON.parse(JSON.stringify(this.context.board)))
+    let oponentFigure: FigureNotEmpty = ownFigure == "Circle" ? "Cross" : "Circle";
     let strategiesInOrder = [
       {command: 'strategy:0000', figure: ownFigure},
       {command: 'strategy:00-00', figure: ownFigure},
-      {command: 'strategy:-XX-XX', figure: ownFigure},
-      {command: 'strategy:-XX-X-', figure: ownFigure},
-      {command: 'strategy:-XXX-', figure: ownFigure},
+      {command: 'strategy:0000', figure: oponentFigure},
+      {command: 'strategy:-XX-XX', figure: oponentFigure},
+      {command: 'strategy:-XX-X-', figure: oponentFigure},
+      {command: 'strategy:-XXX-', figure: oponentFigure},
       {command: 'strategy:last', figure: ownFigure},
       {command: 'strategy:empty', figure: ownFigure},
       {command: 'strategy:empty-area', figure: ownFigure},
     ]
     for (let strategy of strategiesInOrder){
-      let proposedMoves = this.getCalculatedStrategy(strategy.figure, strategy.command);
-      if (proposedMoves.length > 0) return this.randomlySelectCords(proposedMoves)
+      let proposedMoves = this.getCalculatedStrategy(strategy.figure, strategy.command).nextMoveProposals;
+      console.log(strategy.command)
+      if (proposedMoves.length > 0) {
+        console.log(`Strategy: ${strategy.command} chosen.`)
+        return this.randomlySelectCords(proposedMoves)
+      }
     }
     return []; // This empty array means, that there is a widthdraw. No move at all is possible.
   }
@@ -96,7 +103,6 @@ export class PatternSearcherService {
     @SetNrOfFiguresNeededToWinn(this.context.nrOfFiguresNeededToWinn)
     class StratgyLastMostInRowEnoughPlace_nrToWinnInjected extends StratgyLastMostInRowEnoughPlace{
     }
-
     let nrOfFiguresNeededToWinn = this.context.nrOfFiguresNeededToWinn;
     if (patternSearchingClass == StratgyLastMostInRowEnoughPlace ) {
       return this.maxFigureOccurencesFinder.getCordinanceOfPatternWithMaximumNrOfFigures(figure, StratgyLastMostInRowEnoughPlace_nrToWinnInjected)

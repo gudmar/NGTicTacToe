@@ -50,7 +50,7 @@ export abstract class StrategyToolkitService {
 
   findPatternInCords(cords: number[][], patternFinder: PatternSearcher, figure: FigureNotEmpty){
     let vectorizedArray: string[] = this.AVConverter.cords2simpleArray(this.context.board, cords);
-
+    // console.log(JSON.parse(JSON.stringify(vectorizedArray)))
     let solution = patternFinder.getPattern(figure, this.context.nrOfFiguresNeededToWinn, vectorizedArray);
     return {
       foundElements: this.AVConverter.simpleArrayIndex2Cords(<number[]>solution.foundElements, cords),
