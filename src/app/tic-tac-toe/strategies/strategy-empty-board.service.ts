@@ -90,7 +90,10 @@ export class StrategyEmptyBoardMoveSearcher extends StrategyToolkitService{
       this.context.board, 
       cords
     )
-    let {isMiddlePositionFree} = this.patternFinder.getPattern(ownFigure, 0, boardSlice)
+    let {isMiddlePositionFree} = this.patternFinder.getPattern(ownFigure, 0, boardSlice);
+    // debugger;
+    let oponentFigure = ownFigure == "Circle" ? "Cross" : "Circle";
+
     return isMiddlePositionFree;
   }
 
@@ -109,7 +112,7 @@ export class SingleRowEmptyBoardSearcher {
   }
 
   countOponentFigures(figure: FigureNotEmpty, boardSlice: string[]) {
-    return this.countFigures(<FigureNotEmpty>this.opositeFigure(figure), boardSlice)
+    return this.countFigures(<FigureNotEmpty>SingleRowEmptyBoardSearcher.opositeFigure(figure), boardSlice)
   }
 
   countFigures(figure: FigureNotEmpty, boardSlice: string[]) {
@@ -127,6 +130,7 @@ export class SingleRowEmptyBoardSearcher {
   }
 
   getPattern(figure: FigureNotEmpty, nrOfElementsInRowToWin: number, boardSlice: string[]): any{
+    // console.log(boardSlice)
     return {
       ownFigures: this.countOwnFigures(figure, boardSlice),
       oponentFigures: this.countOponentFigures(figure, boardSlice),
@@ -134,7 +138,7 @@ export class SingleRowEmptyBoardSearcher {
     }
   }
 
-  opositeFigure(figure: Figure) {
+  static opositeFigure(figure: Figure) {
     if (figure == "Circle") return "Cross";
     if (figure == "Cross") return "Circle";
     return "";

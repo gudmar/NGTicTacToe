@@ -48,12 +48,13 @@ export class BoardHandlerServiceService {
     }
 
     makeNextMove(){
+      console.log(this.board)
       let nextMoveCords = this.nextMoveGetter.getNextMoveCords(this.computersFigure);
       this.setSpecifiedFigureToRowCol(nextMoveCords[0], nextMoveCords[1], this.computersFigure)
     }  
 
     setSpecifiedFigureToRowCol(rowNr: number, colNr: number, figure: FigureNotEmpty){
-      let destinationIndex = rowNr * this.boardSize + colNr;
+      let destinationIndex = (colNr - 1) * this.boardSize + (rowNr - 1);
       this.board[destinationIndex].figure = figure;
       this.toggleNextFigure();
       this.setCellToOccupied(destinationIndex);
@@ -112,6 +113,7 @@ export class BoardHandlerServiceService {
             that.toggleNextFigure();
             that.setCellToOccupied(index);
             that.showWinner();
+            console.log(JSON.parse(JSON.stringify(that.board)))
             if (!that.isGameOver && that.isComputerOponent) that.makeNextMove();
           }
           console.log(that)

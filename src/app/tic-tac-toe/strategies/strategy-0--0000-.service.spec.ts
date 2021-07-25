@@ -31,7 +31,7 @@ let testedFunction = function(figureToFind:FigureNotEmpty){
       let nrOfFiguresInRowToWinn = 5;
       boardHandlerService.parametrize_ForTests(boardInput, 5);
       let patternSearcher = new PatternSearcherService(boardHandlerService);
-      let solution = patternSearcher.getCalculatedStrategy(figureToFind, 'strategy:OOOO');
+      let solution = patternSearcher.getCalculatedStrategy(figureToFind, 'strategy:0000');
       let foundPattern = solution.foundElements;
       let proposedMoves = solution.nextMoveProposals;
       let expOutput:PatternDescriptor = <PatternDescriptor>singleTestCase.expectedOutput;
@@ -44,6 +44,6 @@ let testedFunction = function(figureToFind:FigureNotEmpty){
 }
 
 
-// runTestSuit(testedFunction('Circle'), 'Find strategy 0 XXXX pattern: circle test instances', testSuitePattern_0_Circle);
-// runTestSuit(testedFunction('Cross'), 'Find strategy 0 XXXX pattern: cross test instances', testSuitePattern_0_Cross);
+runTestSuit(testedFunction('Circle'), 'Find strategy 0 XXXX pattern: circle test instances', testSuitePattern_0_Circle);
+runTestSuit(testedFunction('Cross'), 'Find strategy 0 XXXX pattern: cross test instances', testSuitePattern_0_Cross);
 
