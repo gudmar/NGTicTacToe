@@ -13,7 +13,7 @@ let parametersFor_1_Strat_00_00_ = {
   shouldBeforePatternFieldBeEmpty: false,
   shouldBeforeOrAfterPatternFieldBeEmpty: false,
   canThereBeASearchedFigureAfterOfBeforePattern: true,
-  nrOfMissingFigures: 2
+  nrOfMissingFigures: 1
   // nrOfSearchedFigures: 4
 }
 
