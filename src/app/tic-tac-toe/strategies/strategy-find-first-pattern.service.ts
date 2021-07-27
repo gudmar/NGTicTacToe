@@ -22,11 +22,11 @@ export class StrategyFindFirstPatternService extends StrategyToolkitService {
     let patternInAllColumns = this.checkAllColsForPattern(figure, patternFinder);
     let patternInAllLeftTopDiagonals = this.checkAllLeftTopDiagonalsForPattern(figure, patternFinder);
     let patternInAllLeftBottomDiagonals = this.checkAllLeftBottomDiagonalsForPattern(figure, patternFinder)
-  
-    if (patternInAllRows.foundElements.length > 0) return patternInAllRows;
-    if (patternInAllColumns.foundElements.length > 0) return patternInAllColumns;
+
     if (patternInAllLeftTopDiagonals.foundElements.length > 0) return patternInAllLeftTopDiagonals;
     if (patternInAllLeftBottomDiagonals.foundElements.length > 0) return patternInAllLeftBottomDiagonals;
+    if (patternInAllRows.foundElements.length > 0) return patternInAllRows;
+    if (patternInAllColumns.foundElements.length > 0) return patternInAllColumns;
     return this.getEmptyPattern();
   }
 

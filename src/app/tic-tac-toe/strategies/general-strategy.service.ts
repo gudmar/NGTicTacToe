@@ -276,9 +276,9 @@ export class GeneralStrategyService {
     return false; // in this case gap is needed, so will never be a winner pattern
   }
 
-  getFoundPatternIndexes(): number[]{
+  getFoundPatternIndexes(arraySlice: string[] = this.inputArraySlice): number[]{
     let currentIndex = 0;
-    for (let element of this.inputArraySlice) {
+    for (let element of arraySlice) {
       this.addToMemoryForSingleFigureIndex(currentIndex)
       if (this.checkIfPatternFound(currentIndex)) {
         let temp = this.foundIndexMemory;
@@ -290,7 +290,49 @@ export class GeneralStrategyService {
     return [];
   }
 
-getPattern(figure: FigureNotEmpty, nrOfElementsInRowToWin: number, boardSlice: string[]):SlicedPatternDescriptor{
+searchOneMoreTimeStartingFromEachGap(arraySlice: string[] = this.inputArraySlice, figure: FigureNotEmpty, nrOfElementsInRowToWin: number){
+  let gapEndIndexes = this.getGapIndexes(arraySlice);
+  let addGapOffsetToSolution = function(arrayOfIndexes: number[], gapEndIndex: number){
+    return arrayOfIndexes.map((element: number, index: number) => {
+      return element + gapEndIndex;
+    })
+  }
+  for (let gap of gapEndIndexes){
+    let sliceFormGap = arraySlice.slice(gap, arraySlice.length)
+    let foundPattern = this.getPattern(figure, nrOfElementsInRowToWin, sliceFormGap, false)
+    if (foundPattern.nextMoveProposals.length > 0) 
+      return {
+        foundElements: addGapOffsetToSolution(foundPattern.foundElements, gap),
+        nextMoveProposals: addGapOffsetToSolution(foundPattern.nextMoveProposals, gap),
+      }
+  }
+  return this.getEmptyPattern();
+}
+
+getGapIndexes(arraySlice: string[]){
+  let gapEndIndexes = [];
+  let currentGapSize = 0;
+  let isInspectingGap = false;
+  let index = 0;
+  let resetGapState = function(){currentGapSize = 0; isInspectingGap = false;}
+  // debugger;
+  for (let item of arraySlice){
+    let dupa = item == "";
+    if (item == "") {currentGapSize++; isInspectingGap = true;}
+    if (currentGapSize > this.maxGapSize) resetGapState();
+    if (item != "") {
+      if (isInspectingGap && currentGapSize <= this.maxGapSize) gapEndIndexes.push(index - 1);
+      resetGapState();
+    }
+    index++;
+    // debugger;
+  }
+  
+  return gapEndIndexes
+}
+
+
+getPattern(figure: FigureNotEmpty, nrOfElementsInRowToWin: number, boardSlice: string[], shouldRunFromEachGap: boolean = true):SlicedPatternDescriptor{
     this.inputArraySlice = boardSlice;
     this.nrOfElementsInRowToWin = nrOfElementsInRowToWin;
     this.figure = figure;

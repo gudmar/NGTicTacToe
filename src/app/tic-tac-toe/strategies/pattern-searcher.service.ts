@@ -15,7 +15,6 @@ import {Strategy_3__XX_X_Service} from "./strategy-3--xx-x-.service"
 import { ConcatSource } from 'webpack-sources';
 import { ThrowStmt, ThisReceiver } from '@angular/compiler';
 
-import {Strategy3} from './general-strategy.service.spec'
 import { fileURLToPath } from 'url';
 import { start } from 'repl';
 import { BoardSimplifierService } from './board-simplifier.service';
