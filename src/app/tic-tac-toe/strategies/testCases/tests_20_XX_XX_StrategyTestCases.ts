@@ -82,5 +82,19 @@ let testCase50 = {
         nextMoveProposals: [[4, 2]]
     }
 };
+let testCase60 = {
+    name: '60) Real example from game |XXX_X|)',
+    input: [[0, 0, 1, 2, 2, 2, 2],
+            [0, 0, 1, 2, 0, 1, 0],
+            [0, 0, 2, 2, 1, 2, 2],
+            [1, 2, 1, 1, 1, 2, 1],
+            [1, 0, 1, 0, 1, 1, 1],
+            [0, 2, 2, 0, 2, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0]],
+    expectedOutput: {
+        foundElements: [[3, 5], [5, 5],[6, 5], [7, 5]],
+        nextMoveProposals: [[4, 5]]
+    }
+};
 
-export let testCasesCircle = [testCase0, testCase10, testCase20, testCase30, testCase40, testCase50]
+export let testCasesCircle = [testCase0, testCase10, testCase20, testCase30, testCase40, testCase50, testCase60]

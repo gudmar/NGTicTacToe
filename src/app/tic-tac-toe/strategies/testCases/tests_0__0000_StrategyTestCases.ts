@@ -349,11 +349,11 @@ let testCase23 = {
 let testCase24 = {
     name: '24) 2 patterns (in row and col) found, one shuld be returned (row one due to implementation order)',
     input: [[0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 1, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
             [0, 0, 1, 1, 0, 0, 0],
             [0, 1, 1, 1, 1, 2, 1],
             [0, 0, 0, 1, 1, 0, 0],
-            [0, 0, 0, 0, 0, 1, 0],
+            [0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0]],
     expectedOutput: {
         foundElements: [[2, 4], [3, 4], [4, 4], [5, 4]],
