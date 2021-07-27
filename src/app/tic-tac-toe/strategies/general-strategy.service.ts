@@ -313,14 +313,17 @@ getGapIndexes(arraySlice: string[]){
   let gapEndIndexes = [];
   let currentGapSize = 0;
   let isInspectingGap = false;
+  let wasThereFirstFigureNotEmpty = false;
   let index = 0;
   let resetGapState = function(){currentGapSize = 0; isInspectingGap = false;}
   // debugger;
   for (let item of arraySlice){
-    let dupa = item == "";
-    if (item == "") {currentGapSize++; isInspectingGap = true;}
-    if (currentGapSize > this.maxGapSize) resetGapState();
+    if (wasThereFirstFigureNotEmpty){
+      if (item == "") {currentGapSize++; isInspectingGap = true;}
+      if (currentGapSize > this.maxGapSize) resetGapState();
+    }
     if (item != "") {
+      wasThereFirstFigureNotEmpty = true;
       if (isInspectingGap && currentGapSize <= this.maxGapSize) gapEndIndexes.push(index - 1);
       resetGapState();
     }
