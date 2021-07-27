@@ -130,7 +130,6 @@ export class GeneralStrategyService {
     let test = this.inputArraySlice[simplifiedElementIndex]
     switch(this.inputArraySlice[simplifiedElementIndex]){
       case this.figure: {
-
         if ((this.nrOfFoundInRow == this.nrOfSearchedFigures) && (this.nrOfGaps == this.expectedNrOfGaps)) {
           if (!this.isFieldAfterPatternFree() && this.shouldAfterPatternFieldBeEmpty) return false
           if (!this.isFieldBeforePatternFree() && this.shouldBeforePatternFieldBeEmpty) return false
@@ -280,6 +279,8 @@ export class GeneralStrategyService {
     let currentIndex = 0;
     for (let element of arraySlice) {
       this.addToMemoryForSingleFigureIndex(currentIndex)
+      // let dupa = this.checkIfPatternFound(currentIndex)
+      // debugger
       if (this.checkIfPatternFound(currentIndex)) {
         let temp = this.foundIndexMemory;
         return temp;
@@ -300,6 +301,7 @@ searchOneMoreTimeStartingFromEachGap(arraySlice: string[] = this.inputArraySlice
   for (let gap of gapEndIndexes){
     let sliceFormGap = arraySlice.slice(gap, arraySlice.length)
     let foundPattern = this.getPattern(figure, nrOfElementsInRowToWin, sliceFormGap, false)
+    // debugger;
     if (foundPattern.nextMoveProposals.length > 0) 
       return {
         foundElements: addGapOffsetToSolution(foundPattern.foundElements, gap),

@@ -120,20 +120,17 @@ describe('Get indexes of gap endings from array slice', () => {
   };
 
   let testsToRun_gap2 = [testCase_0a, testCase_10a, testCase_20a]
-  // let testsToRun_gap2 = [testCase_20a,]
 
 
   beforeEach(() => {
-    // TestBed.configureTestingModule({});
-    // service = TestBed.inject(GeneralStrategyService);
   });
-  // for (let test of testsToRun_gap1){
-  //   let sliceArray:string[] = symbolicArray2stringArray(test.input)
-  //   let result = testFunction_listOfGapEndIndexes_1(sliceArray)
-  //   it(test.testName, () => {
-  //     expect(result).toEqual(test.expectedOutput)
-  //   })
-  // }
+  for (let test of testsToRun_gap1){
+    let sliceArray:string[] = symbolicArray2stringArray(test.input)
+    let result = testFunction_listOfGapEndIndexes_1(sliceArray)
+    it(test.testName, () => {
+      expect(result).toEqual(test.expectedOutput)
+    })
+  }
   
   for (let test of testsToRun_gap2){
     let sliceArray:string[] = symbolicArray2stringArray(test.input)
@@ -142,8 +139,96 @@ describe('Get indexes of gap endings from array slice', () => {
       expect(result).toEqual(test.expectedOutput)
     })
   }
-  // it('should be created', () => {
-  //   expect(service).toBeTruthy();
-  // });
+});
+
+
+// searchOneMoreTimeStartingFromEachGap(arraySlice: string[] = this.inputArraySlice, figure: FigureNotEmpty, nrOfElementsInRowToWin: number)
+
+
+
+let parametersFor_XX_XX_patternFinder = {
+  expectedNrOfGaps: 1,
+  maxGapSize: 1,
+  shouldAfterPatternFieldBeEmpty: false,
+  shouldBeforePatternFieldBeEmpty: false,
+  shouldBeforeOrAfterPatternFieldBeEmpty: false,
+  nrOfMissingFigures: 1
+}
+
+@Parametrize(parametersFor_XX_XX_patternFinder)
+  export class XX_XX_patternFinder extends GeneralStrategyService {
+}
+
+
+describe('Find a pattern after a gap', () => {
+  let patternFinder = new XX_XX_patternFinder();
+  patternFinder.setNrOfFiguresInRowToWin(5);
+  let testedFunction_5 = function(arraySlice: string[]){
+    return patternFinder.searchOneMoreTimeStartingFromEachGap(arraySlice, "Circle", 5)
+  }
+  let testCase_0 = {
+    input: [1, 0, 1, 0, 1, 1, 1],
+    expectedOutput: {
+      foundElements: [2, 4, 5, 6],
+      nextMoveProposals: [3],
+    },
+    testName: '0) 1, 0, 1, 0, 1, 1, 1'
+  }
+
+  let testCase_10 = {
+    input: [1, 1, 1, 0, 1, 1, 1],
+    expectedOutput: {
+      foundElements: [],
+      nextMoveProposals: [],
+    },
+    testName: '10) 1, 1, 1, 0, 1, 1, 1 - return empty solution'
+  }
+
+  let testCase_20 = {
+    input: [1, 1, 1, 0, 1, 1, 1],
+    expectedOutput: {
+      foundElements: [],
+      nextMoveProposals: [],
+    },
+    testName: '20) 1, 1, 1, 0, 1, 0, 1 - return empty solution'
+  }
+
+  let testCase_30 = {
+    input: [0, 1, 1, 0, 1, 1, 0],
+    expectedOutput: {
+      foundElements: [],
+      nextMoveProposals: [],
+    },
+    testName: '30) 0, 1, 1, 0, 1, 1, 0 - return empty solution'
+  }
+
+  let testCase_40 = {
+    input: [0, 2, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 0],
+    expectedOutput: {
+      foundElements: [3, 4, 6, 7],
+      nextMoveProposals: [5],
+    },
+    testName: '40) 0, 2, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 0 - should return first solution'
+  }
+
+  let testCase_50 = {
+    input: [0, 2, 0, 2, 2, 0, 2, 2, 0, 1, 0, 1, 1, 1, 0],
+    expectedOutput: {
+      foundElements: [9, 11, 12, 13],
+      nextMoveProposals: [10],
+    },
+    testName: '50) 0, 2, 0, 2, 2, 0, 2, 2, 0, 1, 0, 1, 1, 1, 0 - should return first non cross solution'
+  }
+
+
+  let testsToRun_1 = [testCase_0, testCase_10, testCase_20, testCase_30, testCase_40, testCase_50];
+
+  for (let test of testsToRun_1){
+    let sliceArray:string[] = symbolicArray2stringArray(test.input)
+    let result = testedFunction_5(sliceArray)
+    it(test.testName, () => {
+      expect(result).toEqual(test.expectedOutput)
+    })
+  }
 });
 
