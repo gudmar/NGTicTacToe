@@ -23,6 +23,7 @@ export function Parametrize(parameters: any){
       // nrOfSearchedFigures = parameters.nrOfSearchedFigures;
       nrOfMissingFigures = parameters.nrOfMissingFigures; // nrOfFiguresToWin - nrOfSearchedFigures
       canThereBeASearchedFigureAfterOfBeforePattern = getDefaultOrValue('canThereBeASearchedFigureAfterOfBeforePattern', false)
+      nrOfAdditionalSymbols_exceedingNrInRowToWin = parameters.nrOfAdditionalSymbols_exceedingNrInRowToWin == undefined? 0 : parameters.nrOfAdditionalSymbols_exceedingNrInRowToWin;
     }
   }
 }
@@ -55,13 +56,16 @@ export class GeneralStrategyService {
   nrOfMissingFigures: number = 0; // nrOfSerachdFigures = nrOfLemenetsInRowToWin - nrOfMissingFigures
   maxFoundGapSize: number = 0;
   canThereBeASearchedFigureAfterOfBeforePattern: boolean = false;
+  nrOfAdditionalSymbols_exceedingNrInRowToWin: number = 0;
 
-  constructor() {}
+  constructor() {
+
+  }
 
   setNrOfFiguresInRowToWin(nrOfFiguresToWin: number){
     this.nrOfElementsInRowToWin = nrOfFiguresToWin;
+    this.nrOfElementsInRowToWin = this.nrOfElementsInRowToWin + this.nrOfAdditionalSymbols_exceedingNrInRowToWin;
     this.nrOfSearchedFigures = this.nrOfElementsInRowToWin - this.nrOfMissingFigures;
-
   }
   
   clearThisInstanceMemory() {
@@ -128,12 +132,13 @@ export class GeneralStrategyService {
 
   checkIfPatternFound(simplifiedElementIndex:number):boolean{
     let test = this.inputArraySlice[simplifiedElementIndex]
+    // debugger;
     switch(this.inputArraySlice[simplifiedElementIndex]){
       case this.figure: {
         if ((this.nrOfFoundInRow == this.nrOfSearchedFigures) && (this.nrOfGaps == this.expectedNrOfGaps)) {
           if (!this.isFieldAfterPatternFree() && this.shouldAfterPatternFieldBeEmpty) return false
           if (!this.isFieldBeforePatternFree() && this.shouldBeforePatternFieldBeEmpty) return false
-          if (this.isFieldAfterTheSameFigure() && !this.canThereBeASearchedFigureAfterOfBeforePattern) return false
+          if (this.isFieldAfterTheSameFigure() && !this.canThereBeASearchedFigureAfterOfBeforePattern) return false  // BYK OR nie OF w nazwie propsa
           if (this.isFieldBeforeTheSameFigure() && !this.canThereBeASearchedFigureAfterOfBeforePattern) return false
           if (this.shouldBeforeOrAfterPatternFieldBeEmpty) {
             if (!this.isFieldAfterPatternFree() && !this.isFieldBeforePatternFree()) return false
@@ -346,7 +351,6 @@ getPattern(figure: FigureNotEmpty, nrOfElementsInRowToWin: number, boardSlice: s
     let nextMoveProposals = this.getListOfIndexesOfProposedMoves(foundPatternIndexes)
     this.resetMemory();
     if (foundElementCords.length == 0) {
-      let dupa = this.searchOneMoreTimeStartingFromEachGap(boardSlice, figure, this.nrOfElementsInRowToWin);
       return this.searchOneMoreTimeStartingFromEachGap(boardSlice, figure, this.nrOfElementsInRowToWin)
     }
     return {

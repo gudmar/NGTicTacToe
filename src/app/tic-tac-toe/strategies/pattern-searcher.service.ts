@@ -7,6 +7,7 @@ import { Strategy00000Service } from './strategy-0--0000-.service'
 import { Strategy1_00_00Service } from './strategy1-00-00.service'
 import { Strategy_20_XX_XX_Service} from './strategy-20-xx-xx.service'
 import { Strategy_30_Strat__XXX_Service } from './strategy-30-xxx-.service'
+import { Strategy40_X_X_X_X_Service } from './strategy-40-x-x-x-x.service'
 import { GeneralStrategyService } from './general-strategy.service'
 import { StrategyEmptyBoardMoveSearcher,SingleRowEmptyBoardSearcher } from './strategy-empty-board.service'
 import {StratgyLastMostInRowEnoughPlace, SetNrOfFiguresNeededToWinn} from './stratgy-last-most-in-row-enough-place.service';
@@ -44,9 +45,10 @@ export class PatternSearcherService {
     'strategy:-XX-X-': Strategy_3__XX_X_Service,
     'strategy:-XX-XX': Strategy_20_XX_XX_Service,
     'strategy:-XXX-': Strategy_30_Strat__XXX_Service,
+    'strategy:X-X-X-X': Strategy40_X_X_X_X_Service,
     'strategy:empty': StrategyEmptyBoardMoveSearcher,
     'strategy:last': StratgyLastMostInRowEnoughPlace,
-    'strategy:empty-area': StrategyMaxNumberOfFreeFieldsService
+    'strategy:empty-area': StrategyMaxNumberOfFreeFieldsService,
   }
   
   constructor(context:BoardHandlerServiceService){
@@ -66,6 +68,7 @@ export class PatternSearcherService {
       {command: 'strategy:-XX-XX', figure: oponentFigure},
       {command: 'strategy:-XX-X-', figure: oponentFigure},
       {command: 'strategy:-XXX-', figure: oponentFigure},
+      {command: 'strategy:X-X-X-X', figure: oponentFigure},
       {command: 'strategy:last', figure: ownFigure},
       {command: 'strategy:empty', figure: ownFigure},
       {command: 'strategy:empty-area', figure: ownFigure},

@@ -24,8 +24,9 @@ let testCase0 = {
             [0, 0, 0, 0, 0, 0, 0]],
     expectedOutput: {
         foundElements: [[1, 1], [3, 1],[5, 1], [7, 1]],
-        nextMoveProposals: [[2, 1], [4, 1], [6, 1]]
+        nextMoveProposals: [[4, 1]]
     }
 };
 
-let testCases = [tesetCase0]
+
+export let testCases = [testCase0]
