@@ -1,3 +1,5 @@
+import { ɵSWITCH_IVY_ENABLED__POST_R3__ } from '@angular/core';
+
 // let testCase0 = {
 //     name: '0) Exploaratory: O_OOO_O',
 //     input: [[2, 2, 1, 2, 2, 0, 1],
@@ -27,6 +29,9 @@ let testCase0 = {
         nextMoveProposals: [[4, 1]]
     }
 };
+
+// !!! Important. Very dangerous pattern, as many subpatterns can be created separatly, and then combined with one move. That is why
+// for bigger boards X_X_X search pattern should be concidered
 
 
 export let testCases = [testCase0]
