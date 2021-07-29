@@ -13,6 +13,7 @@ export function runTestSuit(testedFunction: Function, testSuiteName: string, arr
       for (let test of arrayOfTestcases) {
         let boardSize = test.input.length;
         let nrOfFiguresToWinn = boardSize == 3 ? 3 : 5;
+        console.log(test.name)
         testedFunction(test, nrOfFiguresToWinn);
       }
     });

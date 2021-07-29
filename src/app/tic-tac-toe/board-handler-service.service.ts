@@ -48,7 +48,6 @@ export class BoardHandlerServiceService {
     }
 
     makeNextMove(){
-      console.log(this.board)
       let nextMoveCords = this.nextMoveGetter.getNextMoveCords(this.computersFigure);
       this.setSpecifiedFigureToRowCol(nextMoveCords[0], nextMoveCords[1], this.computersFigure)
     }  
@@ -113,10 +112,8 @@ export class BoardHandlerServiceService {
             that.toggleNextFigure();
             that.setCellToOccupied(index);
             that.showWinner();
-            console.log(JSON.parse(JSON.stringify(that.board)))
             if (!that.isGameOver && that.isComputerOponent) that.makeNextMove();
           }
-          console.log(that)
           return null;
         }
       }

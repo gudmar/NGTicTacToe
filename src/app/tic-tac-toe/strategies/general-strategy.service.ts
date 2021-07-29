@@ -279,8 +279,6 @@ export class GeneralStrategyService {
     let currentIndex = 0;
     for (let element of arraySlice) {
       this.addToMemoryForSingleFigureIndex(currentIndex)
-      // let dupa = this.checkIfPatternFound(currentIndex)
-      // debugger
       if (this.checkIfPatternFound(currentIndex)) {
         let temp = this.foundIndexMemory;
         return temp;
@@ -292,16 +290,19 @@ export class GeneralStrategyService {
   }
 
 searchOneMoreTimeStartingFromEachGap(arraySlice: string[] = this.inputArraySlice, figure: FigureNotEmpty, nrOfElementsInRowToWin: number){
+  // console.log('Array slice ')
+  // console.log(arraySlice)
   let gapEndIndexes = this.getGapIndexes(arraySlice);
   let addGapOffsetToSolution = function(arrayOfIndexes: number[], gapEndIndex: number){
     return arrayOfIndexes.map((element: number, index: number) => {
       return element + gapEndIndex;
     })
   }
+  // debugger
   for (let gap of gapEndIndexes){
     let sliceFormGap = arraySlice.slice(gap, arraySlice.length)
     let foundPattern = this.getPattern(figure, nrOfElementsInRowToWin, sliceFormGap, false)
-    // debugger;
+    // console.log(foundPattern)
     if (foundPattern.nextMoveProposals.length > 0) 
       return {
         foundElements: addGapOffsetToSolution(foundPattern.foundElements, gap),
@@ -330,7 +331,6 @@ getGapIndexes(arraySlice: string[]){
       resetGapState();
     }
     index++;
-    // debugger;
   }
   
   return gapEndIndexes
@@ -345,6 +345,10 @@ getPattern(figure: FigureNotEmpty, nrOfElementsInRowToWin: number, boardSlice: s
     let foundElementCords = foundPatternIndexes
     let nextMoveProposals = this.getListOfIndexesOfProposedMoves(foundPatternIndexes)
     this.resetMemory();
+    if (foundElementCords.length == 0) {
+      let dupa = this.searchOneMoreTimeStartingFromEachGap(boardSlice, figure, this.nrOfElementsInRowToWin);
+      return this.searchOneMoreTimeStartingFromEachGap(boardSlice, figure, this.nrOfElementsInRowToWin)
+    }
     return {
       foundElements: foundElementCords,
       nextMoveProposals: foundElementCords.length > 0 ? nextMoveProposals : [],

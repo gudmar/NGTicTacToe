@@ -72,7 +72,7 @@ let testFunction_listOfGapEndIndexes_2 = function(arraySlice: string[]){
   return  testStratGaps2.getGapIndexes(arraySlice)
 }
 
-describe('Get indexes of gap endings from array slice', () => {
+xdescribe('Get indexes of gap endings from array slice', () => {
   let service: GeneralStrategyService;
   let testCase_0 = {
     input: [1, 0, 1, 0, 1, 1, 0, 1],
@@ -160,7 +160,7 @@ let parametersFor_XX_XX_patternFinder = {
 }
 
 
-describe('Find a pattern after a gap', () => {
+xdescribe('Find a pattern after a gap', () => {
   let patternFinder = new XX_XX_patternFinder();
   patternFinder.setNrOfFiguresInRowToWin(5);
   let testedFunction_5 = function(arraySlice: string[]){
