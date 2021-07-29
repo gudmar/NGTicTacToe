@@ -43,4 +43,4 @@ let testedFunction = function(figureToFind:FigureNotEmpty){
 
 
 
-// runTestSuit(testedFunction('Circle'), 'Testing strategy: find max number of free fields in row', testCases);
+runTestSuit(testedFunction('Circle'), 'Testing strategy: find max number of free fields in row', testCases);

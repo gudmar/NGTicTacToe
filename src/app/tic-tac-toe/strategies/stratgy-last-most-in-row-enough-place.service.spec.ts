@@ -49,5 +49,5 @@ let testedFunction = function(figureToFind:FigureNotEmpty){
 
 
 
-// runTestSuit(testedFunction('Circle'), 'Tests for final strategy: most elements in row, enough space', testCasesCircle);
-// // runTestSuit(testedFunction('Cross'), 'Tests for final strategy: most elements in row, enough space', testCasesCross);
+runTestSuit(testedFunction('Circle'), 'Tests for final strategy: most elements in row, enough space', testCasesCircle);
+// runTestSuit(testedFunction('Cross'), 'Tests for final strategy: most elements in row, enough space', testCasesCross);

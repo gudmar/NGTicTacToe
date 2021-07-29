@@ -58,7 +58,6 @@ export class PatternSearcherService {
   }
 
   getNextMoveCords(ownFigure: FigureNotEmpty = "Cross", ):number[]{
-    // console.log(JSON.parse(JSON.stringify(this.context.board)))
     let oponentFigure: FigureNotEmpty = ownFigure == "Circle" ? "Cross" : "Circle";
     let strategiesInOrder = [
       {command: 'strategy:0000', figure: ownFigure},
@@ -73,7 +72,6 @@ export class PatternSearcherService {
     ]
     for (let strategy of strategiesInOrder){
       let proposedMoves = this.getCalculatedStrategy(strategy.figure, strategy.command).nextMoveProposals;
-      console.log(strategy.command)
       if (proposedMoves.length > 0) {
         console.log(`Strategy: ${strategy.command} chosen.`)
         return this.randomlySelectCords(proposedMoves)
