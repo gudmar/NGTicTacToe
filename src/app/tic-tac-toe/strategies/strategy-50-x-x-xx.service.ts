@@ -19,8 +19,9 @@ let parametersFor_50_X_X_XXService = {
   shouldAfterPatternFieldBeEmpty: false,
   shouldBeforePatternFieldBeEmpty: false,
   shouldBeforeOrAfterPatternFieldBeEmpty: false,
+  canThereBeASearchedFigureAfterOfBeforePattern: true,
   nrOfMissingFigures: 2,
-  nrOfAdditionalSymbols_exceedingNrInRowToWin: 0
+  nrOfAdditionalSymbols_exceedingNrInRowToWin: 1
 }
 
 @Parametrize(parametersFor_50_X_X_XXService)

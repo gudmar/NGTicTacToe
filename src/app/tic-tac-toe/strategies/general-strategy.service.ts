@@ -145,6 +145,7 @@ export class GeneralStrategyService {
           }
           return true;
         }
+        // debugger;
         if ((this.nrOfFoundInRow >= this.nrOfSearchedFigures) && (this.nrOfGaps < this.expectedNrOfGaps)) {
           return false;
         }
@@ -286,6 +287,7 @@ export class GeneralStrategyService {
       this.addToMemoryForSingleFigureIndex(currentIndex)
       if (this.checkIfPatternFound(currentIndex)) {
         let temp = this.foundIndexMemory;
+        // debugger
         return temp;
       } 
       this.resetMemoryIfPatternCannotBeFound(currentIndex);
@@ -349,6 +351,7 @@ getPattern(figure: FigureNotEmpty, nrOfElementsInRowToWin: number, boardSlice: s
     let foundPatternIndexes = this.getFoundPatternIndexes();
     let foundElementCords = foundPatternIndexes
     let nextMoveProposals = this.getListOfIndexesOfProposedMoves(foundPatternIndexes)
+    // debugger
     this.resetMemory();
     if (foundElementCords.length == 0) {
       return this.searchOneMoreTimeStartingFromEachGap(boardSlice, figure, this.nrOfElementsInRowToWin)
