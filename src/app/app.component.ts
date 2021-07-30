@@ -39,6 +39,11 @@ export class AppComponent {
           this.boardSize = 10; 
           this.nrOfFiguresInRowToWinn=5; 
           break;
+          
+      case 'Board: 12x12 5 in row': 
+          this.boardSize = 12; 
+          this.nrOfFiguresInRowToWinn=5; 
+          break;
       default: throw new Error('Now, how that happened? There was a different board size choosen than in menu?')
     }
   }
