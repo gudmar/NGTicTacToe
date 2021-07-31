@@ -31,6 +31,7 @@
     background-color: white;
     color: var(--blue);
     top: 2.2rem;
+    left: 0rem;
     z-index: 20;
 }
 

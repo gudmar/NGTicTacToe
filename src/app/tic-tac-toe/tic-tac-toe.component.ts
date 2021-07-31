@@ -48,12 +48,12 @@ export class TicTacToeComponent {
     this.boardHandler = boardHandler;
     this.boardSize = 3;
     this.boardHandler.parametrize(this.boardSize, this.nrOfFiguresInRowToWinn);
-    this.boardHandler.passGameOverSetter(this.setGameOver.bind(this));
-    this.boardHandler.passGameOverResetter(this.resetGameOver.bind(this))
+    // this.boardHandler.passGameOverSetter(this.setGameOver.bind(this));
+    // this.boardHandler.passGameOverResetter(this.resetGameOver.bind(this))
   }
 
-  setGameOver(){this.isGameOver = true;}
-  resetGameOver(){this.isGameOver = false;}
+  // setGameOver(){this.isGameOver = true;}
+  // resetGameOver(){this.isGameOver = false;}
 
   createArrayOfNElements(n:number){
     let output = [];
@@ -64,6 +64,9 @@ export class TicTacToeComponent {
   onMessageFromMediator(message: string){
     if (message == "resetTicTacToe"){
       this.boardHandler.restartGame()
+    }
+    if (message == "toggleOponent") {
+      this.boardHandler.toggleOponent()
     }
   }
 }

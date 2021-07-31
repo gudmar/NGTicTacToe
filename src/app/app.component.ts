@@ -48,6 +48,10 @@ export class AppComponent {
     }
   }
 
+  toggleOponent(){
+    this.mediator.sendMessageToAllSubscribers('toggleOponent')
+  }
+
 }
 
 // 'Board: 3x3 3 in row', 'Board: 5x5 5 in row', 'Board 10x10 5 in row'
