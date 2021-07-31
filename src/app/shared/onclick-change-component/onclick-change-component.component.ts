@@ -7,6 +7,7 @@ import { Component, OnInit, Input, Output, HostListener, EventEmitter, Host } fr
 })
 export class OnclickChangeComponentComponent implements OnInit {
   @Input() caption: string = '';
+  @Input() isOnclickEnabled: boolean = true;
   @Input() arrayOfValues: string[] = [];
   
   @Output() valueChanged: EventEmitter<string> = new EventEmitter();
@@ -25,6 +26,10 @@ export class OnclickChangeComponentComponent implements OnInit {
   nextValueEmit(){
     this.nextValue();
     this.valueChanged.emit(this.currentValue)
+  }
+
+  onClick(){
+    if (this.isOnclickEnabled) this.nextValueEmit()
   }
 
   nextValueIterator(valArray: string[]){
