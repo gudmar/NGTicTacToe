@@ -7,6 +7,8 @@ import { TicTacToeComponent } from './tic-tac-toe/tic-tac-toe.component';
 import { GameControlsComponent } from './game-controls/game-controls.component';
 import { ExpandableListComponent } from './shared/expandable-list/expandable-list.component';
 import { SingleOptionComponent } from './shared/expandable-list/single-option/single-option.component';
+import { OnclickChangeComponentComponent } from './shared/onclick-change-component/onclick-change-component.component';
+
 
 @NgModule({
   declarations: [
@@ -15,6 +17,7 @@ import { SingleOptionComponent } from './shared/expandable-list/single-option/si
     GameControlsComponent,
     ExpandableListComponent,
     SingleOptionComponent,
+    OnclickChangeComponentComponent,
   ],
   imports: [
     BrowserModule,

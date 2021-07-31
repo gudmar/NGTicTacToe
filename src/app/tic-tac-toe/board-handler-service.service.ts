@@ -50,8 +50,10 @@ export class BoardHandlerServiceService {
     }
 
     setGameOver(){this.isGameOver = true;}
-    passGameOverSetter(gameOverSetterFunction: Function){this.parentComponentGameOverSetter = gameOverSetterFunction;}
-    passGameOverResetter(gameOverResetterFunction: Function){this.parentComponentGameOverResetter = gameOverResetterFunction;}
+
+    toggleOponent(){
+      this.isComputerOponent = !this.isComputerOponent
+    }
 
     makeNextMove(){
       let nextMoveCords = this.nextMoveGetter.getNextMoveCords(this.computersFigure);
