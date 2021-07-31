@@ -78,13 +78,13 @@ export class PatternSearcherService {
       {command: 'strategy:last', figure: ownFigure},
       {command: 'strategy:empty', figure: ownFigure},
       {command: 'strategy:empty-area', figure: ownFigure},
-      {command: 'set-game-over', figure: ownFigure}
+      // {command: 'set-game-over', figure: ownFigure}
     ]
     
     for (let strategy of strategiesInOrder){
-      if (strategy.command == "set-game-over") {
-        this.context.setGameOver();
-      }
+      // if (strategy.command == "set-game-over") {
+      //   this.context.setGameOver();
+      // }
       let proposedMoves = this.getCalculatedStrategy(strategy.figure, strategy.command).nextMoveProposals;
       if (proposedMoves.length > 0) {
         console.log(`Strategy: ${strategy.command} chosen.`)

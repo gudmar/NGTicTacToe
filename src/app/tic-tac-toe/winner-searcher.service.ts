@@ -15,6 +15,16 @@ export class WinnerSearcherService {
   
     constructor(context:BoardHandlerServiceService){
       this.context = context;
+      console.log(this.context)
+    }
+
+    isDraw(){
+      let isFieldEngaged = function(element:any, index:number){
+        if (element.figure == "") return false;
+        return true;
+      }
+      let isEveryFieldEngaged = this.context.board.every(isFieldEngaged);
+      return isEveryFieldEngaged
     }
   
     getWinnerCords(figure:FigureNotEmpty){
