@@ -3,6 +3,9 @@
           <ng-container *ngIf = "boardHandler.winningFigure != ''">
               <ng-container *ngTemplateOutlet="winnerFound"></ng-container>
           </ng-container>
+          <ng-container *ngIf = "(boardHandler.isGameOver == true) && (boardHandler.winningFigure == '')">
+            <ng-container *ngTemplateOutlet="deadHeat"></ng-container>
+          </ng-container>
           <div class="rows" *ngFor = "let row of rowIds" id='{{row}}'>
             <div [attr.data-part-of-winning-plot] = 'boardHandler.checkIfIsPartOfWinningPlot(row, col)' 
                  [attr.data-is-occupied] = 'boardHandler.checkIfCellIsOccupied(row, col)'
@@ -35,6 +38,13 @@
           </div>
       </ng-template>
       <ng-template #none></ng-template>
+      <ng-template #deadHeat>
+          <div class="board-cover board-cover-black center">
+              <div class="center info-black">
+                  <span>Draw</span>
+              </div>
+          </div>
+      </ng-template>
       <ng-template #winnerFound>
           <div class="board-cover center">
               <span class="center">

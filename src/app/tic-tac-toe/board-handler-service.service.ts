@@ -33,6 +33,8 @@ export class BoardHandlerServiceService {
     computersFigure: FigureNotEmpty = "Cross";
     humanFigure: FigureNotEmpty = this.computersFigure == "Cross" ? "Circle" : "Cross";
     nextMoveGetter: PatternSearcherService = new PatternSearcherService(this)
+    parentComponentGameOverSetter: Function = ()=>{};
+    parentComponentGameOverResetter: Function = ()=>{};
     constructor(){
       this.winnerChecker  = new WinnerSearcherService(this);
     }
@@ -46,6 +48,10 @@ export class BoardHandlerServiceService {
       this.nextFigure = 'Circle';
       this.initialFigure = this.nextFigure;
     }
+
+    setGameOver(){this.isGameOver = true;}
+    passGameOverSetter(gameOverSetterFunction: Function){this.parentComponentGameOverSetter = gameOverSetterFunction;}
+    passGameOverResetter(gameOverResetterFunction: Function){this.parentComponentGameOverResetter = gameOverResetterFunction;}
 
     makeNextMove(){
       let nextMoveCords = this.nextMoveGetter.getNextMoveCords(this.computersFigure);

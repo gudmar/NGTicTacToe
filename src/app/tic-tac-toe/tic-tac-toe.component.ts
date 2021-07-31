@@ -16,6 +16,7 @@ export class TicTacToeComponent {
   _boardSize:number = 0;
   _nrOfFiguresInRowToWinn = 3;
   ownFigure: FigureNotEmpty = "Cross";
+  isGameOver: boolean = false;
   
   @Input() set boardSize(val:number) {
     this.boardHandler.parametrize(val, this.nrOfFiguresInRowToWinn)
@@ -47,7 +48,12 @@ export class TicTacToeComponent {
     this.boardHandler = boardHandler;
     this.boardSize = 3;
     this.boardHandler.parametrize(this.boardSize, this.nrOfFiguresInRowToWinn);
+    this.boardHandler.passGameOverSetter(this.setGameOver.bind(this));
+    this.boardHandler.passGameOverResetter(this.resetGameOver.bind(this))
   }
+
+  setGameOver(){this.isGameOver = true;}
+  resetGameOver(){this.isGameOver = false;}
 
   createArrayOfNElements(n:number){
     let output = [];
