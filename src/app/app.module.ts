@@ -8,6 +8,7 @@ import { GameControlsComponent } from './game-controls/game-controls.component';
 import { ExpandableListComponent } from './shared/expandable-list/expandable-list.component';
 import { SingleOptionComponent } from './shared/expandable-list/single-option/single-option.component';
 import { OnclickChangeComponentComponent } from './shared/onclick-change-component/onclick-change-component.component';
+import { PresentationComponentComponent } from './shared/onclick-change-component/presentation-component/presentation-component.component';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { OnclickChangeComponentComponent } from './shared/onclick-change-compone
     ExpandableListComponent,
     SingleOptionComponent,
     OnclickChangeComponentComponent,
+    PresentationComponentComponent,
   ],
   imports: [
     BrowserModule,

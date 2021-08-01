@@ -1,4 +1,7 @@
-<div class="wrapper">
+<!-- <div class="wrapper">
     <span class="caption" >{{caption}}:</span>&nbsp;
     <span class="value" (click) = "onClick()" [innerHTML] = "currentValue"></span>
-</div>
+</div> -->
+
+
+<app-presentation-component (valueClicked) = "onClick()" [presentValue]="currentValue" [caption]="caption" [isOnclickEnabled]="true" ></app-presentation-component>
