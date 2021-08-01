@@ -2,6 +2,7 @@ import { Component, Injectable, TemplateRef} from '@angular/core';
 import {Receiver} from './app.types'
 import { bindCallback } from 'rxjs';
 import { MediatorService } from './shared/mediator.service'
+import { FigureNotEmpty } from './app.types'
 
 
 @Component({
@@ -16,9 +17,14 @@ export class AppComponent {
   nrOfColumns = this.boardSize;
   nrOfFiguresInRowToWinn = 3;
   mediator = new MediatorService();
+  nextFigure: FigureNotEmpty = 'Cross';
   
   constructor(){
     
+  }
+
+  nextFigureChange(nextFigure: FigureNotEmpty){
+    this.nextFigure = nextFigure;
   }
 
   restartTicTacToeComponent(){

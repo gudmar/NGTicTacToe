@@ -132,7 +132,6 @@ export class GeneralStrategyService {
 
   checkIfPatternFound(simplifiedElementIndex:number):boolean{
     let test = this.inputArraySlice[simplifiedElementIndex]
-    // debugger;
     switch(this.inputArraySlice[simplifiedElementIndex]){
       case this.figure: {
         if ((this.nrOfFoundInRow == this.nrOfSearchedFigures) && (this.nrOfGaps == this.expectedNrOfGaps)) {
@@ -145,7 +144,6 @@ export class GeneralStrategyService {
           }
           return true;
         }
-        // debugger;
         if ((this.nrOfFoundInRow >= this.nrOfSearchedFigures) && (this.nrOfGaps < this.expectedNrOfGaps)) {
           return false;
         }
@@ -287,7 +285,6 @@ export class GeneralStrategyService {
       this.addToMemoryForSingleFigureIndex(currentIndex)
       if (this.checkIfPatternFound(currentIndex)) {
         let temp = this.foundIndexMemory;
-        // debugger
         return temp;
       } 
       this.resetMemoryIfPatternCannotBeFound(currentIndex);
@@ -305,7 +302,6 @@ searchOneMoreTimeStartingFromEachGap(arraySlice: string[] = this.inputArraySlice
       return element + gapEndIndex;
     })
   }
-  // debugger
   for (let gap of gapEndIndexes){
     let sliceFormGap = arraySlice.slice(gap, arraySlice.length)
     let foundPattern = this.getPattern(figure, nrOfElementsInRowToWin, sliceFormGap, false)
@@ -326,7 +322,6 @@ getGapIndexes(arraySlice: string[]){
   let wasThereFirstFigureNotEmpty = false;
   let index = 0;
   let resetGapState = function(){currentGapSize = 0; isInspectingGap = false;}
-  // debugger;
   for (let item of arraySlice){
     if (wasThereFirstFigureNotEmpty){
       if (item == "") {currentGapSize++; isInspectingGap = true;}
@@ -351,7 +346,6 @@ getPattern(figure: FigureNotEmpty, nrOfElementsInRowToWin: number, boardSlice: s
     let foundPatternIndexes = this.getFoundPatternIndexes();
     let foundElementCords = foundPatternIndexes
     let nextMoveProposals = this.getListOfIndexesOfProposedMoves(foundPatternIndexes)
-    // debugger
     this.resetMemory();
     if (foundElementCords.length == 0) {
       return this.searchOneMoreTimeStartingFromEachGap(boardSlice, figure, this.nrOfElementsInRowToWin)

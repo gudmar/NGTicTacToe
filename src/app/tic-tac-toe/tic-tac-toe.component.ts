@@ -1,4 +1,4 @@
-import { Component, Injectable, TemplateRef ,Input, Output, HostListener} from '@angular/core';
+import { Component, Injectable, EventEmitter, TemplateRef ,Input, Output, HostListener} from '@angular/core';
 import { BoardHandlerServiceService } from './board-handler-service.service'
 
 import { Receiver } from '../app.types'
@@ -33,6 +33,16 @@ export class TicTacToeComponent {
     this.boardHandler.restartGame()
   }
 
+  @Output() nextFigureChanged: EventEmitter<FigureNotEmpty> = new EventEmitter();
+
+  subscribeToFigureChange(nextFigure: FigureNotEmpty){
+    this.nextFigureChanged.emit(nextFigure)
+  }
+
+  ngOnInit(){
+    this.subscribeToFigureChange(<FigureNotEmpty>this.boardHandler.nextFigure)
+  }
+
   get nrOfFiguresInRowToWinn(){
     return this._nrOfFiguresInRowToWinn;
   }
@@ -48,12 +58,14 @@ export class TicTacToeComponent {
     this.boardHandler = boardHandler;
     this.boardSize = 3;
     this.boardHandler.parametrize(this.boardSize, this.nrOfFiguresInRowToWinn);
+    this.boardHandler.subscribeToFigureChange(this.subscribeToFigureChange.bind(this))
     // this.boardHandler.passGameOverSetter(this.setGameOver.bind(this));
     // this.boardHandler.passGameOverResetter(this.resetGameOver.bind(this))
   }
 
-  // setGameOver(){this.isGameOver = true;}
-  // resetGameOver(){this.isGameOver = false;}
+  // setNextFigure(nextFigure: FigureNotEmpty){
+  //   this.nextFigure = nextFigure;
+  // }
 
   createArrayOfNElements(n:number){
     let output = [];

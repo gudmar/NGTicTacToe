@@ -7,7 +7,7 @@ import { Component, OnInit, Input, Output, HostListener, EventEmitter, Host } fr
 })
 export class PresentationComponentComponent implements OnInit {
   @Input() caption: string = '';
-  @Input() isOnclickEnabled: boolean = true;
+  @Input() isOnclickEnabled: boolean = false;
   // @Input() arrayOfValues: string[] = [];
   
   @Output() valueClicked: EventEmitter<string> = new EventEmitter();
