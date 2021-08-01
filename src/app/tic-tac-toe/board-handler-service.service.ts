@@ -27,6 +27,7 @@ export class BoardHandlerServiceService {
     nrOfFiguresNeededToWinn: number = 3;
     board: CellDescriptor[] = [];
     nextFigure: Figure = '';
+    nextFigureChangedInformer: Function = (figure:FigureNotEmpty) => {}
     initialFigure: Figure = '';
     winnerChecker: WinnerSearcherService;
     winningFigure: Figure = '';
@@ -49,10 +50,15 @@ export class BoardHandlerServiceService {
       this.initialFigure = this.nextFigure;
     }
 
+    subscribeToFigureChange(nextFigureSetter: Function){
+      this.nextFigureChangedInformer = nextFigureSetter;
+    }
+
     setGameOver(){this.isGameOver = true;}
 
     toggleOponent(){
-      this.isComputerOponent = !this.isComputerOponent
+      this.isComputerOponent = !this.isComputerOponent;
+      
     }
 
     makeNextMove(){
@@ -170,5 +176,6 @@ export class BoardHandlerServiceService {
   
     toggleNextFigure(){
       this.nextFigure = this.nextFigure == 'Circle' || this.nextFigure == '' ? 'Cross' : 'Circle';
+      this.nextFigureChangedInformer(this.nextFigure);
     }
   }

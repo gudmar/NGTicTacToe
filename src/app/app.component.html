@@ -2,10 +2,13 @@
 <div class="application-wrapper center">
     <app-game-controls (restartEvent) = "restartTicTacToeComponent()" 
         (boardSizeChanged)="changeBoardSize($event)" 
-        (toggleOponent)="toggleOponent()">
+        (toggleOponent)="toggleOponent()"
+        [nextFigure] = "nextFigure">
+        
     </app-game-controls>
     <tic-tac-toe [mediator] = "mediator" 
             [boardSize] = "boardSize" 
-            [nrOfFiguresInRowToWinn] = "nrOfFiguresInRowToWinn">
+            [nrOfFiguresInRowToWinn] = "nrOfFiguresInRowToWinn"
+            (nextFigureChanged) = "nextFigureChange($event)">
         </tic-tac-toe>
 </div>

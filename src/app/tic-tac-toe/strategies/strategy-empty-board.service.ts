@@ -91,7 +91,6 @@ export class StrategyEmptyBoardMoveSearcher extends StrategyToolkitService{
       cords
     )
     let {isMiddlePositionFree} = this.patternFinder.getPattern(ownFigure, 0, boardSlice);
-    // debugger;
     let oponentFigure = ownFigure == "Circle" ? "Cross" : "Circle";
 
     return isMiddlePositionFree;
