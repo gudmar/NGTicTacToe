@@ -39,7 +39,7 @@ export class StrategyFindFirstPatternService extends StrategyToolkitService {
   }
 
   findPatternInColumnRowSlices(figure: FigureNotEmpty, patternFinder: PatternSearcher, patternSlicerFunction: Function){
-    for (let sliceNr = 1; sliceNr <= this.context.nrOfColumns; sliceNr++){
+    for (let sliceNr = 1; sliceNr <= this.context.boardSize; sliceNr++){
       let calculatedPattern = patternSlicerFunction(figure, patternFinder, sliceNr);
       // let calculatedPattern = patternSlicerFunction(figure, patternFinder, 4);
       if (calculatedPattern.foundElements.length > 0) return calculatedPattern;

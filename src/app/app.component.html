@@ -3,12 +3,14 @@
     <app-game-controls (restartEvent) = "restartTicTacToeComponent()" 
         (boardSizeChanged)="changeBoardSize($event)" 
         (toggleOponent)="toggleOponent()"
-        [nextFigure] = "nextFigure">
+        (playersFigureChanged) = "changeHumansFigure($event)"   
+        [initialState] = "initialState">
         
     </app-game-controls>
     <tic-tac-toe [mediator] = "mediator" 
             [boardSize] = "boardSize" 
             [nrOfFiguresInRowToWinn] = "nrOfFiguresInRowToWinn"
-            (nextFigureChanged) = "nextFigureChange($event)">
+            (nextFigureChanged) = "nextFigureChange($event)"
+            [initialState] = "initialState">
         </tic-tac-toe>
 </div>

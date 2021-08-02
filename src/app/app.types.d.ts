@@ -1,3 +1,5 @@
+import { SetNrOfFiguresNeededToWinn } from "./tic-tac-toe/strategies/stratgy-last-most-in-row-enough-place.service";
+
 export type Figure = 'Circle' | 'Cross' | '';
 
 export interface CellDescriptor{
@@ -70,6 +72,22 @@ export interface StrategyParameters {
   nrOfMissingFigures: number,
   canThereBeASearchedFigureAfterOfBeforePattern?: boolean
 }
+
+interface GameDescriptor {
+  name: string,
+  boardSize: number,
+  nrOfFiguresInRowToWinn: number
+}
+
+type Oponent = "Computer" | "Human"
+
+export interface InitialState {
+    nextFigure: FigureNotEmpty,
+    humansFigure: FigureNotEmpty,
+    defaultOponent: Oponent,
+    supportedGames: GameDescriptor[],
+    initialGameName: string
+  }
 
 type StrategyKeys = 'expectedNrOfGaps' | 'maxGapSize' | 'shouldBeforePatternFieldBeEmpty' | 
       'shouldAfterPatternFieldBeEmpty' | 'nrOfSearchedFigures' | 'canThereBeASearchedFigureAfterOfBeforePattern' | 'nrOfMissingFigures'

@@ -17,9 +17,20 @@ export class TicTacToeComponent {
   _nrOfFiguresInRowToWinn = 3;
   ownFigure: FigureNotEmpty = "Cross";
   isGameOver: boolean = false;
+
+  @Input() initialState: any;
+
+  set humansFigure(val: FigureNotEmpty){
+    this.initialState.humansFigure;
+  }
+
+  // @Input() set humansFigure(val: FigureNotEmpty){
+  //   this.boardHandler.changeFigureOwners(val)
+  // }
   
   @Input() set boardSize(val:number) {
-    this.boardHandler.parametrize(val, this.nrOfFiguresInRowToWinn)
+    // this.boardHandler.parametrize(val, this.nrOfFiguresInRowToWinn, this.initialState)
+    this.boardHandler.setBoardSize(val); //, this.nrOfFiguresInRowToWinn)
     this._boardSize = val;
     this.rowIds = this.createArrayOfNElements(this.boardSize);
     this.colIds = this.createArrayOfNElements(this.boardSize);  
@@ -28,7 +39,8 @@ export class TicTacToeComponent {
   get boardSize() {return this._boardSize}
 
   @Input() set nrOfFiguresInRowToWinn(val:number){
-    this.boardHandler.parametrize(this.boardSize, val)
+    // this.boardHandler.parametrize(this.boardSize, val, this.initialState)
+    this.boardHandler.setNrOfFiguresNeededToWinn(val)
     this._nrOfFiguresInRowToWinn = val;
     this.boardHandler.restartGame()
   }
@@ -57,7 +69,9 @@ export class TicTacToeComponent {
   constructor(public boardHandler: BoardHandlerServiceService){
     this.boardHandler = boardHandler;
     this.boardSize = 3;
-    this.boardHandler.parametrize(this.boardSize, this.nrOfFiguresInRowToWinn);
+    // this.boardHandler.parametrize(this.boardSize, this.nrOfFiguresInRowToWinn, this.initialState);
+    this.boardHandler.setNrOfFiguresNeededToWinn(this.nrOfFiguresInRowToWinn)
+    this.boardHandler.setBoardSize(this.boardSize)
     this.boardHandler.subscribeToFigureChange(this.subscribeToFigureChange.bind(this))
     // this.boardHandler.passGameOverSetter(this.setGameOver.bind(this));
     // this.boardHandler.passGameOverResetter(this.resetGameOver.bind(this))

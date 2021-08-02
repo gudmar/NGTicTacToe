@@ -70,7 +70,7 @@ export class StrategyFindMaxFigureOccurencesService extends StrategyToolkitServi
 
   findMaxPatternInColumnRowSlices(figure: Figure, patternFinder:PatternSearcher, patternGetterFunction: Function) {
     let maxFiguresSollutionMemory = this.getEmptyPattern();
-    for (let _row = 1; _row <= this.context.nrOfRows; _row++){
+    for (let _row = 1; _row <= this.context.boardSize; _row++){
       let calculatedPattern = patternGetterFunction(figure, patternFinder, _row)
       if (calculatedPattern.foundElements.length > 0) {
         let nrOfFiguresInCurrentSolution = calculatedPattern.foundElements.length;
