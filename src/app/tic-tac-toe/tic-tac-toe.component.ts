@@ -18,9 +18,10 @@ export class TicTacToeComponent {
   _humansFigure: FigureNotEmpty = "Circle";
   computersFigure: FigureNotEmpty = "Cross";
   oponent: Oponent = "Computer";
-  set humansFigure(val: FigureNotEmpty) {
+  @Input() set humansFigure(val: FigureNotEmpty) {
     this._humansFigure = val; 
     this.computersFigure = this._humansFigure == "Circle" ? "Cross" : "Circle";
+    this.boardHandler.setHumansFigure(this.humansFigure)
   } 
   get humansFigure() {return this._humansFigure}
 
