@@ -1,9 +1,9 @@
 import { Component, Injectable, EventEmitter, TemplateRef ,Input, Output, HostListener} from '@angular/core';
 import { BoardHandlerServiceService } from './board-handler-service.service'
+import { GetDataFromInintialStateService } from '../get-data-from-inintial-state.service'
 
-import { Receiver } from '../app.types'
+import { Receiver, GameDescriptor, FigureNotEmpty, Oponent } from '../app.types'
 import { MediatorService} from '../shared/mediator.service'
-import { FigureNotEmpty } from '../app.types'
 
 
 @Component({
@@ -15,14 +15,20 @@ export class TicTacToeComponent {
   title = 'TicTacToe';
   _boardSize:number = 0;
   _nrOfFiguresInRowToWinn = 3;
-  ownFigure: FigureNotEmpty = "Cross";
+  _humansFigure: FigureNotEmpty = "Circle";
+  computersFigure: FigureNotEmpty = "Cross";
+  oponent: Oponent = "Computer";
+  set humansFigure(val: FigureNotEmpty) {
+    this._humansFigure = val; 
+    this.computersFigure = this._humansFigure == "Circle" ? "Cross" : "Circle";
+  } 
+  get humansFigure() {return this._humansFigure}
+
   isGameOver: boolean = false;
+  nextFigure: FigureNotEmpty = "Circle"
 
   @Input() initialState: any;
 
-  set humansFigure(val: FigureNotEmpty){
-    this.initialState.humansFigure;
-  }
 
   // @Input() set humansFigure(val: FigureNotEmpty){
   //   this.boardHandler.changeFigureOwners(val)
@@ -47,12 +53,13 @@ export class TicTacToeComponent {
 
   @Output() nextFigureChanged: EventEmitter<FigureNotEmpty> = new EventEmitter();
 
-  subscribeToFigureChange(nextFigure: FigureNotEmpty){
-    this.nextFigureChanged.emit(nextFigure)
-  }
+  // subscribeToFigureChange(nextFigure: FigureNotEmpty){
+  //   this.nextFigureChanged.emit(nextFigure)
+  // }
 
   ngOnInit(){
-    this.subscribeToFigureChange(<FigureNotEmpty>this.boardHandler.nextFigure)
+    this.initialize();
+    // this.subscribeToFigureChange(<FigureNotEmpty>this.boardHandler.nextFigure)
   }
 
   get nrOfFiguresInRowToWinn(){
@@ -68,18 +75,44 @@ export class TicTacToeComponent {
 
   constructor(public boardHandler: BoardHandlerServiceService){
     this.boardHandler = boardHandler;
-    this.boardSize = 3;
-    // this.boardHandler.parametrize(this.boardSize, this.nrOfFiguresInRowToWinn, this.initialState);
-    this.boardHandler.setNrOfFiguresNeededToWinn(this.nrOfFiguresInRowToWinn)
-    this.boardHandler.setBoardSize(this.boardSize)
-    this.boardHandler.subscribeToFigureChange(this.subscribeToFigureChange.bind(this))
-    // this.boardHandler.passGameOverSetter(this.setGameOver.bind(this));
-    // this.boardHandler.passGameOverResetter(this.resetGameOver.bind(this))
+    // this.boardHandler.subscribeToFigureChange(this.subscribeToFigureChange.bind(this))
   }
 
-  // setNextFigure(nextFigure: FigureNotEmpty){
-  //   this.nextFigure = nextFigure;
-  // }
+
+  initialize(){
+    let initialDataGetter = new GetDataFromInintialStateService();
+    initialDataGetter.data = this.initialState;
+    let initialGameData: GameDescriptor = initialDataGetter.initialGameData;
+    this.setBoardSize_propagate(initialGameData.boardSize)
+    this.setNrOfFiguresNeededToWinn_propagate(initialGameData.nrOfFiguresInRowToWinn)
+    this.setNextFigure_propagate(initialDataGetter.nextFigure)
+    this.setHumanFigureAndComputerFigure_propagate(initialDataGetter.humansFigure)
+    this.boardHandler.setCommunicationFunction(this.onCommandFromBoardHandler.bind(this))
+  }
+
+  onCommandFromBoardHandler(command: string, data: any){
+    if (command == "nextFigure") {
+      this.nextFigure = data;
+      this.nextFigureChanged.emit(data);
+    }
+  }
+
+  setNrOfFiguresNeededToWinn_propagate(val: number) {
+    this.nrOfFiguresInRowToWinn = val; this.boardHandler.setNrOfFiguresNeededToWinn(val)
+  }
+  setNextFigure_propagate(val: FigureNotEmpty) {
+    this.nextFigure = val; this.boardHandler.setNextFigure(val);
+  }
+  setBoardSize_propagate(val: number) {
+    this.boardSize = val; this.boardHandler.setBoardSize(val);
+  }
+  setOponent_propagate(val: Oponent) {
+    let isComputerOponent = val == "Computer" ? true : false
+    this.oponent = val; this.boardHandler.setIsComputerOponent(isComputerOponent)
+  }
+  setHumanFigureAndComputerFigure_propagate(humanFigure: FigureNotEmpty) {
+    this.humansFigure = humanFigure; this.boardHandler.setHumansFigure(humanFigure);
+  }
 
   createArrayOfNElements(n:number){
     let output = [];

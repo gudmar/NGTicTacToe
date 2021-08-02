@@ -73,13 +73,13 @@ export interface StrategyParameters {
   canThereBeASearchedFigureAfterOfBeforePattern?: boolean
 }
 
-interface GameDescriptor {
+export interface GameDescriptor {
   name: string,
   boardSize: number,
   nrOfFiguresInRowToWinn: number
 }
 
-type Oponent = "Computer" | "Human"
+export type Oponent = "Computer" | "Human"
 
 export interface InitialState {
     nextFigure: FigureNotEmpty,

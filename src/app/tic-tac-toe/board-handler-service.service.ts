@@ -24,7 +24,7 @@ export class BoardHandlerServiceService {
     boardSize: number = 0;
     nrOfFiguresNeededToWinn: number = 3;
     board: CellDescriptor[] = [];
-    nextFigure: Figure = '';
+    nextFigure: FigureNotEmpty = 'Circle';
     nextFigureChangedInformer: Function = (figure:FigureNotEmpty) => {}
     initialFigure: Figure = '';
     winnerChecker: WinnerSearcherService;
@@ -32,6 +32,7 @@ export class BoardHandlerServiceService {
     humansFigure: FigureNotEmpty = "Circle";
     computersFigure: FigureNotEmpty = this.humansFigure == "Circle" ? "Cross" : "Circle";
     nextMoveGetter: PatternSearcherService = new PatternSearcherService(this)
+    communicationFunction: Function = (command: string, data: any) => {};
     parentComponentGameOverSetter: Function = ()=>{};
     parentComponentGameOverResetter: Function = ()=>{};
     constructor(){
@@ -47,6 +48,17 @@ export class BoardHandlerServiceService {
         this.showWinner();
         if (this.winnerChecker.isDraw()) this.setGameOver();
       }
+    }
+
+    setCommunicationFunction(callback: Function) {
+      this.communicationFunction = callback;
+    }
+
+    setIsComputerOponent(val: boolean){this.isComputerOponent = true};
+    setNextFigure(val: FigureNotEmpty) {this.nextFigure = val};
+    setHumansFigure(val: FigureNotEmpty) {
+      this.humansFigure = val;
+      this.computersFigure = this.humansFigure == "Circle" ? "Cross" : "Circle"
     }
 
     setBoardSize(boardSize:number){ //, nrOfFiguresInRowToWinn: number){
@@ -78,9 +90,9 @@ export class BoardHandlerServiceService {
     //   // this.initialFigure = this.nextFigure;
     // }
 
-    subscribeToFigureChange(nextFigureSetter: Function){
-      this.nextFigureChangedInformer = nextFigureSetter;
-    }
+    // subscribeToFigureChange(nextFigureSetter: Function){
+    //   this.nextFigureChangedInformer = nextFigureSetter;
+    // }
 
     setGameOver(){this.isGameOver = true;}
 
@@ -91,7 +103,8 @@ export class BoardHandlerServiceService {
 
     makeNextMove(){
       let nextMoveCords = this.nextMoveGetter.getNextMoveCords(this.computersFigure);
-      if (nextMoveCords.length > 0) this.setSpecifiedFigureToRowCol(nextMoveCords[0], nextMoveCords[1], this.computersFigure)
+      if (nextMoveCords.length > 0) this.setSpecifiedFigureToRowCol(nextMoveCords[0], nextMoveCords[1], this.nextFigure);
+      this.toggleNextFigure();
     }  
 
     setSpecifiedFigureToRowCol(rowNr: number, colNr: number, figure: FigureNotEmpty){
@@ -151,7 +164,7 @@ export class BoardHandlerServiceService {
           if (!that.isGameOver){
             if (that.board[index].figure != '') return null;
             that.setFigureToCell(index);
-            // that.toggleNextFigure();
+            that.toggleNextFigure();
             that.setCellToOccupied(index);
             that.showWinner();
             if (that.winnerChecker.isDraw()) that.setGameOver();
@@ -200,8 +213,9 @@ export class BoardHandlerServiceService {
       this.board[cellNr].figure = this.nextFigure;
     }
   
-    // toggleNextFigure(){
-    //   this.nextFigure = this.nextFigure == 'Circle' || this.nextFigure == '' ? 'Cross' : 'Circle';
-    //   this.nextFigureChangedInformer(this.nextFigure);
-    // }
+    toggleNextFigure(){
+      this.nextFigure = this.nextFigure == 'Circle' ? 'Cross' : 'Circle';
+      // this.nextFigureChangedInformer(this.nextFigure);
+      this.communicationFunction("nextFigure", this.nextFigure)
+    }
   }

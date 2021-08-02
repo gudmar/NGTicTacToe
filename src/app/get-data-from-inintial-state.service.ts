@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Receiver, InitialState, FigureNotEmpty, Oponent} from './app.types'
+import { Receiver, InitialState, FigureNotEmpty, Oponent, GameDescriptor} from './app.types'
 
 @Injectable({
   providedIn: 'root'
 })
 export class GetDataFromInintialStateService {
   _data: InitialState = this.getEmptyInitialState();
-  constructor(initialData: InitialState) {
-    this.data = initialData;
-  }
+  constructor() {}
 
   set data(initialData: InitialState){this._data = initialData;}
   get data() {return this._data}
@@ -18,7 +16,7 @@ export class GetDataFromInintialStateService {
   get defaultOponent() {return this.data.defaultOponent}
   get nrOfSupportedGames() {return this.data.supportedGames.length}
   get initialGameName() {return this.data.initialGameName}
-  get initialGameData() {return this.getGameData(this.initialGameName)}
+  get initialGameData(): GameDescriptor {return this.getGameData(this.initialGameName)}
   get supportedGames() {return this.data.supportedGames};
 
   getGameData(gameName: string){
@@ -26,7 +24,7 @@ export class GetDataFromInintialStateService {
       if (element.name == gameName) return true;
       return false
     }
-    return this.data.supportedGames.findIndex(isInitialName)
+    return this.data.supportedGames[this.data.supportedGames.findIndex(isInitialName)]
   }
 
   getEmptyInitialState() {
