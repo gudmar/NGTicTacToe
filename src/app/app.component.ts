@@ -53,6 +53,7 @@ export class AppComponent {
 
   nextFigureChange(nextFigure: FigureNotEmpty){
     this.nextFigure = nextFigure;
+    // console.log(`Next figure changed to ${this.nextFigure}`)
   }
 
   changeHumansFigure(newFigure: any){

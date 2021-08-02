@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output , EventEmitter} from '@angular/core';
 import { FigureNotEmpty } from '../app.types';
 import {MediatorService} from '../shared/mediator.service'
+import { GetDataFromInintialStateService } from '../get-data-from-inintial-state.service'
 
 @Component({
   selector: 'app-game-controls',
