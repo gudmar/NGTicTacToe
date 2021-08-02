@@ -1,5 +1,5 @@
 import { Component, Injectable, TemplateRef} from '@angular/core';
-import {Receiver} from './app.types'
+import { Receiver, InitialState } from './app.types'
 import { bindCallback } from 'rxjs';
 import { MediatorService } from './shared/mediator.service'
 import { FigureNotEmpty } from './app.types'
@@ -11,13 +11,41 @@ import { FigureNotEmpty } from './app.types'
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  initialState: InitialState = {
+    nextFigure: "Circle",
+    humansFigure: "Circle",
+    defaultOponent: "Computer",
+    supportedGames:[
+      {
+        name: 'Board: 3x3 3 in row',
+        boardSize: 3,
+        nrOfFiguresInRowToWinn: 3
+      },
+      {
+        name: 'Board: 7x7 5 in row',
+        boardSize: 7,
+        nrOfFiguresInRowToWinn: 5
+      },
+      {
+        name: 'Board 10x10 5 in row',
+        boardSize: 10,
+        nrOfFiguresInRowToWinn: 5
+      },
+      {
+        name: 'Board: 12x12 5 in row',
+        boardSize: 12,
+        nrOfFiguresInRowToWinn: 5
+      }
+
+    ],
+    initialGameName: 'Board: 3x3 3 in row'
+  }
   title = 'TicTacToe';
   boardSize: number = 3;
-  nrOfRows = this.boardSize;  // for simplisity and pleability let board be a square
-  nrOfColumns = this.boardSize;
-  nrOfFiguresInRowToWinn = 3;
+    nrOfFiguresInRowToWinn = 3;
   mediator = new MediatorService();
-  nextFigure: FigureNotEmpty = 'Cross';
+  nextFigure: FigureNotEmpty = this.initialState.nextFigure;
+  humansFigure: FigureNotEmpty = this.initialState.humansFigure;
   
   constructor(){
     
@@ -27,8 +55,15 @@ export class AppComponent {
     this.nextFigure = nextFigure;
   }
 
+  changeHumansFigure(newFigure: any){
+    // debugger;
+    this.humansFigure = <FigureNotEmpty>newFigure;
+  }
+
   restartTicTacToeComponent(){
     this.mediator.sendMessageToAllSubscribers('resetTicTacToe')
+    this.nextFigure = "Circle";
+    this.nextFigure = "Circle";
   }
 
   changeBoardSize(data:any){

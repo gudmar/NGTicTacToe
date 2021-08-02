@@ -44,7 +44,7 @@ export class WinnerSearcherService {
     }
   
     checkAllRowsForWinner(figure: FigureNotEmpty, nrOfFiguresToFind: number){
-      for (let row = 1; row <= this.context.nrOfRows; row++){
+      for (let row = 1; row <= this.context.boardSize; row++){
         let winnerList = this.getWinnerOutOfSingleRow(figure, nrOfFiguresToFind, row)
         if (winnerList.length >= this.context.nrOfFiguresNeededToWinn) return winnerList;
       }
@@ -53,7 +53,7 @@ export class WinnerSearcherService {
   
   
     checkAllColsForWinner(figure: FigureNotEmpty, nrOfFiguresToFind: number){
-        for (let col = 1; col <= this.context.nrOfColumns; col++){
+        for (let col = 1; col <= this.context.boardSize; col++){
           let winnerList = this.getWinnerOutOfSingleColumn(figure, nrOfFiguresToFind, col);
           if (winnerList.length >= this.context.nrOfFiguresNeededToWinn) return winnerList;
         }
@@ -83,7 +83,7 @@ export class WinnerSearcherService {
   
     getWinnerOutOfSingleRow(figure:FigureNotEmpty, nrOfFiguresToFind: number, rowNr:number){
       let cords = [];
-      for(let i = 0; i < this.context.nrOfColumns; i++){
+      for(let i = 0; i < this.context.boardSize; i++){
         cords.push([ i + 1, rowNr])
       }
       return this.findNrOfFeaguresOneByOne(figure, nrOfFiguresToFind, cords)
@@ -91,7 +91,7 @@ export class WinnerSearcherService {
   
     getWinnerOutOfSingleColumn(figure:FigureNotEmpty, nrOfFiguresToFind: number, colNr:number){
       let cords = [];
-      for(let i = 0; i < this.context.nrOfRows; i++){
+      for(let i = 0; i < this.context.boardSize; i++){
         cords.push([colNr, i + 1])
       }
       return this.findNrOfFeaguresOneByOne(figure, nrOfFiguresToFind, cords)

@@ -22,8 +22,6 @@ export class BoardHandlerServiceService {
     isComputerOponent = true;
     isGameOver = false;
     boardSize: number = 0;
-    nrOfRows: number = this.boardSize;
-    nrOfColumns: number = this.boardSize;
     nrOfFiguresNeededToWinn: number = 3;
     board: CellDescriptor[] = [];
     nextFigure: Figure = '';
@@ -31,24 +29,54 @@ export class BoardHandlerServiceService {
     initialFigure: Figure = '';
     winnerChecker: WinnerSearcherService;
     winningFigure: Figure = '';
-    computersFigure: FigureNotEmpty = "Cross";
-    humanFigure: FigureNotEmpty = this.computersFigure == "Cross" ? "Circle" : "Cross";
+    humansFigure: FigureNotEmpty = "Circle";
+    computersFigure: FigureNotEmpty = this.humansFigure == "Circle" ? "Cross" : "Circle";
     nextMoveGetter: PatternSearcherService = new PatternSearcherService(this)
     parentComponentGameOverSetter: Function = ()=>{};
     parentComponentGameOverResetter: Function = ()=>{};
     constructor(){
       this.winnerChecker  = new WinnerSearcherService(this);
     }
-  
-    parametrize(boardSize: number, nrOfFiguresInRowToWinn: number){
-      this.nrOfRows = boardSize;
-      this.nrOfColumns = boardSize;
-      this.boardSize = boardSize;
-      this.nrOfFiguresNeededToWinn = nrOfFiguresInRowToWinn;
-      this.board = createArrayOfEmements<CellDescriptor>(this.nrOfColumns * this.nrOfRows, this.createSingleCellDescriptor.bind(this));
-      this.nextFigure = 'Circle';
-      this.initialFigure = this.nextFigure;
+
+    changeFigureOwners(newHumanFigure: FigureNotEmpty){
+      // debugger;
+      if (this.humansFigure != newHumanFigure){
+        this.humansFigure = newHumanFigure;
+        this.computersFigure = this.humansFigure == "Circle" ? "Cross" : "Circle";
+        this.makeNextMove();
+        this.showWinner();
+        if (this.winnerChecker.isDraw()) this.setGameOver();
+      }
     }
+
+    setBoardSize(boardSize:number){ //, nrOfFiguresInRowToWinn: number){
+      this.boardSize = boardSize;
+      // this.nrOfFiguresNeededToWinn = nrOfFiguresInRowToWinn;
+      this.board = createArrayOfEmements<CellDescriptor>(this.boardSize * this.boardSize, this.createSingleCellDescriptor.bind(this));      
+    }
+
+    setInitialFigures(initialFigures:{humansFigure: FigureNotEmpty, nextFigure: FigureNotEmpty}){
+      this.nextFigure = initialFigures.nextFigure;
+      this.humansFigure = initialFigures.humansFigure;
+      this.computersFigure = this.humansFigure == "Circle" ? "Cross" : "Circle";     
+    }
+
+    setNrOfFiguresNeededToWinn(val: number){
+      this.nrOfFiguresNeededToWinn = val;
+    }
+  
+    // parametrize(boardSize: number, nrOfFiguresInRowToWinn: number, initialFigures:{humansFigure: FigureNotEmpty, nextFigure: FigureNotEmpty}){
+    //   this.nrOfRows = boardSize;
+    //   this.nrOfColumns = boardSize;
+    //   this.boardSize = boardSize;
+    //   this.nrOfFiguresNeededToWinn = nrOfFiguresInRowToWinn;
+    //   this.board = createArrayOfEmements<CellDescriptor>(this.nrOfColumns * this.nrOfRows, this.createSingleCellDescriptor.bind(this));
+    //   this.nextFigure = initialFigures.nextFigure;
+    //   this.humansFigure = initialFigures.humansFigure;
+    //   this.computersFigure = this.humansFigure == "Circle" ? "Cross" : "Circle";
+    //   // this.nextFigure = 'Circle';
+    //   // this.initialFigure = this.nextFigure;
+    // }
 
     subscribeToFigureChange(nextFigureSetter: Function){
       this.nextFigureChangedInformer = nextFigureSetter;
@@ -69,7 +97,7 @@ export class BoardHandlerServiceService {
     setSpecifiedFigureToRowCol(rowNr: number, colNr: number, figure: FigureNotEmpty){
       let destinationIndex = (colNr - 1) * this.boardSize + (rowNr - 1);
       this.board[destinationIndex].figure = figure;
-      this.toggleNextFigure();
+      // this.toggleNextFigure();
       this.setCellToOccupied(destinationIndex);
       this.showWinner();
       // if (this.winnerChecker.isDraw()) this.setGameOver();
@@ -81,14 +109,12 @@ export class BoardHandlerServiceService {
       this.board = readyBoard;
       this.nrOfFiguresNeededToWinn = nrOfFiguresNeededToWinn;
       this.boardSize = Math.sqrt(readyBoard.length);
-      this.nrOfColumns = this.boardSize;
-      this.nrOfRows = this.boardSize;
     }
 
     restartGame(){
-      this.board = createArrayOfEmements<CellDescriptor>(this.nrOfColumns * this.nrOfRows, this.createSingleCellDescriptor.bind(this));
+      this.board = createArrayOfEmements<CellDescriptor>(this.boardSize * this.boardSize, this.createSingleCellDescriptor.bind(this));
       this.winningFigure = '';
-      this.nextFigure = this.initialFigure;
+      // this.nextFigure = this.initialFigure;
       this.isGameOver = false;
     }
 
@@ -117,15 +143,15 @@ export class BoardHandlerServiceService {
       return {
         figure: '',
         id: index + 1,
-        row: Math.floor(index / that.nrOfColumns) + 1, // 1 to size
-        column: index % that.nrOfRows + 1,
+        row: Math.floor(index / that.boardSize) + 1, // 1 to size
+        column: index % that.boardSize + 1,
         isPartOfWinningPlot: false,
         isOccupied: false,
         onclick: function(){
           if (!that.isGameOver){
             if (that.board[index].figure != '') return null;
             that.setFigureToCell(index);
-            that.toggleNextFigure();
+            // that.toggleNextFigure();
             that.setCellToOccupied(index);
             that.showWinner();
             if (that.winnerChecker.isDraw()) that.setGameOver();
@@ -167,15 +193,15 @@ export class BoardHandlerServiceService {
     }
   
     getIndex(colNr:number, rowNr:number):number{
-      return (rowNr - 1) * this.nrOfColumns + (colNr - 1)
+      return (rowNr - 1) * this.boardSize + (colNr - 1)
     }
   
     setFigureToCell(cellNr: number){
       this.board[cellNr].figure = this.nextFigure;
     }
   
-    toggleNextFigure(){
-      this.nextFigure = this.nextFigure == 'Circle' || this.nextFigure == '' ? 'Cross' : 'Circle';
-      this.nextFigureChangedInformer(this.nextFigure);
-    }
+    // toggleNextFigure(){
+    //   this.nextFigure = this.nextFigure == 'Circle' || this.nextFigure == '' ? 'Cross' : 'Circle';
+    //   this.nextFigureChangedInformer(this.nextFigure);
+    // }
   }
