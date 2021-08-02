@@ -4,7 +4,13 @@
         (boardSizeChanged)="changeBoardSize($event)" 
         (toggleOponent)="toggleOponent()"
         (playersFigureChanged) = "changeHumansFigure($event)"   
-        [initialState] = "initialState">
+        [nrOfFiguresInRowToWinn] = "nrOfFiguresInRowToWinn"
+        [nextFigure] = "nextFigure"
+        [humansFigure] = "humansFigure"
+        [supportedGames] = "supportedGames"
+        [oponent] = "oponent"
+        [initialGame] = "initialGame"
+        >
         
     </app-game-controls>
     <tic-tac-toe [mediator] = "mediator" 
@@ -14,3 +20,5 @@
             [initialState] = "initialState">
         </tic-tac-toe>
 </div>
+
+

@@ -1,8 +1,9 @@
 import { Component, Injectable, TemplateRef} from '@angular/core';
-import { Receiver, InitialState } from './app.types'
+import { Receiver, InitialState, GameDescriptor, Oponent } from './app.types'
 import { bindCallback } from 'rxjs';
 import { MediatorService } from './shared/mediator.service'
 import { FigureNotEmpty } from './app.types'
+import { GetDataFromInintialStateService } from './get-data-from-inintial-state.service'
 
 
 @Component({
@@ -38,17 +39,33 @@ export class AppComponent {
       }
 
     ],
-    initialGameName: 'Board: 3x3 3 in row'
+    initialGameName: 'Board: 7x7 5 in row'
   }
+  initialDataGetter = new GetDataFromInintialStateService();
   title = 'TicTacToe';
   boardSize: number = 3;
-    nrOfFiguresInRowToWinn = 3;
+  nrOfFiguresInRowToWinn = 3;
   mediator = new MediatorService();
   nextFigure: FigureNotEmpty = this.initialState.nextFigure;
   humansFigure: FigureNotEmpty = this.initialState.humansFigure;
+  computersFigure: FigureNotEmpty = this.getOpositeFigure(this.humansFigure);
+  supportedGames: GameDescriptor[] = [{name: '', boardSize: 0, nrOfFiguresInRowToWinn :0}]
+  initialGame: string = this.initialState.initialGameName;
+  oponent: Oponent = "Computer";
+
   
   constructor(){
     
+  }
+
+  ngOnInit(){
+    this.changeBoardSize(this.initialGame)
+  }
+
+  getOpositeOponent(oponent: Oponent) { return oponent== "Computer" ? "Human" : "Computer"}
+
+  getOpositeFigure(figure: FigureNotEmpty) {
+    return figure == "Circle" ? "Cross" : "Circle"
   }
 
   nextFigureChange(nextFigure: FigureNotEmpty){

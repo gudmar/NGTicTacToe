@@ -18,6 +18,7 @@ interface SingleOption {
 export class ExpandableListComponent implements OnInit {
   @Input() listOfOptions: string[] = [];
   @Input() actualOption: number = 0;
+  @Input() initialValue: string = '';
   isListHidden: boolean = true;
   @Output() optionChosen: EventEmitter<string> = new EventEmitter();
 
@@ -35,6 +36,7 @@ export class ExpandableListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.actualOption = this.getInitialValuesIndex();
   }
 
   unactivateAllButForThisOption(indexOfOptionToRemainActive:number){
@@ -49,4 +51,13 @@ export class ExpandableListComponent implements OnInit {
     return this.actualOption==id?true:false
   }
 
+  getInitialValuesIndex(){
+    let that = this;
+    let isEqualToInitialValue = function(element: string){
+      if (element == that.initialValue) return true;
+      return false;
+    }
+    let output = this.listOfOptions.findIndex(isEqualToInitialValue);
+    return output == -1 ? 0 : output;
+  }
 }
