@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output , EventEmitter} from '@angular/core';
-import { FigureNotEmpty } from '../app.types';
-import {MediatorService} from '../shared/mediator.service'
+import { FigureNotEmpty, GameDescriptor, Oponent } from '../app.types';
+import { MediatorService } from '../shared/mediator.service'
 import { GetDataFromInintialStateService } from '../get-data-from-inintial-state.service'
 
 @Component({
@@ -9,26 +9,24 @@ import { GetDataFromInintialStateService } from '../get-data-from-inintial-state
   styleUrls: ['./game-controls.component.css']
 })
 export class GameControlsComponent implements OnInit {
-  // @Input() nextFigure: string =  "Circle";
-  // @Input() set nextFigure(value: FigureNotEmpty){
-  //   this._nextFigure = value;
-  //   this.nextFigureDisplay = this.nextFigure == "Circle"?'&#9675;':'&times;'
-  // }
-  // @Input() nextFigure: FigureNotEmpty = "Circle"
   @Input() initialState: any;
-  set nextFigure(val: FigureNotEmpty) {
-    this.initialState.nextFigure;
-    this.nextFigureDisplay = this.nextFigure == "Circle"?'&#9675;':'&times;';
-  }
   @Input() set mediator(mediatorService:MediatorService){
     mediatorService.subscribe(this.onMessageFromMediator.bind(this))
   }
-  // get nextFigure():FigureNotEmpty {return this._nextFigure}
+
   @Output() restartEvent: EventEmitter<null> = new EventEmitter();
   @Output() boardSizeChanged: EventEmitter<string> = new EventEmitter();
   @Output() toggleOponent: EventEmitter<null> = new EventEmitter();
   @Output() playersFigureChanged: EventEmitter<string> = new EventEmitter();
-  // _nextFigure: FigureNotEmpty = 'Circle'
+
+
+  @Input() nrOfFiguresInRowToWinn: number = 0;
+  @Input() nextFigure: FigureNotEmpty = "Cross";
+  @Input() humansFigure: FigureNotEmpty = "Circle";
+  @Input() supportedGames: GameDescriptor[] = [{name:'', nrOfFiguresInRowToWinn: 0, boardSize: 0}]
+  @Input() oponent: Oponent = "Computer";
+  @Input() initialGame: string = '';
+
   nextFigureDisplay: string = '';
   gameSizes: string[] = ['Board: 3x3 3 in row', 'Board: 7x7 5 in row', 'Board 10x10 5 in row', 'Board: 12x12 5 in row']
   oponents: string[] = ['&#128187;', `&#x1F6B9;`]
@@ -43,6 +41,11 @@ export class GameControlsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // debugger;
+  }
+
+  currentOponentToSymbol(){
+    return this.oponent == "Computer" ? '&#128187;' : `&#x1F6B9;`
   }
 
   playerFigureChanged(chosenFigure: any){

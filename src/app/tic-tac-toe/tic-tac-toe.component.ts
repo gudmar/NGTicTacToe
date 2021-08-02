@@ -41,6 +41,7 @@ export class TicTacToeComponent {
     this.rowIds = this.createArrayOfNElements(this.boardSize);
     this.colIds = this.createArrayOfNElements(this.boardSize);  
     this.boardHandler.restartGame()
+    // debugger;
   }
   get boardSize() {return this._boardSize}
 

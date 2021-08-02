@@ -9,12 +9,10 @@ export class OnclickChangeComponentComponent implements OnInit {
   @Input() caption: string = '';
   @Input() isOnclickEnabled: boolean = true;
   @Input() arrayOfValues: string[] = [];
+  @Input() initialValue: string = '';
   
   @Output() valueChanged: EventEmitter<string> = new EventEmitter();
-  // @HostListener('click') ActivatedRoute(){
-  //   this.nextValue()
-  //   this.valueChanged.emit(this.currentValue);
-  // }
+
   currentValue: string = '';
   valIterator: any;
   constructor() { }
@@ -23,17 +21,29 @@ export class OnclickChangeComponentComponent implements OnInit {
     this.currentValue = this.valIterator.next().value;
   }
 
+  getInitialValuesIndex(){
+    let that = this;
+    let isEqualToInitialValue = function(element: string){
+      if (element == that.initialValue) return true;
+      return false;
+    }
+    let output = this.arrayOfValues.findIndex(isEqualToInitialValue);
+    return output == -1 ? 0 : output;
+  }
+
   nextValueEmit(){
     this.nextValue();
     this.valueChanged.emit(this.currentValue)
   }
 
+
+
   onClick(){
     if (this.isOnclickEnabled) this.nextValueEmit()
   }
 
-  nextValueIterator(valArray: string[]){
-    let nextIndex = 0;
+  nextValueIterator(valArray: string[], indexOffset: number){
+    let nextIndex = indexOffset;
     return {
       next: function() {
         if (nextIndex >= valArray.length) nextIndex = 0;
@@ -46,7 +56,8 @@ export class OnclickChangeComponentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.valIterator = this.nextValueIterator(this.arrayOfValues);
+    let initialValueIndex = this.getInitialValuesIndex();
+    this.valIterator = this.nextValueIterator(this.arrayOfValues, initialValueIndex);
     this.nextValue();
   }
 
