@@ -3,6 +3,7 @@ import { CellDescriptor, Figure, CellCords, FigureNotEmpty } from '../app.types.
 import { WinnerSearcherService } from './winner-searcher.service'
 import { ConcatSource } from 'webpack-sources';
 import { PatternSearcherService } from './strategies/pattern-searcher.service'
+import { ConstantPool } from '@angular/compiler';
 // import { Z_PARTIAL_FLUSH } from 'zlib';
 // import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
@@ -24,9 +25,14 @@ export class BoardHandlerServiceService {
     boardSize: number = 0;
     nrOfFiguresNeededToWinn: number = 3;
     board: CellDescriptor[] = [];
-    nextFigure: FigureNotEmpty = 'Circle';
-    nextFigureChangedInformer: Function = (figure:FigureNotEmpty) => {}
-    initialFigure: Figure = '';
+    _nextFigure: FigureNotEmpty = 'Circle';
+    set nextFigure(val: FigureNotEmpty) {
+      this._nextFigure = val;
+      this.communicationFunction("nextFigure", this.nextFigure);
+    }
+    get nextFigure() {return this._nextFigure}
+    // nextFigureChangedInformer: Function = (figure:FigureNotEmpty) => {}
+    initialFigure: FigureNotEmpty = 'Circle';
     winnerChecker: WinnerSearcherService;
     winningFigure: Figure = '';
     _humansFigure: FigureNotEmpty = "Circle"
@@ -36,6 +42,7 @@ export class BoardHandlerServiceService {
       this.computersFigure = this.humansFigure == "Circle" ? "Cross" : "Circle";
       if (this.shouldComputerMakeFirstMove()) this.makeNextMove();
       if (this.winnerChecker.isDraw()) this.setGameOver();
+      this.ifHumanCrossBoardEmptyOponentComputerMakeFirstMove();
     }
     get humansFigure() {return this._humansFigure;}
     computersFigure: FigureNotEmpty = this.humansFigure == "Circle" ? "Cross" : "Circle";
@@ -68,7 +75,12 @@ export class BoardHandlerServiceService {
       this.communicationFunction = callback;
     }
 
-    setIsComputerOponent(val: boolean){this.isComputerOponent = true};
+    setIsComputerOponent(val: boolean){
+      this.isComputerOponent = val;
+      if (val == true) this.ifHumanCrossOponentComputerMakeFirstMove()
+      // debugger;
+    };
+
     setNextFigure(val: FigureNotEmpty) {this.nextFigure = val};
     setHumansFigure(val: FigureNotEmpty) {
       // this.humansFigure = val;
@@ -79,10 +91,12 @@ export class BoardHandlerServiceService {
     setBoardSize(boardSize:number){ //, nrOfFiguresInRowToWinn: number){
       this.boardSize = boardSize;
       // this.nrOfFiguresNeededToWinn = nrOfFiguresInRowToWinn;
-      this.board = createArrayOfEmements<CellDescriptor>(this.boardSize * this.boardSize, this.createSingleCellDescriptor.bind(this));      
+      this.board = createArrayOfEmements<CellDescriptor>(this.boardSize * this.boardSize, this.createSingleCellDescriptor.bind(this));
+      this.nextFigure = this.initialFigure;    
     }
 
     setInitialFigures(initialFigures:{humansFigure: FigureNotEmpty, nextFigure: FigureNotEmpty}){
+      this.initialFigure = initialFigures.nextFigure;
       this.nextFigure = initialFigures.nextFigure;
       this.humansFigure = initialFigures.humansFigure;
       this.computersFigure = this.humansFigure == "Circle" ? "Cross" : "Circle";     
@@ -102,7 +116,9 @@ export class BoardHandlerServiceService {
     makeNextMove(){
       let nextMoveCords = this.nextMoveGetter.getNextMoveCords(this.computersFigure);
       if (nextMoveCords.length > 0) this.setSpecifiedFigureToRowCol(nextMoveCords[0], nextMoveCords[1], this.nextFigure);
+      // debugger
       this.toggleNextFigure();
+      // debugger;
     }  
 
     setSpecifiedFigureToRowCol(rowNr: number, colNr: number, figure: FigureNotEmpty){
@@ -125,8 +141,32 @@ export class BoardHandlerServiceService {
     restartGame(){
       this.board = createArrayOfEmements<CellDescriptor>(this.boardSize * this.boardSize, this.createSingleCellDescriptor.bind(this));
       this.winningFigure = '';
-      // this.nextFigure = this.initialFigure;
+      this.nextFigure = this.initialFigure;
+      console.log(`restartGame: ${this.initialFigure}`)
       this.isGameOver = false;
+      this.ifHumanCrossBoardEmptyOponentComputerMakeFirstMove();
+    }
+
+    ifHumanCrossBoardEmptyOponentComputerMakeFirstMove(){
+      if (this.isComputerOponent && this.humansFigure == "Cross" && this.isBoardEmpty()) {
+        if (this.nextFigure == "Cross") this.toggleNextFigure();
+        this.makeNextMove();
+      }
+    }
+
+    ifHumanCrossOponentComputerMakeFirstMove(){
+      if (this.isComputerOponent && this.computersFigure == this.nextFigure) {
+        // if (this.nextFigure == "Cross") this.toggleNextFigure();
+        this.makeNextMove();
+        // this.toggleNextFigure();
+      }
+    }
+
+    isBoardEmpty(){
+      let isFieldEmpty = function(element: any) {
+        return element.figure == ""
+      }
+      return this.board.every(isFieldEmpty)
     }
 
     setCellsToWinning(setOfCellCords: CellCords[]){
@@ -214,6 +254,7 @@ export class BoardHandlerServiceService {
     toggleNextFigure(){
       this.nextFigure = this.nextFigure == 'Circle' ? 'Cross' : 'Circle';
       // this.nextFigureChangedInformer(this.nextFigure);
-      this.communicationFunction("nextFigure", this.nextFigure)
+      // this.communicationFunction("nextFigure", this.nextFigure)
+
     }
   }

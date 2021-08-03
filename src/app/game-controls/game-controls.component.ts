@@ -21,7 +21,15 @@ export class GameControlsComponent implements OnInit {
 
 
   @Input() nrOfFiguresInRowToWinn: number = 0;
-  @Input() nextFigure: FigureNotEmpty = "Cross";
+  _nextFigure: FigureNotEmpty = "Cross";
+  @Input() set nextFigure(val: FigureNotEmpty) {
+    console.log(`game-controls: SETTING nextFigure: ${val}`)
+    this._nextFigure = val;
+  }
+  get nextFigure() {
+    // console.warn(`Taking next figure: ${this._nextFigure}`); 
+    return this._nextFigure
+  };
   @Input() humansFigure: FigureNotEmpty = "Circle";
   @Input() supportedGames: GameDescriptor[] = [{name:'', nrOfFiguresInRowToWinn: 0, boardSize: 0}]
   @Input() oponent: Oponent = "Computer";
@@ -64,5 +72,6 @@ export class GameControlsComponent implements OnInit {
   opponentToggled(){
     this.toggleOponent.emit();
   }
+
 
 }

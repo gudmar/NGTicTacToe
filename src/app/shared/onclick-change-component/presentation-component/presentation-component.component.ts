@@ -11,19 +11,23 @@ export class PresentationComponentComponent implements OnInit {
   // @Input() arrayOfValues: string[] = [];
   
   @Output() valueClicked: EventEmitter<string> = new EventEmitter();
-
-  @Input() presentValue: string = '';
+  _presentValue : string = '';
+  @Input() set presentValue(val: string) {
+    console.log(`presentation component: settign prsetnValue to ${val}`)
+    this._presentValue = val;
+    // debugger;
+  }
+  get presentValue() {return this._presentValue}
+  // : string = '';
   valIterator: any;
   constructor() { }
 
   onClick(){
-    // if (this.isOnclickEnabled) this.nextValueEmit()
     this.valueClicked.emit();
   }
 
 
   ngOnInit(): void {
-    // this.valIterator = this.nextValueIterator(this.arrayOfValues);
-    // this.nextValue();
+
   }
 }

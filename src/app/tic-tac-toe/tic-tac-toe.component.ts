@@ -16,8 +16,8 @@ export class TicTacToeComponent {
   _boardSize:number = 0;
   _nrOfFiguresInRowToWinn = 3;
   _humansFigure: FigureNotEmpty = "Circle";
+  _oponent: Oponent = "Computer";
   computersFigure: FigureNotEmpty = "Cross";
-  oponent: Oponent = "Computer";
   @Input() set humansFigure(val: FigureNotEmpty) {
     this._humansFigure = val; 
     this.computersFigure = this._humansFigure == "Circle" ? "Cross" : "Circle";
@@ -29,6 +29,10 @@ export class TicTacToeComponent {
   nextFigure: FigureNotEmpty = "Circle"
 
   @Input() initialState: any;
+  @Input() set oponent(val: Oponent) {
+    this._oponent = val;
+    this.boardHandler.setIsComputerOponent(val == "Computer" ? true : false)
+  }
 
 
   // @Input() set humansFigure(val: FigureNotEmpty){
@@ -96,7 +100,9 @@ export class TicTacToeComponent {
     if (command == "nextFigure") {
       this.nextFigure = data;
       this.nextFigureChanged.emit(data);
+      console.log('tic-tac-toe: nextFigure toggled')
     }
+    // debugger;
   }
 
   setNrOfFiguresNeededToWinn_propagate(val: number) {
