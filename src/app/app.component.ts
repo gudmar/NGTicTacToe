@@ -39,7 +39,7 @@ export class AppComponent {
       }
 
     ],
-    initialGameName: 'Board: 7x7 5 in row'
+    initialGameName: 'Board: 3x3 3 in row'
   }
   initialDataGetter = new GetDataFromInintialStateService();
   title = 'TicTacToe';
@@ -69,8 +69,9 @@ export class AppComponent {
   }
 
   nextFigureChange(nextFigure: FigureNotEmpty){
-    this.nextFigure = nextFigure;
-    // console.log(`Next figure changed to ${this.nextFigure}`)
+    setTimeout(()=>{this.nextFigure = nextFigure;});
+    // debugger;
+    console.log(`APP component: Next figure changed to ${this.nextFigure}`)
   }
 
   changeHumansFigure(newFigure: any){
@@ -108,8 +109,11 @@ export class AppComponent {
   }
 
   toggleOponent(){
-    this.mediator.sendMessageToAllSubscribers('toggleOponent')
+    this.oponent = this.oponent == "Computer" ? "Human" : "Computer"
   }
+  // toggleOponent(){
+  //   this.mediator.sendMessageToAllSubscribers('toggleOponent')
+  // }
 
 }
 
