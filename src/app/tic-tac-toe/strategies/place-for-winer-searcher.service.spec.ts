@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { BoardHandlerServiceService } from '../board-handler-service.service';
 import { runTestSuit } from '../../shared/tests/jasmine_runTestsFromArray'
-import { testSuitePattern_0_Circle, testSuitePattern_0_Cross } from './testCases/tests_0__0000_StrategyTestCases'
+import { testCases } from './testCases/test_noOptionToWinn'
 import { ArrayToBoardTranslatorService } from '../../shared/tests/array-to-board-translator.service'
 import { TestCaseValidatorService } from '../../shared/tests/test-case-validator.service'
 import { TestCase, TestFromArrayConfig, Figure, FigureNotEmpty, PatternDescriptor} from '../../app.types'
@@ -15,8 +15,8 @@ import CustomMatcherResult = jasmine.CustomMatcherResult;
 import { ConcatSource } from 'webpack-sources';
 
 
-import { Strategy00000Service } from './strategy-0--0000-.service';
-import { PatternSearcherService } from './pattern-searcher.service';
+import { PlaceForWinerSearcherService } from './place-for-winer-searcher.service';
+import { CanGameBeWonByAnyoneService } from './can-game-be-won-by-anyone.service';
 
 let boardHandlerService = new BoardHandlerServiceService();
 let testValidator = new TestCaseValidatorService()
@@ -24,14 +24,13 @@ let boardTranslator = new ArrayToBoardTranslatorService(testValidator)
 
 
 
-let testedFunction = function(figureToFind:FigureNotEmpty){
+let testedFunction = function(){
   return function(singleTestCase:TestCase, nrOfFiguresInRowToWinn: number){
     it(singleTestCase.name, () => {
       let boardInput = boardTranslator.createArrayOfCellDescirptors(singleTestCase.input);
-      // let nrOfFiguresInRowToWinn = 5;
       boardHandlerService.parametrize_ForTests(boardInput, nrOfFiguresInRowToWinn);
-      let patternSearcher = new PatternSearcherService(boardHandlerService);
-      let solution = patternSearcher.getCalculatedStrategy(figureToFind, 'strategy:0000');
+      let patternSearcher = new CanGameBeWonByAnyoneService(boardHandlerService);
+      let solution = patternSearcher.getFirstWinningPatternCords();
       let foundPattern = solution.foundElements;
       let proposedMoves = solution.nextMoveProposals;
       let expOutput:PatternDescriptor = <PatternDescriptor>singleTestCase.expectedOutput;
@@ -44,6 +43,6 @@ let testedFunction = function(figureToFind:FigureNotEmpty){
 }
 
 
-// runTestSuit(testedFunction('Circle'), 'Find strategy 0 XXXX pattern: circle test instances', testSuitePattern_0_Circle);
-// runTestSuit(testedFunction('Cross'), 'Find strategy 0 XXXX pattern: cross test instances', testSuitePattern_0_Cross);
+runTestSuit(testedFunction(), 'Check if no possibility to winn component wrks correctly', testCases);
+
 
