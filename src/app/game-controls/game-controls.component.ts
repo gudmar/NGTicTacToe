@@ -34,6 +34,7 @@ export class GameControlsComponent implements OnInit {
   @Input() supportedGames: GameDescriptor[] = [{name:'', nrOfFiguresInRowToWinn: 0, boardSize: 0}]
   @Input() oponent: Oponent = "Computer";
   @Input() initialGame: string = '';
+  @Input() gameCannotBeWon: boolean = false;
 
   nextFigureDisplay: string = '';
   gameSizes: string[] = ['Board: 3x3 3 in row', 'Board: 7x7 5 in row', 'Board 10x10 5 in row', 'Board: 12x12 5 in row']

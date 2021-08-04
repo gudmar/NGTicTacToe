@@ -3,9 +3,8 @@ import { CellDescriptor, Figure, CellCords, FigureNotEmpty } from '../app.types.
 import { WinnerSearcherService } from './winner-searcher.service'
 import { ConcatSource } from 'webpack-sources';
 import { PatternSearcherService } from './strategies/pattern-searcher.service'
+import { CanGameBeWonByAnyoneService } from './strategies/can-game-be-won-by-anyone.service'
 import { ConstantPool } from '@angular/compiler';
-// import { Z_PARTIAL_FLUSH } from 'zlib';
-// import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 function createArrayOfEmements<T>(arraySize: number, elementCreator: (index: number)=>T){
   let output = [];
@@ -29,6 +28,7 @@ export class BoardHandlerServiceService {
     set nextFigure(val: FigureNotEmpty) {
       this._nextFigure = val;
       this.communicationFunction("nextFigure", this.nextFigure);
+      if (!this.winnerChecker.canGameStillBeWon()) this.communicationFunction('gameCannotBeWon', true)
     }
     get nextFigure() {return this._nextFigure}
     // nextFigureChangedInformer: Function = (figure:FigureNotEmpty) => {}
@@ -144,6 +144,7 @@ export class BoardHandlerServiceService {
       this.nextFigure = this.initialFigure;
       console.log(`restartGame: ${this.initialFigure}`)
       this.isGameOver = false;
+      this.communicationFunction("gameCannotBeWon", false)
       this.ifHumanCrossBoardEmptyOponentComputerMakeFirstMove();
     }
 

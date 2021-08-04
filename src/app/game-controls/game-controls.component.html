@@ -16,3 +16,4 @@
         <app-expandable-list [initialValue] = "initialGame" [listOfOptions] = "gameSizes" (optionChosen) = "boardSettingsChanged($event)"></app-expandable-list>        
     </div>
 </div>
+<div class="warning" *ngIf="gameCannotBeWon">Warning: This game cannot be won. Will finish with a draw.</div>
