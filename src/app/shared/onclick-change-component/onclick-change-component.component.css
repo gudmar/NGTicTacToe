@@ -22,7 +22,7 @@
     box-shadow: inset 0px 0px 10px -2px rgba(0,0,0,0.64);
     cursor: pointer;
 }
-.value:hover:after{
+/* .value:hover:after{
     content: "Click to change value";
     position: absolute;
     background-color: white;
@@ -31,4 +31,4 @@
     padding: 3px;
     border-radius: 5px;
     font-size: 1rem;
-}
+} */

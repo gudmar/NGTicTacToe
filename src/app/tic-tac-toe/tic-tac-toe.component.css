@@ -8,7 +8,7 @@
     justify-content: center;
 }
 .board{
-    --cell-size: 5rem;
+    --cell-size: 3rem;
     --board-width: 3;
     --board-height: 3;
 }
