@@ -28,7 +28,8 @@ export class BoardHandlerServiceService {
     set nextFigure(val: FigureNotEmpty) {
       this._nextFigure = val;
       this.communicationFunction("nextFigure", this.nextFigure);
-      if (!this.winnerChecker.canGameStillBeWon()) this.communicationFunction('gameCannotBeWon', true)
+      // if (!this.winnerChecker.canGameStillBeWon()) this.communicationFunction('gameCannotBeWon', true)
+      this.communicationFunction('gameCannotBeWon', !this.winnerChecker.canGameStillBeWon())
     }
     get nextFigure() {return this._nextFigure}
     // nextFigureChangedInformer: Function = (figure:FigureNotEmpty) => {}
