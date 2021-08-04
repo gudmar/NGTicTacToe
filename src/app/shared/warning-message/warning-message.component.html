@@ -1,0 +1,7 @@
+<div class="warning">
+    <ng-container *ngTemplateOutlet="exclamation">
+    </ng-container>
+    <span><b>Warning:</b> {{content}}</span>
+</div>
+
+<ng-template #exclamation><div class="triangle"><span class = "exclamation">!</span></div></ng-template>

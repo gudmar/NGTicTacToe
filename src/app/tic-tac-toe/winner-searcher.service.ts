@@ -3,10 +3,6 @@ import { BoardHandlerServiceService } from './board-handler-service.service'
 import { CellCords, FigureNotEmpty, Figure } from '../app.types.d'
 import { CanGameBeWonByAnyoneService } from './strategies/can-game-be-won-by-anyone.service'
 
-// module FigureTypes {
-//   export type CellCords = number[];
-//   export type FigureNotEmpty = 'Circle' | 'Cross';
-// }
 
 @Injectable({
   providedIn: 'root'
@@ -36,9 +32,6 @@ export class WinnerSearcherService {
       let isGameWon = false;
       if (this.getWinnerCords("Circle").length > 0) isGameWon = true;
       if (this.getWinnerCords("Cross").length > 0) isGameWon = true;
-      console.log(this.getWinnerCords('Circle'));
-      console.log(this.getWinnerCords('Cross'));
-      console.log(isGameWon)
       if (this.isDraw()) return true;
       if (isGameWon) return true;
       return this.canGameStillBeOneOracle.checkIfGameCanStillBeWonByAnyone()

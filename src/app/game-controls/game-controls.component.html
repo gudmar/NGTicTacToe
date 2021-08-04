@@ -1,19 +1,24 @@
 
-<div class="game-controls-wrapper center">
-    <div class="row center"><h3>Tic - Tac - Toe</h3></div>
-    <div class="row center" >
-        <app-onclick-change-component 
-                [caption]="'Oponent'" 
-                [initialValue]="currentOponentToSymbol()"
-                [arrayOfValues]="oponents" 
-                (valueChanged) = "opponentToggled()">
-        </app-onclick-change-component>
-        <app-onclick-change-component [caption]="'You are'" [initialValue]="humansFigure" [arrayOfValues]="figureSymbols" (valueChanged) = "playerFigureChanged($event)"></app-onclick-change-component>
-        <app-presentation-component [caption] = "'Next'" [presentValue] = "nextFigure == 'Circle'?'&#9675;':'&times;'"></app-presentation-component>            
+<div class="wrappMenuWithWarning">
+    <div class="game-controls-wrapper center">
+        <div class="row center"><h3>Tic - Tac - Toe</h3></div>
+        <div class="row center" >
+            <app-onclick-change-component 
+                    [caption]="'Oponent'" 
+                    [initialValue]="currentOponentToSymbol()"
+                    [arrayOfValues]="oponents" 
+                    (valueChanged) = "opponentToggled()">
+            </app-onclick-change-component>
+            <app-onclick-change-component [caption]="'You are'" [initialValue]="humansFigure" [arrayOfValues]="figureSymbols" (valueChanged) = "playerFigureChanged($event)"></app-onclick-change-component>
+            <app-presentation-component [caption] = "'Next'" [presentValue] = "nextFigure == 'Circle'?'&#9675;':'&times;'"></app-presentation-component>            
+        </div>
+        <div class="row center">
+            <div class="round-button center" (click) = "restartOnClick()">&#11119;</div>
+            <app-expandable-list [initialValue] = "initialGame" [listOfOptions] = "gameSizes" (optionChosen) = "boardSettingsChanged($event)"></app-expandable-list>        
+        </div>
     </div>
-    <div class="row center">
-        <div class="round-button center" (click) = "restartOnClick()">&#11119;</div>
-        <app-expandable-list [initialValue] = "initialGame" [listOfOptions] = "gameSizes" (optionChosen) = "boardSettingsChanged($event)"></app-expandable-list>        
-    </div>
+    <ng-container *ngIf="gameCannotBeWon">
+        <app-warning-message [content]="'This game cannot be won. Will finish with a draw'"></app-warning-message>
+    </ng-container>
 </div>
-<div class="warning" *ngIf="gameCannotBeWon">Warning: This game cannot be won. Will finish with a draw.</div>
+<!-- <div class="warning" *ngIf="gameCannotBeWon">Warning: This game cannot be won. Will finish with a draw.</div> -->

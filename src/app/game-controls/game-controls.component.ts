@@ -23,11 +23,9 @@ export class GameControlsComponent implements OnInit {
   @Input() nrOfFiguresInRowToWinn: number = 0;
   _nextFigure: FigureNotEmpty = "Cross";
   @Input() set nextFigure(val: FigureNotEmpty) {
-    console.log(`game-controls: SETTING nextFigure: ${val}`)
     this._nextFigure = val;
   }
   get nextFigure() {
-    // console.warn(`Taking next figure: ${this._nextFigure}`); 
     return this._nextFigure
   };
   @Input() humansFigure: FigureNotEmpty = "Circle";

@@ -9,6 +9,7 @@ import { ExpandableListComponent } from './shared/expandable-list/expandable-lis
 import { SingleOptionComponent } from './shared/expandable-list/single-option/single-option.component';
 import { OnclickChangeComponentComponent } from './shared/onclick-change-component/onclick-change-component.component';
 import { PresentationComponentComponent } from './shared/onclick-change-component/presentation-component/presentation-component.component';
+import { WarningMessageComponent } from './shared/warning-message/warning-message.component';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { PresentationComponentComponent } from './shared/onclick-change-componen
     SingleOptionComponent,
     OnclickChangeComponentComponent,
     PresentationComponentComponent,
+    WarningMessageComponent,
   ],
   imports: [
     BrowserModule,
