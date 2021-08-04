@@ -44,4 +44,4 @@ let testedFunction = function(figureToFind:FigureNotEmpty){
 
 
 
-// runTestSuit(testedFunction('Circle'), 'Find Strategy_50_X_X_XX_Service pattern: circle test instances', testCases);
+runTestSuit(testedFunction('Circle'), 'Find Strategy_50_X_X_XX_Service pattern: circle test instances', testCases);

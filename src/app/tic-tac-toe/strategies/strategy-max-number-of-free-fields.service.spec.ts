@@ -27,7 +27,6 @@ let testedFunction = function(figureToFind:FigureNotEmpty){
   return function(singleTestCase:TestCase, nrOfFiguresInRowToWinn: number){
     it(singleTestCase.name, () => {
       let boardInput = boardTranslator.createArrayOfCellDescirptors(singleTestCase.input);
-      // let nrOfFiguresInRowToWinn = 5;
       boardHandlerService.parametrize_ForTests(boardInput, nrOfFiguresInRowToWinn);
       let patternSearcher = new PatternSearcherService(boardHandlerService);
       let sollution = patternSearcher.getCalculatedStrategy(figureToFind, 'strategy:empty-area');
@@ -43,4 +42,4 @@ let testedFunction = function(figureToFind:FigureNotEmpty){
 
 
 
-// runTestSuit(testedFunction('Circle'), 'Testing strategy: find max number of free fields in row', testCases);
+runTestSuit(testedFunction('Circle'), 'Testing strategy: find max number of free fields in row', testCases);

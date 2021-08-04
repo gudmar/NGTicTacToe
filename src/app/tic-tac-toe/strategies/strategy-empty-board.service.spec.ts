@@ -29,7 +29,6 @@ let testedFunction = function(figureToFind:FigureNotEmpty){
   return function(singleTestCase:TestCase, nrOfFiguresInRowToWinn: number){
     it(singleTestCase.name, () => {
       let boardInput = boardTranslator.createArrayOfCellDescirptors(singleTestCase.input);
-      // let nrOfFiguresInRowToWinn = 5;
       boardHandlerService.parametrize_ForTests(boardInput, nrOfFiguresInRowToWinn);
       let patternSearcher = new PatternSearcherService(boardHandlerService);
       let sollution = patternSearcher.getCalculatedStrategy(figureToFind, 'strategy:empty');
@@ -45,5 +44,4 @@ let testedFunction = function(figureToFind:FigureNotEmpty){
 
 
 
-// runTestSuit(testedFunction('Circle'), 'Empty Board solution finder tests', testCasesCircle);
-// // runTestSuit(testedFunction('Cross'), 'Tests for final strategy: most elements in row, enough space', testCasesCross);
+runTestSuit(testedFunction('Circle'), 'Empty Board solution finder tests', testCasesCircle);

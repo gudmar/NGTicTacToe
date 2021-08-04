@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { StrategyFindFirstPatternService } from './strategy-find-first-pattern.service';
 import { BoardHandlerServiceService } from '../board-handler-service.service';
 import { PlaceForWinerSearcherService } from './place-for-winer-searcher.service';
-import { PatternDescriptor } from '../../app.types'
+import { PatternDescriptor, FigureNotEmpty } from '../../app.types'
 import { ThisReceiver } from '@angular/compiler';
 
 
@@ -12,6 +12,7 @@ import { ThisReceiver } from '@angular/compiler';
 export class CanGameBeWonByAnyoneService {
   firstPatternFinder: StrategyFindFirstPatternService;
   context: BoardHandlerServiceService;
+
   constructor(context:BoardHandlerServiceService) {
     this.firstPatternFinder = new StrategyFindFirstPatternService(context);
     this.context = context;
@@ -29,10 +30,6 @@ export class CanGameBeWonByAnyoneService {
     return patternForCross;
   }
 
-  getEmptyPattern():PatternDescriptor{
-    return {
-      foundElements: [],
-      nextMoveProposals: [],
-    }
-  }
 }
+
+

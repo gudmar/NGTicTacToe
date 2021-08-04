@@ -37,12 +37,13 @@ let testedFunction = function(){
       expect(foundPattern).hasArraySameElements(expOutput.foundElements);
       expect(proposedMoves).hasArraySameElements(expOutput.nextMoveProposals);
 
+
       expect(1).toBeTruthy();
     })
   }
 }
 
 
-runTestSuit(testedFunction(), 'Check if no possibility to winn component wrks correctly', testCases);
+runTestSuit(testedFunction(), 'Check if no possibility to win component wrks correctly', testCases);
 
 

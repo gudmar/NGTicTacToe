@@ -129,7 +129,6 @@ export class SingleRowEmptyBoardSearcher {
   }
 
   getPattern(figure: FigureNotEmpty, nrOfElementsInRowToWin: number, boardSlice: string[]): any{
-    // console.log(boardSlice)
     return {
       ownFigures: this.countOwnFigures(figure, boardSlice),
       oponentFigures: this.countOponentFigures(figure, boardSlice),
