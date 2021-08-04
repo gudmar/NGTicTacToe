@@ -294,8 +294,6 @@ export class GeneralStrategyService {
   }
 
 searchOneMoreTimeStartingFromEachGap(arraySlice: string[] = this.inputArraySlice, figure: FigureNotEmpty, nrOfElementsInRowToWin: number){
-  // console.log('Array slice ')
-  // console.log(arraySlice)
   let gapEndIndexes = this.getGapIndexes(arraySlice);
   let addGapOffsetToSolution = function(arrayOfIndexes: number[], gapEndIndex: number){
     return arrayOfIndexes.map((element: number, index: number) => {
@@ -305,7 +303,6 @@ searchOneMoreTimeStartingFromEachGap(arraySlice: string[] = this.inputArraySlice
   for (let gap of gapEndIndexes){
     let sliceFormGap = arraySlice.slice(gap, arraySlice.length)
     let foundPattern = this.getPattern(figure, nrOfElementsInRowToWin, sliceFormGap, false)
-    // console.log(foundPattern)
     if (foundPattern.nextMoveProposals.length > 0) 
       return {
         foundElements: addGapOffsetToSolution(foundPattern.foundElements, gap),

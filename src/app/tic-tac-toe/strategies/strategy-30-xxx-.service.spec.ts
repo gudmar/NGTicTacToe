@@ -45,29 +45,7 @@ let testedFunction = function(figureToFind:FigureNotEmpty){
 
 
 runTestSuit(testedFunction('Circle'), 'Find Strategy_30_Strat__XXX_Service pattern: circle test instances', testCasesCircle);
-// runTestSuit(testedFunction('Cross'), 'Find Strategy_20_XX_XX_Service pattern: circle test instances', testCasesCross);
 
-
-
-
-
-
-
-
-
-// let testedFunction = function(figureToFind:FigureNotEmpty){
-//   return function(singleTestCase:TestCase){
-//     it(singleTestCase.name, () => {
-//       let boardInput = boardTranslator.createArrayOfCellDescirptors(singleTestCase.input);
-//       boardHandlerService.parametrize_ForTests(boardInput, 3);
-//       // let winnerSearcher = new WinnerSearcherService(boardHandlerService);
-//       // expect(winnerSearcher.getWinnerCords(figureToFind)).hasArraySameElements(singleTestCase.expectedOutput);
-//       expect(1).toBeTruthy();
-//     })
-//   }
-// }
-
-// runTestSuit(testedFunction('Circle'), 'Find winner: Circle instance', []);
 
 
 

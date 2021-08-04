@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { BoardHandlerServiceService } from '../board-handler-service.service';
 import { runTestSuit } from '../../shared/tests/jasmine_runTestsFromArray'
-import { testCasesCircle } from './testCases/tests_20_XX_XX_StrategyTestCases'
+import { testCases } from './testCases/test_noOptionToWinn'
 import { ArrayToBoardTranslatorService } from '../../shared/tests/array-to-board-translator.service'
 import { TestCaseValidatorService } from '../../shared/tests/test-case-validator.service'
-import { PatternDescriptor, TestCase, TestFromArrayConfig, Figure, FigureNotEmpty} from '../../app.types'
+import { TestCase, TestFromArrayConfig, Figure, FigureNotEmpty, PatternDescriptor} from '../../app.types'
 import { customMatchers } from '../../shared/tests/customMatchers'
 
 import MatchersUtil = jasmine.MatchersUtil;
@@ -14,8 +14,9 @@ import CustomMatcher = jasmine.CustomMatcher;
 import CustomMatcherResult = jasmine.CustomMatcherResult;
 import { ConcatSource } from 'webpack-sources';
 
-import { Strategy_20_XX_XX_Service } from './strategy-20-xx-xx.service';
-import { PatternSearcherService } from './pattern-searcher.service';
+
+import { PlaceForWinerSearcherService } from './place-for-winer-searcher.service';
+import { CanGameBeWonByAnyoneService } from './can-game-be-won-by-anyone.service';
 
 let boardHandlerService = new BoardHandlerServiceService();
 let testValidator = new TestCaseValidatorService()
@@ -23,28 +24,26 @@ let boardTranslator = new ArrayToBoardTranslatorService(testValidator)
 
 
 
-
-let testedFunction = function(figureToFind:FigureNotEmpty){
-  return function(singleTestCase:TestCase, nrOfFiguresInRowToWinn:number){
+let testedFunction = function(){
+  return function(singleTestCase:TestCase, nrOfFiguresInRowToWinn: number){
     it(singleTestCase.name, () => {
       let boardInput = boardTranslator.createArrayOfCellDescirptors(singleTestCase.input);
       boardHandlerService.parametrize_ForTests(boardInput, nrOfFiguresInRowToWinn);
-      let patternSearcher = new PatternSearcherService(boardHandlerService);
-      let sollution = patternSearcher.getCalculatedStrategy(figureToFind, 'strategy:-XX-XX');
-      let foundPattern = sollution.foundElements;
-      let proposedMoves = sollution.nextMoveProposals;
-      let expOutput = <PatternDescriptor>singleTestCase.expectedOutput;
+      let patternSearcher = new CanGameBeWonByAnyoneService(boardHandlerService);
+      let solution = patternSearcher.getFirstWinningPatternCords();
+      let foundPattern = solution.foundElements;
+      let proposedMoves = solution.nextMoveProposals;
+      let expOutput:PatternDescriptor = <PatternDescriptor>singleTestCase.expectedOutput;
       expect(foundPattern).hasArraySameElements(expOutput.foundElements);
       expect(proposedMoves).hasArraySameElements(expOutput.nextMoveProposals);
+
+
       expect(1).toBeTruthy();
     })
   }
 }
 
 
-
-runTestSuit(testedFunction('Circle'), 'Find Strategy_20_XX_XX_Service pattern: circle test instances', testCasesCircle);
-
-
+runTestSuit(testedFunction(), 'Check if no possibility to win component wrks correctly', testCases);
 
 
