@@ -100,7 +100,7 @@ export class TicTacToeComponent {
       console.log('tic-tac-toe: nextFigure toggled')
     }
     if (command == "gameCannotBeWon") {
-      console.log('game cannot be won' + data)
+      console.log('game cannot be won  ' + data)
       this.gameCannotBeWon.emit(data)
     }
   }

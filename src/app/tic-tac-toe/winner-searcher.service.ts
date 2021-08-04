@@ -36,7 +36,11 @@ export class WinnerSearcherService {
       let isGameWon = false;
       if (this.getWinnerCords("Circle").length > 0) isGameWon = true;
       if (this.getWinnerCords("Cross").length > 0) isGameWon = true;
-      if (isGameWon) return false;
+      console.log(this.getWinnerCords('Circle'));
+      console.log(this.getWinnerCords('Cross'));
+      console.log(isGameWon)
+      if (this.isDraw()) return true;
+      if (isGameWon) return true;
       return this.canGameStillBeOneOracle.checkIfGameCanStillBeWonByAnyone()
     }
   
