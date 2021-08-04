@@ -47,6 +47,7 @@ export class AppComponent {
   nrOfFiguresInRowToWinn = 3;
   mediator = new MediatorService();
   nextFigure: FigureNotEmpty = this.initialState.nextFigure;
+  gameCannotBeWon: boolean = false;
   humansFigure: FigureNotEmpty = this.initialState.humansFigure;
   computersFigure: FigureNotEmpty = this.getOpositeFigure(this.humansFigure);
   supportedGames: GameDescriptor[] = [{name: '', boardSize: 0, nrOfFiguresInRowToWinn :0}]
@@ -60,6 +61,10 @@ export class AppComponent {
 
   ngOnInit(){
     this.changeBoardSize(this.initialGame)
+  }
+
+  setGameCannotBeWonFlag(flagValue:boolean){
+    setTimeout(() => {this.gameCannotBeWon = flagValue});
   }
 
   getOpositeOponent(oponent: Oponent) { return oponent== "Computer" ? "Human" : "Computer"}

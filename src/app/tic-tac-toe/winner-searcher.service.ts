@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BoardHandlerServiceService } from './board-handler-service.service'
 import { CellCords, FigureNotEmpty, Figure } from '../app.types.d'
+import { CanGameBeWonByAnyoneService } from './strategies/can-game-be-won-by-anyone.service'
 
 // module FigureTypes {
 //   export type CellCords = number[];
@@ -12,10 +13,10 @@ import { CellCords, FigureNotEmpty, Figure } from '../app.types.d'
 })
 export class WinnerSearcherService {
     context:BoardHandlerServiceService
-  
+    canGameStillBeOneOracle: CanGameBeWonByAnyoneService;
     constructor(context:BoardHandlerServiceService){
       this.context = context;
-      console.log(this.context)
+      this.canGameStillBeOneOracle = new CanGameBeWonByAnyoneService(context)
     }
 
     isDraw(){
@@ -29,6 +30,14 @@ export class WinnerSearcherService {
   
     getWinnerCords(figure:FigureNotEmpty){
       return this.getCordinanceOfNFiguresInRow(figure, this.context.nrOfFiguresNeededToWinn)
+    }
+
+    canGameStillBeWon(): boolean{
+      let isGameWon = false;
+      if (this.getWinnerCords("Circle").length > 0) isGameWon = true;
+      if (this.getWinnerCords("Cross").length > 0) isGameWon = true;
+      if (isGameWon) return false;
+      return this.canGameStillBeOneOracle.checkIfGameCanStillBeWonByAnyone()
     }
   
     getCordinanceOfNFiguresInRow(figure:FigureNotEmpty, nrOfFiguresToFind: number,){

@@ -58,10 +58,7 @@ export class TicTacToeComponent {
   }
 
   @Output() nextFigureChanged: EventEmitter<FigureNotEmpty> = new EventEmitter();
-
-  // subscribeToFigureChange(nextFigure: FigureNotEmpty){
-  //   this.nextFigureChanged.emit(nextFigure)
-  // }
+  @Output() gameCannotBeWon: EventEmitter<boolean> = new EventEmitter();
 
   ngOnInit(){
     this.initialize();
@@ -102,7 +99,10 @@ export class TicTacToeComponent {
       this.nextFigureChanged.emit(data);
       console.log('tic-tac-toe: nextFigure toggled')
     }
-    // debugger;
+    if (command == "gameCannotBeWon") {
+      console.log('game cannot be won' + data)
+      this.gameCannotBeWon.emit(data)
+    }
   }
 
   setNrOfFiguresNeededToWinn_propagate(val: number) {
