@@ -76,7 +76,8 @@ export interface StrategyParameters {
 export interface GameDescriptor {
   name: string,
   boardSize: number,
-  nrOfFiguresInRowToWinn: number
+  nrOfFiguresInRowToWinn: number,
+  supportedScreanSizes?: string[]
 }
 
 export type Oponent = "Computer" | "Human"

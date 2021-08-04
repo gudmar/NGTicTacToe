@@ -1,9 +1,10 @@
-import { Component, Injectable, TemplateRef} from '@angular/core';
+import { Component, Injectable, TemplateRef, HostListener} from '@angular/core';
 import { Receiver, InitialState, GameDescriptor, Oponent } from './app.types'
 import { bindCallback } from 'rxjs';
 import { MediatorService } from './shared/mediator.service'
 import { FigureNotEmpty } from './app.types'
 import { GetDataFromInintialStateService } from './get-data-from-inintial-state.service'
+import { WindowSizeEvaluatorService } from './shared/window-size-evaluator.service'
 
 
 @Component({
@@ -20,22 +21,26 @@ export class AppComponent {
       {
         name: 'Board: 3x3 3 in row',
         boardSize: 3,
-        nrOfFiguresInRowToWinn: 3
+        nrOfFiguresInRowToWinn: 3,
+        supportedScreanSizes: ['verySmall', 'small', 'medium', 'big'],
       },
       {
         name: 'Board: 7x7 5 in row',
         boardSize: 7,
-        nrOfFiguresInRowToWinn: 5
+        nrOfFiguresInRowToWinn: 5,
+        supportedScreanSizes: ['small', 'medium', 'big'],
       },
       {
         name: 'Board 10x10 5 in row',
         boardSize: 10,
-        nrOfFiguresInRowToWinn: 5
+        nrOfFiguresInRowToWinn: 5,
+        supportedScreanSizes: ['medium', 'big'],
       },
       {
         name: 'Board: 12x12 5 in row',
         boardSize: 12,
-        nrOfFiguresInRowToWinn: 5
+        nrOfFiguresInRowToWinn: 5,
+        supportedScreanSizes: ['big'],
       }
 
     ],
@@ -50,14 +55,37 @@ export class AppComponent {
   gameCannotBeWon: boolean = false;
   humansFigure: FigureNotEmpty = this.initialState.humansFigure;
   computersFigure: FigureNotEmpty = this.getOpositeFigure(this.humansFigure);
-  supportedGames: GameDescriptor[] = [{name: '', boardSize: 0, nrOfFiguresInRowToWinn :0}]
+  get supportedGames(): string[]{ 
+    let currentDisplaySize = this.windowSize;
+    let isGameSupported = function(game: GameDescriptor, index: number){
+      let isDisplaySizeSupported = game.supportedScreanSizes!.findIndex((el) => {return currentDisplaySize == el});
+      return isDisplaySizeSupported == -1 ? false : true;
+    }
+    let supportedGameDescirptors = this.initialState.supportedGames.filter(isGameSupported)
+    return supportedGameDescirptors.map((el: GameDescriptor) => {return el.name})
+    // [{name: '', boardSize: 0, nrOfFiguresInRowToWinn :0}]
+  }
   initialGame: string = this.initialState.initialGameName;
   oponent: Oponent = "Computer";
+  windowSizeEvaluator: WindowSizeEvaluatorService = new WindowSizeEvaluatorService();
+  set dispalyWidth(val: number) {this.windowSizeEvaluator.displayWidth = val;}
+  set displayHeight(val: number) {this.windowSizeEvaluator.displayHeight = val;}
+  get displayWidth():number {return this.windowSizeEvaluator.displayWidth;}
+  get displayHeight():number {return this.windowSizeEvaluator.displayHeight;}
+  get windowSize():string {return this.windowSizeEvaluator.getScreanSize()}
 
   
   constructor(){
     
   }
+
+  @HostListener('window:resize', ['$event'])
+    onResize(event:any) {
+    this.dispalyWidth = event.target.innerWidth;
+    this.displayHeight = event.target.innerHeight;
+    console.log(this.windowSizeEvaluator.getScreanSize())
+  }
+
 
   ngOnInit(){
     this.changeBoardSize(this.initialGame)

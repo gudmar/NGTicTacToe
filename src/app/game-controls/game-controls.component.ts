@@ -29,7 +29,8 @@ export class GameControlsComponent implements OnInit {
     return this._nextFigure
   };
   @Input() humansFigure: FigureNotEmpty = "Circle";
-  @Input() supportedGames: GameDescriptor[] = [{name:'', nrOfFiguresInRowToWinn: 0, boardSize: 0}]
+  // @Input() supportedGames: GameDescriptor[] = [{name:'', nrOfFiguresInRowToWinn: 0, boardSize: 0}]
+  @Input() set supportedGames(val: string[]) {this.gameSizes = val}
   @Input() oponent: Oponent = "Computer";
   @Input() initialGame: string = '';
   @Input() gameCannotBeWon: boolean = false;
