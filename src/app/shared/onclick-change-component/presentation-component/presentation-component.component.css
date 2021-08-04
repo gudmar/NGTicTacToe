@@ -21,11 +21,15 @@
     color: black;
     box-shadow: inset 0px 0px 10px -2px rgba(0,0,0,0.64);
     cursor: default;
+    transition: 0.5s;
 }
 .onclickEnabled:hover{
     cursor: pointer;
+    background-color: greenyellow;
+    transition: 0.5s;
 }
-.onclickEnabled:hover:after{
+
+/* .onclickEnabled:hover:after{
     content: "Click to change value";
     position: absolute;
     background-color: white;
@@ -34,4 +38,4 @@
     padding: 3px;
     border-radius: 5px;
     font-size: 1rem;
-}
+} */

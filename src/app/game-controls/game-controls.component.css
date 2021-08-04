@@ -50,10 +50,22 @@ h3{
     height: 3rem;
     border-radius: 50%;
     box-shadow: inset 0px 0px 30px -8px rgba(0,0,0,0.64);
+    transition: 0.3s;
+    transition-timing-function: cubic-bezier(0.9,1.93,.03,.28);
 }
 .round-button:hover{
     cursor: pointer;
     transform: rotate(-145deg);
     transition: 0.3s;
     transition-timing-function: cubic-bezier(0.9,1.93,.03,.28);
+    background-color: greenyellow;
 }
+
+.red{color: red; transform: rotate(15deg); position: relative; display: inline-block;}
+.yellow{color: yellow; transform: rotate(-15deg); position: relative; display: inline-block;}
+.green{color: green; transform: rotate(5deg); position: relative; display: inline-block;}
+.blue{color: #66ccff; transform: rotate(-5deg); position: relative; display: inline-block;}
+.orange{color: #ffad33; transform: rotate(10deg); position: relative; display: inline-block;}
+.pink{color: #ff66ff; transform: rotate(-7deg); position: relative; display: inline-block;}
+.gold{color: #cccc00; transform: rotate(12deg); position: relative; display: inline-block;}
+.gray{color: #aaa; transform: rotate(-10deg); position: relative; display: inline-block;}
