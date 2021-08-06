@@ -1,0 +1,25 @@
+.round-button{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    background-color: #124191;
+    color: white;
+    box-shadow: inset 0px 0px 20px -8px rgb(0 0 0);
+    position: relative;
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 50%;
+    transition: 0.3s;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.round-button:hover{
+    transition: 0.3s;
+    transform: scale(1.2);
+    cursor: pointer;
+}
+.round-button:active{
+    background-color: white;
+    color: black;
+    transition: 0.3s;
+}

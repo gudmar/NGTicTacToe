@@ -1,5 +1,6 @@
 
 <div class="application-wrapper center">
+    
     <app-game-controls (restartEvent) = "restartTicTacToeComponent()" 
         (boardSizeChanged)="changeBoardSize($event)" 
         (toggleOponent)="toggleOponent()"
@@ -24,6 +25,7 @@
             [oponent] = "oponent"
             >
         </tic-tac-toe>
+    
 </div>
 
 
