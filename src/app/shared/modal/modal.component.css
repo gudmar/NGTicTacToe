@@ -1,0 +1,60 @@
+/* <div class="wrapper">
+    <div class="content-window">
+        <div class="title-bar">
+            <span class="title">{{title}}</span>
+            <span class="close-button">&times;</span>
+        </div>
+        <div class="content">
+            {{content}}
+        </div>
+    </div>
+</div> */
+
+*{
+    --title-bar-height: 2rem;
+    --blue: #124191;
+    --border-radius: 10px;
+}
+
+.wrapper{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+
+.content-window{
+    position: relative;
+    width: 60%;
+    height: 60%;
+    background-color: rgb(220, 220, 222);
+    border-radius: var(--border-radius);
+    display: flex;
+    flex-direction: column;
+}
+
+.title-bar{
+    position: relative;
+    height: var(--title-bar-height);
+    display: flex;
+    align-content: center;
+    justify-content: flex-start;
+    background-color: var(--blue);
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+}
+
+.content{
+    position: relative;
+    height: calc( 100% - var(--title-bar-height));
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+}
