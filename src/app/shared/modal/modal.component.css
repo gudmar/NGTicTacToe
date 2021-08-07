@@ -45,16 +45,49 @@
     height: var(--title-bar-height);
     display: flex;
     align-content: center;
-    justify-content: flex-start;
+    align-items:  center;
+    justify-content: space-between;
     background-color: var(--blue);
     color: white;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
 }
 
 .content{
+    font-family: Arial, Helvetica, sans-serif;
     position: relative;
     height: calc( 100% - var(--title-bar-height));
     border-top-left-radius: var(--border-radius);
     border-top-right-radius: var(--border-radius);
+    overflow: auto;
+    padding: 0.5rem;
+}
+
+.close-button{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 5px;
+    border: solid thin white;
+    background-color: red;
+    transition: 0.3s;
+}
+
+.close-button:hover{
+    cursor: pointer;
+    transform: scale(1.2);
+    background-color: rgb(255, 120, 120);
+    transition: 0.3s;
+}
+.close-button:active{
+    transition: 0.3s;
+    background-color: yellow;
+    transform: scale(0.6);
+    color: black;
 }
