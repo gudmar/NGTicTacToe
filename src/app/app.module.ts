@@ -11,6 +11,7 @@ import { OnclickChangeComponentComponent } from './shared/onclick-change-compone
 import { PresentationComponentComponent } from './shared/onclick-change-component/presentation-component/presentation-component.component';
 import { WarningMessageComponent } from './shared/warning-message/warning-message.component';
 import { RoundButtonComponent } from './shared/round-button/round-button.component';
+import { ModalComponent } from './shared/modal/modal.component';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { RoundButtonComponent } from './shared/round-button/round-button.compone
     PresentationComponentComponent,
     WarningMessageComponent,
     RoundButtonComponent,
+    ModalComponent,
   ],
   imports: [
     BrowserModule,

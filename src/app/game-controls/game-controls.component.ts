@@ -9,6 +9,8 @@ import { GetDataFromInintialStateService } from '../get-data-from-inintial-state
   styleUrls: ['./game-controls.component.css']
 })
 export class GameControlsComponent implements OnInit {
+
+  isAboutModalVisible = false;
   @Input() initialState: any;
   @Input() set mediator(mediatorService:MediatorService){
     mediatorService.subscribe(this.onMessageFromMediator.bind(this))
@@ -40,6 +42,14 @@ export class GameControlsComponent implements OnInit {
   oponents: string[] = ['&#128187;', `&#x1F6B9;`]
   figureSymbols: string[] = ['&#9675;', '&times;']
   constructor() { 
+  }
+
+  setAboutModalToVisible() {
+    setTimeout(()=>{this.isAboutModalVisible = true;})
+    // debugger;
+  }
+  setAboutModalToNotVisible(){
+    setTimeout(()=>{this.isAboutModalVisible = false;})
   }
 
   onMessageFromMediator(message: string){

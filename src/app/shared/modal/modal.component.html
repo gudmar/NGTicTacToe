@@ -1,0 +1,10 @@
+<div class="wrapper" *ngIf="isVisible">
+    <div class="content-window">
+        <div class="title-bar">
+            <span class="title">{{title}}</span>
+            <span class="close-button" (click)="hideModal()">&times;</span>
+        </div>
+        <div class="content" [innerHTML] = "content">
+        </div>
+    </div>
+</div>
