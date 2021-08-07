@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output , EventEmitter} from '@angular/core';
 import { FigureNotEmpty, GameDescriptor, Oponent } from '../app.types';
 import { MediatorService } from '../shared/mediator.service'
 import { GetDataFromInintialStateService } from '../get-data-from-inintial-state.service'
+import { AboutInformationProviderService} from '../aboutInformation/about-information-provider.service'
 
 @Component({
   selector: 'app-game-controls',
@@ -42,6 +43,11 @@ export class GameControlsComponent implements OnInit {
   oponents: string[] = ['&#128187;', `&#x1F6B9;`]
   figureSymbols: string[] = ['&#9675;', '&times;']
   constructor() { 
+  }
+
+  getAboutModalContent(){
+    let informationProvider = new AboutInformationProviderService();
+    return informationProvider.getContent();
   }
 
   setAboutModalToVisible() {
