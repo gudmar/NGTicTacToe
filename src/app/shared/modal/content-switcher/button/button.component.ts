@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, HostListener } from '@angular/core';
 
 @Component({
-  selector: 'app-button',
+  selector: 'navi-button',
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.css']
 })
@@ -10,6 +10,11 @@ export class ButtonComponent implements OnInit {
   @Input() uniqueId:string = 'someButtonId';
   @Input() isActive: boolean = false;
   @Output() activeStateSet = new EventEmitter<string>();
+  classes: {[className: string]: boolean} = {
+    'navigation-button': true,
+    'center': true,
+    'active': this.isActive
+  }
   constructor() { }
 
   ngOnInit(): void {
