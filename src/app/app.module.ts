@@ -12,6 +12,10 @@ import { PresentationComponentComponent } from './shared/onclick-change-componen
 import { WarningMessageComponent } from './shared/warning-message/warning-message.component';
 import { RoundButtonComponent } from './shared/round-button/round-button.component';
 import { ModalComponent } from './shared/modal/modal.component';
+import { ContentSwitcherComponent } from './shared/modal/content-switcher/content-switcher.component';
+import { NavigationMenuComponent } from './shared/modal/content-switcher/navigation-menu/navigation-menu.component';
+import { PageComponent } from './shared/modal/content-switcher/page/page.component';
+import { ButtonComponent } from './shared/modal/content-switcher/button/button.component';
 
 
 @NgModule({
@@ -26,6 +30,10 @@ import { ModalComponent } from './shared/modal/modal.component';
     WarningMessageComponent,
     RoundButtonComponent,
     ModalComponent,
+    ContentSwitcherComponent,
+    NavigationMenuComponent,
+    PageComponent,
+    ButtonComponent,
   ],
   imports: [
     BrowserModule,
