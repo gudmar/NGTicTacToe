@@ -1,1 +1,6 @@
-<p>content-switcher works!</p>
+<div class="page-switcher">
+    <navigation-menu [contentDict] = "contentDict" (contentShouldBeSwitched) = "turnThePage($event)"></navigation-menu>
+    <div class="page-container">
+        <page  [content] = "getContent(currentPage)"></page>
+    </div>
+</div>
