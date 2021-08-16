@@ -5,3 +5,11 @@
     justify-content: flex-start;
     align-content: center;
 }
+div.navigation-menu:nth-child(n+2){
+    position: relative;
+    left: -20px;
+}
+navi-button:nth-child(1){
+    position: relative;
+    left: 2px;
+}

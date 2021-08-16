@@ -1,7 +1,16 @@
+:host{
+    position: relative;
+    margin-left: -2px;
+}
 .navigation-button{
     font-family: Arial, Helvetica, sans-serif;
     position: relative;
-    height: 1.2rem;
+    /* height: 1.2rem; */
+    padding: 5px;
+    border-top: solid thin black;
+    border-left: solid thin black;
+    border-right: solid thin black;
+    background-color: rgb(220, 220, 222)
 }
 .navigation-button:hover{
     background-color: hsl(120, 100%, 80%);
@@ -11,6 +20,7 @@
     background-color: white;
     font-weight: bold;
     cursor: default;
+    z-index: 100;
 }
 .active:hover{
     background-color: white;

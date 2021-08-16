@@ -8,24 +8,33 @@ export class AboutInformationProviderService {
   constructor() { }
   getAboutTicTacToeGameGeneralInfo(){
     return  `
+    <p>
     Tic tac toe <a href = "https://en.wikipedia.org/wiki/Tic-tac-toe" target = "_blank">(see reference)</a> is dated back to 
     acient Egipt, where in 1300 BC it was played on 3 by 3 board. Some variation of this game was also played in the Roman Empire. First print reference
     to a game called tic-tac-toe occured in 1884, but that particular games objective was to birng a pencil down to one of numbers of a set with closed eyes.
     The number hit with the pancil was scored. Name <i>tic-tac-toe</i> might be also deriven from early version lf backgammon, dating back to 1558.
-    </br>
+    </p>
+    <p>
     Other historical names of <i>tic-tac-toe</i> are: <i>OXO</i> and <i>Noughts and Crosses</i>, where a word nought refers to nothing, so nothing is 
     a zero. There are also other tic-tac-toe versions, like up to 5 in a row, on a bigger board. This version of this game is referred as
-    <i>gomoku</i> in some sources. <br>
+    <i>gomoku</i> in some sources.
+    </p>
+    <p>
     Tic tac toe was often used in early computers word, to demonstarte possibilities of a computer or as one of early video games</i>
     There are some fun facts related to this game. Eg. there are acard games, where one may play tic-tac-toe against a real chicken. This games 
     are also used by cassinos, so those chicken are quite clever :) (of course right move is computed, and chicken is attracted to the button, 
-    that needs to be preshed with an invisible for humans light, or a grain)</br>
+    that needs to be preshed with an invisible for humans light, or a grain)
+    </p>
+    <p>
     There was also an interesting variation of Tic tac toe called <a href = "https://en.wikipedia.org/wiki/Tic-Tac-Dough" target="_blank"><i>tic tac dough</i></a>. It was an american TV show, where each field of board
     had a question related to it. Player was allowed to put his figure on a board no sooner then the right answer was given. If answer was wrong, 
     palyer had to skip turn. 3 same figures in row would win. Middle field, as more strategic, was for a 2 part question.
-    <br><br>
+    </p>
+    <br>
+    <p>
     I decided to pick up this game, as it is quite interesting learning subject. It allowed me to practice some design patterns, test services, and
     start my adventure with Angular. 
+    </p>
     `
   }
 
