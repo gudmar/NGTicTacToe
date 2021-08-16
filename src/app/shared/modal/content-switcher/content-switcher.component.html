@@ -1,5 +1,8 @@
 <div class="page-switcher">
-    <navigation-menu [contentDict] = "contentDict" (contentShouldBeSwitched) = "turnThePage($event)"></navigation-menu>
+    <navigation-menu [contentDict] = "contentDict" 
+                     (contentShouldBeSwitched) = "turnThePage($event)" 
+                     [currentActiveButton] = "getStartingPageTitle(0)"> 
+    </navigation-menu>
     <div class="page-container">
         <page  [content] = "getContent(currentPage)"></page>
     </div>

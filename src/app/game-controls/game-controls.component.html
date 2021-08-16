@@ -1,6 +1,8 @@
 
 <div class="wrappMenuWithWarning">
-    <modal [title] = "'About'" [isVisible] = "isAboutModalVisible" [content] = "getAboutModalContent()" (modalClosed) = "setAboutModalToNotVisible()"></modal>
+    <modal [title] = "'About'" [isVisible] = "isAboutModalVisible" (modalClosed) = "setAboutModalToNotVisible()" 
+            [contentDict] = "getAboutInformation()">
+    </modal>
     <round-button [content]="'?'" (click) = "setAboutModalToVisible()"></round-button>
     <div class="game-controls-wrapper center">
         <div class="row center"><h3>

@@ -7,10 +7,10 @@ import { AboutInformationProviderService} from '../aboutInformation/about-inform
 @Component({
   selector: 'app-game-controls',
   templateUrl: './game-controls.component.html',
-  styleUrls: ['./game-controls.component.css']
+  styleUrls: ['./game-controls.component.css'],
+  providers: [AboutInformationProviderService]
 })
 export class GameControlsComponent implements OnInit {
-
   isAboutModalVisible = false;
   @Input() initialState: any;
   @Input() set mediator(mediatorService:MediatorService){
@@ -45,7 +45,7 @@ export class GameControlsComponent implements OnInit {
   constructor() { 
   }
 
-  getAboutModalContent(){
+  getAboutInformation(){
     let informationProvider = new AboutInformationProviderService();
     return informationProvider.getContent();
   }
