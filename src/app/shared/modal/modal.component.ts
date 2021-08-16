@@ -8,10 +8,11 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class ModalComponent implements OnInit {
   _isVisible = false;
+  @Input() contentDict: {[title: string]: string} = {};
   @Input() set isVisible(val: boolean) {this._isVisible  = val;}
   get isVisible() {return this._isVisible}
   @Input() title: string = 'Title';
-  @Input() content: string = 'Here should be something...';
+  // @Input() content: string = 'Here should be something...';
   @Output() modalClosed: EventEmitter<any> = new EventEmitter();
   constructor() { }
   hideModal(){this.isVisible = false; this.modalClosed.emit();}

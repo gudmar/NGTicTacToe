@@ -4,7 +4,8 @@
             <span class="title">{{title}}</span>
             <span class="close-button" (click)="hideModal()">&times;</span>
         </div>
-        <div class="content" [innerHTML] = "content">
+        <div class="content">
+            <page-switcher [contentDict] = "contentDict"></page-switcher>
         </div>
     </div>
 </div>

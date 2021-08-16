@@ -1,6 +1,6 @@
 
 <div class="navigation-menu">
-    <navi-button *ngFor="let title of getKeysFromDict()" [uniqueId] = "title", 
+    <navi-button *ngFor="let title of getKeysFromDict()" [uniqueId] = "title"
             [name] = "title" 
             [isActive] = "shouldThisButtonBeActive(title)"
             (activeStateSet) = "handleButtonWantsToBeActive($event)">

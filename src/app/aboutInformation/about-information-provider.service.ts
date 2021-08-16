@@ -6,13 +6,39 @@ import { Injectable } from '@angular/core';
 export class AboutInformationProviderService {
 
   constructor() { }
+  getAboutTicTacToeGameGeneralInfo(){
+    return  `
+    Tic tac toe <a href = "https://en.wikipedia.org/wiki/Tic-tac-toe" target = "_blank">(see reference)</a> is dated back to 
+    acient Egipt, where in 1300 BC it was played on 3 by 3 board. Some variation of this game was also played in the Roman Empire. First print reference
+    to a game called tic-tac-toe occured in 1884, but that particular games objective was to birng a pencil down to one of numbers of a set with closed eyes.
+    The number hit with the pancil was scored. Name <i>tic-tac-toe</i> might be also deriven from early version lf backgammon, dating back to 1558.
+    </br>
+    Other historical names of <i>tic-tac-toe</i> are: <i>OXO</i> and <i>Noughts and Crosses</i>, where a word nought refers to nothing, so nothing is 
+    a zero. There are also other tic-tac-toe versions, like up to 5 in a row, on a bigger board. This version of this game is referred as
+    <i>gomoku</i> in some sources. <br>
+    Tic tac toe was often used in early computers word, to demonstarte possibilities of a computer or as one of early video games</i>
+    There are some fun facts related to this game. Eg. there are acard games, where one may play tic-tac-toe against a real chicken. This games 
+    are also used by cassinos, so those chicken are quite clever :) (of course right move is computed, and chicken is attracted to the button, 
+    that needs to be preshed with an invisible for humans light, or a grain)</br>
+    There was also an interesting variation of Tic tac toe called <a href = "https://en.wikipedia.org/wiki/Tic-Tac-Dough" target="_blank"><i>tic tac dough</i></a>. It was an american TV show, where each field of board
+    had a question related to it. Player was allowed to put his figure on a board no sooner then the right answer was given. If answer was wrong, 
+    palyer had to skip turn. 3 same figures in row would win. Middle field, as more strategic, was for a 2 part question.
+    <br><br>
+    I decided to pick up this game, as it is quite interesting learning subject. It allowed me to practice some design patterns, test services, and
+    start my adventure with Angular. 
+    `
+  }
 
-  getContent(){
+  getAboutTicTacToeStrategies(){
     return `
-    <p>
-    Hi, my mame is Marek Gudalewicz, and I wrote this in Angular to get familiarity with this framework. This is my first contact with Angular, 
-    so I guess there are some areas that need polishing. In this section I would like to describe in a few words how this application works, and why.
-    </p>
+    As original game is on 3 x 3 board and 3 same figures in row win, and there are some variaitions of this game on bigger board with 5 in row, 
+    there are a lot of different online games in web, one may play. Those variants introduce for example 4 figures in row... But does 4 in a row 
+    game really make sence? Why did I chose some game variants, and why I ommited some? Why I did not allow user to define board size and 
+    number of figures in a row to win? This would be easy, because strategies classes I wrote are generic, and would work on each board size defined,
+    and adding a new board to a game is only one line of code. But there is a reason. Lets think deeper about tic tac toe.<br>
+    There are strategies described on wiki pages, but I honestly never looked at them, and I thought of my own algorithm. I am not sure if I am 
+    the first one to invent this :), but that does not metter to me, as long as this game works. Let me share strategy used in this game with You:
+
     <h2>Games that make sense in tic tac toe:</h2>
     <h3>3 x 3 and 3 in row to win:</h3>
     <p>
@@ -89,6 +115,124 @@ export class AboutInformationProviderService {
       game lose in next turn: _XXX_, _X_XX_...</li>
     </ol>
     `
+  }
+  getAboutMeInfo(){
+    return `
+      <p>Hello, I am Marek. Marek Gudalewicz, and I wrote this game just to learn front end developement. 
+      This is the first thing I wrote ever in Angular. It lacks most of the tests. Of coruse services used for strategies 
+      are covered quite well, but UI on the other hand was tested manually. That was on purpose. With Angular I started learning
+      Jusmine, that is a framework used to test Angular, and I did not want work to stuck in one place for too long at the begining. 
+      </p>
+      <p>But that is all about this app for now :). Lets talk more about me.</p>
+      <p>I am learning front end developement, because I want to change my occupation for a third tame in my life. So if this is the third time I am 
+      going to start career from scratch what did I do so far, and why I cannot stabilize?</p>
+      <ul>
+        <li>I graduated from automatics and robotics on electronic department in Wrocław, so it is some how programming related.</li>
+        <li>After studies, I was interested in indstry, so I got a job at local train factory. I was a production supervisor</li>
+        <li>When a great crisis came, I was given an opportunity to change job. I went to a chips factory, where I worked as continuous 
+        improvement specialist. That was a great job, as I was given an opportunity to prove myself in many areas, like production management,
+        lean manufacturing tools implementation, head of Kaizen system, and even investment project management. But everything that is good 
+        finally ends. Moreover I missed technologies a lot. I always enjoyed programming and sitting with computers, so I started learning.. testing
+        at first.</li>
+      </ul>
+
+  <h3>Why I decided to become a self learner, what are good pros and cons?</h3>
+    <p>
+    There are possibilities to take a course, make additional studies, pay a lot of money for this, and gain some programming skills this way.
+    But only one school guaranteed something: that I will gain job in IT after finishing course. Unfortunately for them, I already had a
+    job in IT, I was a software verification engineer at that time. Other downsides of learning at school I found were:</p>
+    <ul>
+      <li>Software developer has to ba an independent specialist, that is able to solve problems on his own, and that is able to gain knowledge 
+      on his own. So learning programming on my own is good start for job preparation. If I can learn on my own, I am a good candidate for 
+      software developer. If not, perhaps it is not an occupation for me.
+      </li>
+      <li>
+        Learning how to program takes a lot of time, as one needs to write a lot of code to understand and remember. It is difficult to learn 
+        that in 6 months, as many schools offer. Too much knowledge in too short time would make me forget things
+      </li>
+      <li> Different people will have different paste of understanding things, I was afrayed, that I will pay a lot of money, and not be able to
+      understand things in speed introduced in studies</li>
+      <li> Taking up studies after work means devoting a lot of time, and I had to choose: my family or studies. That is why I decided my family,
+      and self learning, where I can adjust learning speed to current situation</li>
+      <li>Finally, noone will inject programming knowledge into someones brain. That knowledge and work needs to be done by a learner, so
+      if I have to do whole work on my own, why would I pay a lot of money to a third party :)
+    </ul>
+    There are of course downsides of self learning like:
+    <ul>
+      <li>Wasting a lot of time on finding things that need to be learned</li>
+      <li>Wasting time to search for information that someone could give in no time</li>
+      <li>A menthor could made code revies for me, so I would not commit the same mistakes all over again</li>
+      <li>If someone told me about clean code earlier :). This is the most important thing in programming</li>
+      <li>If I chose studies, I would learn only things related to direction I chosen, and instead I 
+        <ul>
+          <li>Picked a little bit of shell</li>
+          <li>Wrote 3 small programs in Java</li>
+          <li>Wrote some things in Python</li>
+          <li>Stopped learning for a couple of mnths, and forgot everything</li>
+          <li>Then I made research on job market, and found that JS is one of most desired skills</li>
+        </ul>
+      </li>
+    </ul>
+    <p>
+      To summ up, combining studies with self learning allows to save time, but one must have really a lot of time to devote
+    </p>
+    <h3>What did I learn so far</h3>
+    There are things, that are not programming related, but are necessary in this job. For example fast typing allows to save a lot of time.
+    Moreover working with a version controll system from very begining is helpflull, as it is easy to go back to previous version of code
+    in case something went wrong. In case of working with remote repository, like github, there is a backup of my code in case I have a 
+    HDD failure. So what things did I learn so far, and what things do I concider important after this learning?
+    <ul>
+      <li>Fast typing without looking at keyboard</li>
+      <li>HTML: not too exciting, but necessary</li>
+      <li>CSS: basic knowledge in front end</li>
+      <li>JS: no matter what if type script is used, if React, Vue or Angular are used, no matter if Djiango of PHP is in back end,
+      JS is always necessary, as TS and React, Vue, Angular are based on JS, and no matter what is used in the back, browser DOM will be 
+      manipulated with JS</li>
+      <li>Clean code. This needs to be learned with CSS and JS. Without clean code someone may have problems with finishing simpliest 
+      application, or widget. There will be problems with CSS, as different selectors will interfere, and it will be difficult to say
+      what part of code is responsible for current behavior.</li>
+      <li>Testing - as part of clean code, there is TDD approach that is very important</li>
+      <li>Design patterns</li>
+      <li>Typescript: is important because of Angular I chose to learn.</li>
+      <li>Angular - or other framework, but after making chose it is important to get really good familiarity whit learned tool, before
+      picking up another.
+      </li>
+      <li>Jasmine - this is test related, however tests do not have to be done with a framework. Framework just helps with keeping tests clean
+      and will help oters to work with them and understand them later</li>
+      <li>Some CSS preprocessor like Less, SCSS.</li>
+      <li>There are tools like gulp, that is a kind of task manager, and builder for apps, there is also Babel that is helpful in 
+      code translation for loder browsers. They are good to know about</li>
+    </ul>
+
+    `
+
+  }
+  getAboutThisAppInfo(){
+    return `
+      <h3>Application features</h3>
+      <ul>
+        <li>Chosing an oponent: computer or other human on the same device</li>
+        <li>Selecting a figure You want to play with. Circle always starts game, so in case computer oponent is chosen, switching
+        oponent will cause computer to make a move</li>
+        <li>Next figure that will make move presentation. Important in case 2 humans are playing against each other. Or a human playes against a chicken :)</li>
+        <li>Restart game: this button will not make changes to a board size. Just starts game from begining on current board size</li>
+        <li>Board size selection</li>
+        <li>Display size awareness: in case screen is getting too small, some bigger boards will disappear from menu. It would be anoying to scroll
+        through 12 x 12 board on smartphone, and it would not be appropriate to make too small fields for a touch screen</li>
+        <li>When screen is resized, and big board game is started, it will not be interrupted or restarted, but just bigger board options will 
+        diappear from menu</li>
+
+      </ul>
+    `
+  }
+
+  getContent(){
+    return {
+      'Game History': this.getAboutTicTacToeGameGeneralInfo(),
+      'Strategies'  : this.getAboutTicTacToeStrategies(),
+      'Features'    : this.getAboutThisAppInfo(),
+      'About me'    : this.getAboutMeInfo()
+    }
 
   }
 }
